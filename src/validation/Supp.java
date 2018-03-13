@@ -25,7 +25,7 @@ public final class Supp {
 	}
 	
 	public static final boolean validPassword(String str){
-		Pattern ptr = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\ S+$).{8,}$");
+		Pattern ptr = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,}$");
 		return ptr.matcher(str).matches();
 	}
 	

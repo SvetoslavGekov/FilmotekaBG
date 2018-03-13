@@ -13,6 +13,7 @@ import user.Administrator;
 import user.Consumer;
 import user.IUser;
 import user.User;
+import validation.Supp;
 
 public final class WebSite {
 	
@@ -62,6 +63,7 @@ public final class WebSite {
 			setCurrentUser(guest);
 			System.out.println("Switching to Guest user.");
 		}
+		this.currentUser.printMainMenu();
 	}
 	
 	public void stopApp() {
@@ -72,7 +74,7 @@ public final class WebSite {
 	private static IUser getGuest(){
 		if(WebSite.guest == null){
 			try {
-				WebSite.guest = new Consumer("Guest", "Guest", "Guest", "Guest") ;
+				WebSite.guest = new Consumer("Guest", "Guest", "Guest123", "Guest@filmoteka.bg") ;
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}

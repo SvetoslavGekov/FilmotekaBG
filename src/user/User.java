@@ -34,8 +34,6 @@ public abstract class User implements IUser {
 	
 	@Override
 	public void signIn() {
-		//Automatic logout when the user wants to sign in
-		this.logout();
 		
 		System.out.println("\n========== SIGN IN FORM ===========");
 		String username = "";
@@ -51,7 +49,7 @@ public abstract class User implements IUser {
 			
 			//Check if name is present in the users collection
 			if(this.getFilmoteka().checkUserName(username)) {
-				System.out.println("Please enter your password: ");
+				System.out.print("Please enter your password: ");
 				password = Supp.inputString();
 				
 				//Check if password is correct
@@ -69,12 +67,12 @@ public abstract class User implements IUser {
 	
 	@Override
 	public void exitApplication() {
-		this.getFilmoteka().stopApp();
+		User.filmoteka.stopApp();
 	}
 	
 	@Override
 	public void logout() {
-		this.filmoteka.logoutUser();
+		User.filmoteka.logoutUser();
 	}
 	
 	//Setters
