@@ -1,0 +1,99 @@
+﻿Classes:
+	1) WebSite ()
+		- Collection <User> allUsers;
+		- Collection <User> subscribers;
+		- Collection <ProductType, Product> catalog;
+		
+		
+	2) User;
+		- 
+		- username;
+		- password;
+		- names;
+		- email;
+		- profilePicture;
+		- Collection <Product> favorites;
+		- Collection <Product> watchList;
+		- Map <Product, Review> reviews; 
+		- Map <Product, LocalDate> products; //
+		- Collection <Message> messages;
+		- Collection <Order> ordersHistory; 
+		- phone;
+		- subscription; //абонаментен план
+		- shoppingCart;
+		- walletMoney;
+		
+	3) Product;
+		- productState???
+		- name;
+		- description;
+		- productType;
+		- poster;
+		- trailer;
+		- writers;
+		- actors;
+		- releaseDate;
+		- viewerRating;
+		- totalVotes;
+		- pgRating;
+		- duration;		
+		- Collection <Genre> --> Enum;
+		- Collection <Review> reviews;
+		- Collection <Award> awards;
+		- rentCost;
+		- buyCost;	
+		
+		3.1 Movie extends Product;
+			- director; UNIQUE
+			
+		3.2 TVSeries extends Product;
+			- finishedAiringDate; UNIQUE
+			- Collection <Episode> episodes; UNIQUE
+
+			
+	4) Shopping cart;
+		- Map <Product, LocalDate (validity)> products;
+		- totalCost;
+		
+	5) Review;
+		- title;
+		- user;
+		- date;
+		- reviewDescription;
+		- reviewRating;
+		
+	6) Subscription;
+		- type --> ENUM?
+		- discount;
+		- cost;
+		- duration;
+		- validUntil;
+		
+	8) Message / Mail
+		- sender <Interface> ;
+		- Collection <Interface> receivers;
+		- date;
+		- title;
+		- messageInfo;
+		
+	9) Order
+		
+		
+User functionality:
+	- Login;
+	- Logout;
+	- Registration;
+	- Reset password (Forgotten password);
+	- Edit User Profile;
+	NOPE- Pay for live event (Stream);
+	- Browse catalog;
+	- Add items to cart;
+	- Finalize purchase (rent/buy) (Movies, TV Series);
+	- View purchase history;
+	- Redeem Product Code;
+	- Rate product;
+	- Subscribe for newsletter (информационен бюлетин);
+	- Subscribe for movies/TV Series --> different subscriptions;
+	- Check site contact info;
+	- Write a review;
+	- Write a message;
