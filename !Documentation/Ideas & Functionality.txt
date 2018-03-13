@@ -5,21 +5,21 @@
 
 Classes:
 	1) WebSite ()
-		- Collection <String, User> allUsers;
+		+ Collection <String, User> allUsers;
 		- Collection HashSet<User> subscribers;
-		- Collection <Product> catalog;
-		- currentUser (User);
-		- money;
+		+ Collection <Product> catalog;
+		+ currentUser (User);
+		+ money;
 		
 	2) Abstract User;
-		- private static WebSite filmoteka;
-		- username;
-		- password;
-		- names;
-		- email;
-		- phone; //Не е задължително
-		- registrationDate;
-		- lastLogin;
+		+ private static WebSite filmoteka;
+		+ username;
+		+ password;
+		+ names;
+		+ email;
+		+ phone; //Не е задължително
+		+ registrationDate;
+		+ lastLogin;
 		
 		
 		2.1) Administrator implements IAdministrator
@@ -27,15 +27,15 @@ Classes:
 		
 		2.2) Consumer implements IConsumer
 		---> profilePicture;
-		- Collection <Product> favorites;
-		- Collection <Product> watchList;
+		+ Collection <Product> favorites;
+		+ Collection <Product> watchList;
 		---> Map <Product, Review> reviews; 
-		- Map <Product, LocalDate> products; //Купените филми/сериали имат дата null;
+		+ Map <Product, LocalDate> products; //Купените филми/сериали имат дата null;
 		---> Collection <Message> messages;
-		- Collection <Order> ordersHistory; 
+		+ Collection <Order> ordersHistory; 
 		---> subscription; //абонаментен план
-		- shoppingCart;
-		- money;
+		+ shoppingCart;
+		+ money;
 		
 	3) Product;
 		//Enumerations

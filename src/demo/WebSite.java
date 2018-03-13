@@ -3,6 +3,7 @@ package demo;
 import java.util.Collection;
 import java.util.Map;
 
+import products.Product;
 import user.User;
 
 public class WebSite {
