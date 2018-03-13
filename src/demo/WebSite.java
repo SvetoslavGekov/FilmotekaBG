@@ -1,3 +1,4 @@
+
 package demo;
 
 import java.time.LocalTime;
@@ -102,6 +103,18 @@ public final class WebSite {
 		return this.currentUser;
 	}
 	
+	public void addProductToCatalog(Product product) {
+		if(product != null){
+			catalog.add(product);
+		}
+	}
+	
+	public void removeProductFromCatalog(Product product) {
+		if(product != null){
+			catalog.remove(product);
+		}
+	}
+	
 	//Demonstration starts from here
 	public static void main(String[] args) {
 		WebSite.getInstance().getCurrentUser().printMainMenu();
@@ -129,4 +142,5 @@ public final class WebSite {
 		
 	}
 
+	
 }

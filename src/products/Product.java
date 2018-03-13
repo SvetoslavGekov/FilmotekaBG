@@ -38,5 +38,4 @@ public abstract class Product {
 	private double rentCost;
 	private double buyCost;
 	
-	
 }
