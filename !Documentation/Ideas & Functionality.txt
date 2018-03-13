@@ -1,33 +1,45 @@
 ﻿Classes:
 	1) WebSite ()
-		- Collection <User> allUsers;
-		- Collection <User> subscribers;
-		- Collection <ProductType, Product> catalog;
+		- Collection <String, User> allUsers;
+		- Collection HashSet<User> subscribers;
+		- Collection <Product> catalog;
+		- currentUser (User);
+		- money;
 		
-		
-	2) User;
+	2) Abstract User;
+		- private static WebSite filmoteka;
 		- username;
 		- password;
 		- names;
 		- email;
-		- profilePicture;
+		- phone; //Не е задължително
+		- registrationDate;
+		- lastLogin;
+		
+		
+		2.1) Administrator implements IAdministrator
+		
+		
+		2.2) Consumer implements IConsumer
+		---> profilePicture;
 		- Collection <Product> favorites;
 		- Collection <Product> watchList;
-		- Map <Product, Review> reviews; 
-		- Map <Product, LocalDate> products; //
-		- Collection <Message> messages;
+		---> Map <Product, Review> reviews; 
+		- Map <Product, LocalDate> products; //Купените филми/сериали имат дата null;
+		---> Collection <Message> messages;
 		- Collection <Order> ordersHistory; 
-		- phone;
-		- subscription; //абонаментен план
+		---> subscription; //абонаментен план
 		- shoppingCart;
-		- walletMoney;
+		- money;
 		
 	3) Product;
+		private static rentDuration;
+		- id;
 		- productState???
 		- name;
 		- description;
 		- productType;
-		- poster;
+		---> poster;
 		- trailer;
 		- writers;
 		- actors;
@@ -38,37 +50,38 @@
 		- duration;		
 		- Collection <Genre> --> Enum;
 		- Collection <Review> reviews;
-		- Collection <Award> awards;
+		---> Collection <Award> awards;
 		- rentCost;
 		- buyCost;	
 		
 		3.1 Movie extends Product;
-			- director; UNIQUE
+			- director;
 			
 		3.2 TVSeries extends Product;
-			- finishedAiringDate; UNIQUE
-			- Collection <Episode> episodes; UNIQUE
+			- finishedAiringDate;
+			- Map <Integer, Integer> seasons --> Key: Total Seasons, value: Total episodes per season 
+			---> Collection <Episode> episodes;
 
 			
 	4) Shopping cart;
-		- Map <Product, LocalDate (validity)> products;
+		- Map <Product, Boolean??> products;
 		- totalCost;
 		
-	5) Review;
+	--->5) Review;
 		- title;
 		- user;
 		- date;
 		- reviewDescription;
 		- reviewRating;
 		
-	6) Subscription;
+	--->6) Subscription;
 		- type --> ENUM?
 		- discount;
 		- cost;
 		- duration;
 		- validUntil;
 		
-	8) Message / Mail
+	--->8) Message / Mail
 		- sender <Interface> ;
 		- Collection <Interface> receivers;
 		- date;
@@ -76,6 +89,10 @@
 		- messageInfo;
 		
 	9) Order
+		- id;
+		- date;
+		- IConsumer consumer;
+		- totalCost;
 		
 		
 User functionality:
@@ -87,9 +104,12 @@ User functionality:
 	- Browse catalog;
 	- Add items to cart;
 	- Finalize purchase (rent/buy) (Movies, TV Series);
-	- View purchase history;
+	- View order history;
 	---> Redeem Product Code;
 	- Rate product;
+	- Add to favorites product;
+	- Add to watchList;
+	---> Search;
 	- Subscribe for newsletter (информационен бюлетин);
 	---> Subscribe for movies/TV Series --> different subscriptions;
 	---> Check site contact info;
