@@ -17,7 +17,7 @@ public final class WebSite {
 	private int money;
 	
 	private WebSite(){
-		this.guest = WebSite.getGuest();
+		this.currentUser = WebSite.getGuest();
 	}
 	
 	static User getGuest(){
