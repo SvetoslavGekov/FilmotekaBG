@@ -6,7 +6,6 @@
 		
 		
 	2) User;
-		- 
 		- username;
 		- password;
 		- names;
@@ -83,17 +82,16 @@ User functionality:
 	- Login;
 	- Logout;
 	- Registration;
-	- Reset password (Forgotten password);
+	---> Reset password (Forgotten password);
 	- Edit User Profile;
-	NOPE- Pay for live event (Stream);
 	- Browse catalog;
 	- Add items to cart;
 	- Finalize purchase (rent/buy) (Movies, TV Series);
 	- View purchase history;
-	- Redeem Product Code;
+	---> Redeem Product Code;
 	- Rate product;
 	- Subscribe for newsletter (информационен бюлетин);
-	- Subscribe for movies/TV Series --> different subscriptions;
-	- Check site contact info;
-	- Write a review;
-	- Write a message;
+	---> Subscribe for movies/TV Series --> different subscriptions;
+	---> Check site contact info;
+	---> Write a review;
+	---> Write a message;
