@@ -1,4 +1,9 @@
-﻿Classes:
+﻿Reading legend:
+"-" - things that need to be implemented;
+"+" - things that have been implemented;
+"-->" - things that are probably not going to be implemented in the console demonstration;
+
+Classes:
 	1) WebSite ()
 		- Collection <String, User> allUsers;
 		- Collection HashSet<User> subscribers;
@@ -33,39 +38,46 @@
 		- money;
 		
 	3) Product;
-		private static rentDuration;
-		- id;
-		- productState???
-		- name;
-		- description;
-		- productType;
+		//Enumerations
+		+ ProductType;
+		+ Genre
+	
+		//Fields
+		+ private static final int RENT_DURATION;
+		+ private static final double MAX_RATING;
+		
+		+ id;
+		+ productState???
+		+ name;
+		+ description;
+		+ productType;
 		---> poster;
-		- trailer;
-		- writers;
-		- actors;
-		- releaseDate;
-		- viewerRating;
-		- totalVotes;
-		- pgRating;
-		- duration;		
-		- Collection <Genre> --> Enum;
-		- Collection <Review> reviews;
+		+ trailer;
+		+ writers;
+		+ actors;
+		+ releaseDate;
+		+ viewerRating;
+		+ totalVotes;
+		+ pgRating;
+		+ duration;		
+		+ Collection <Genre> --> Enum;
+		---> Collection <Review> reviews;
 		---> Collection <Award> awards;
-		- rentCost;
-		- buyCost;	
+		+ rentCost;
+		+ buyCost;	
 		
 		3.1 Movie extends Product;
-			- director;
+			+ director;
 			
 		3.2 TVSeries extends Product;
-			- finishedAiringDate;
-			- Map <Integer, Integer> seasons --> Key: Total Seasons, value: Total episodes per season 
+			+ finishedAiringDate;
+			+ Map <Integer, Integer> seasons --> Key: Total Seasons, value: Total episodes per season 
 			---> Collection <Episode> episodes;
 
 			
 	4) Shopping cart;
-		- Map <Product, Boolean??> products;
-		- totalCost;
+		+ Map <Product, Boolean??> products;
+		+ totalCost;
 		
 	--->5) Review;
 		- title;
@@ -89,6 +101,7 @@
 		- messageInfo;
 		
 	9) Order
+		- private static int currentID;
 		- id;
 		- date;
 		- IConsumer consumer;
