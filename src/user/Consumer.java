@@ -26,4 +26,40 @@ public class Consumer extends User implements IConsumer {
 		super(names, username, password, email);
 	}
 	
+	public void addToFavourites(Product product){
+		if(product != null){
+			favourites.add(product);
+		}
+	}
+	
+	public void removeFromFavourites(Product product){
+		if(product != null){
+			favourites.remove(product);
+		}
+	}
+	
+	public void addToWatchList(Product product){
+		if(product != null){
+			watchList.add(product);
+		}
+	}
+	
+	public void removeFromWatchList(Product product){
+		if(product != null){
+			watchList.remove(product);
+		}
+	}
+	
+	public void addToShoppingCart(Product product, boolean buy){
+		if(product != null){
+			shoppingCart.addProduct(product, buy);
+		}
+	}
+	
+	public void removeFromShoppingCart(Product product){
+		if(product != null){
+			shoppingCart.removeProduct(product);
+		}
+	}
+	
 }

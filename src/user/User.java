@@ -42,25 +42,27 @@ public abstract class User {
 	}
 
 	protected void setPassword(String password) throws Exception {
-		if(Supp.validStr(password)){
+		if(Supp.validStr(password) && Supp.validPassword(password)){
 			this.password = password;
-			//TODO validate password
 			return;
 		}
 		throw new Exception("You have entered an invalid password! Please enter a new one.");
 	}
 
 	protected void setEmail(String email) throws Exception {
-		if(Supp.validStr(email)){
+		if(Supp.validStr(email) && Supp.validEmail(email)){
 			this.email = email;
-			//TODO validate email
 			return;
 		}
 		throw new Exception("You have entered an invalid email! Please enter a new one.");
 	}
 
-	protected void setPhone(String phone) {
-		this.phone = phone;
+	protected void setPhone(String phone) throws Exception {
+		if(Supp.validPhoneNumber(phone)){
+			this.phone = phone;
+			return;
+		}
+		throw new Exception("You have entered an invalid phone number! Please enter a new one.");
 	}
 	
 }

@@ -27,5 +27,9 @@ public final class Supp {
 		Pattern ptr = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\ S+$).{8,}$");
 		return ptr.matcher(str).matches();
 	}
+	
+	public static final boolean validPhoneNumber(String str){
+		return str.length() == 10 && str.charAt(0) == '0' && str.matches("[0-9]+");
+	}
 
 }

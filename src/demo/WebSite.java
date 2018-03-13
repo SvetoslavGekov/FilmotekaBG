@@ -1,6 +1,7 @@
 package demo;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 
 import products.Product;
@@ -12,7 +13,7 @@ public final class WebSite {
 	private static WebSite instance;
 	private static User guest;
 	private Map<String, User> allUsers;
-	private Collection <Product> catalog;
+	private Collection <Product> catalog = new HashSet<>();
 	private User currentUser;
 	private int money;
 	
@@ -37,6 +38,7 @@ public final class WebSite {
 		}
 		return instance;
 	}
+	
 	public static void main(String[] args) {
 		System.out.println("Demonstrationfiiiiii test.");
 		System.out.println("hi");
@@ -45,6 +47,18 @@ public final class WebSite {
 	
 	static void showMenu(){
 		System.out.println();
+	}
+
+	public void addToCatalog(Product product) {
+		if(product != null){
+			catalog.add(product);
+		}
+	}
+	
+	public void removeFromCatalog(Product product) {
+		if(product != null){
+			catalog.remove(product);
+		}
 	}
 
 }
