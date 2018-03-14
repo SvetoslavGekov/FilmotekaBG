@@ -18,7 +18,7 @@ public abstract class User implements IUser {
 	private LocalDateTime lastLogin;
 
 	//Constructors
-	public User(String names, String username, String password, String email) throws Exception {
+	public User(String names, String username, String password, String email) {
 		this.setNames(names);
 		this.setUsername(username);
 		this.setPassword(password);
@@ -79,36 +79,32 @@ public abstract class User implements IUser {
 	}
 	
 	//Setters
-	protected void setNames(String names) throws Exception {
+	protected void setNames(String names){
 		if(Supp.validStr(names)){
 			this.names = names;
 			return;
 		}
-		throw new Exception("You have entered an invalid name! Please enter a new one.");
 	}
 
-	protected void setUsername(String username) throws Exception {
+	protected void setUsername(String username){
 		if(Supp.validStr(username)){
 			this.username = username;
 			return;
 		}
-		throw new Exception("You have entered an invalid username! Please enter a new one.");
 	}
 
-	protected void setPassword(String password) throws Exception {
+	protected void setPassword(String password) {
 		if(Supp.validStr(password) && Supp.validPassword(password)){
 			this.password = password;
 			return;
 		}
-		throw new Exception("You have entered an invalid password! Please enter a new one.");
 	}
 
-	protected void setEmail(String email) throws Exception {
+	protected void setEmail(String email){
 		if(Supp.validStr(email) && Supp.validEmail(email)){
 			this.email = email;
 			return;
 		}
-		throw new Exception("You have entered an invalid email! Please enter a new one.");
 	}
 
 	protected void setPhone(String phone) {

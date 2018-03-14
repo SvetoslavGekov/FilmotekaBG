@@ -111,7 +111,7 @@ Classes:
 User functionality:
 	+ Login;
 	+ Logout;
-	- Registration;
+	(in progress)- Registration;
 	---> Reset password (Forgotten password);
 	- Edit User Profile;
 	- Browse catalog;

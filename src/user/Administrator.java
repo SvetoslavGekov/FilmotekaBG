@@ -11,14 +11,7 @@ public class Administrator extends User implements IAdministrator {
 
 	//Methods
 	@Override
-	public void signIn() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
 	public void printMainMenu() {
-		// TODO Auto-generated method stub
 		
 	}
 	

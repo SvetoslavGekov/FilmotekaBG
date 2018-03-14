@@ -22,7 +22,7 @@ public final class WebSite {
 	private static WebSite instance;
 	private static IUser guest;
 	private static final String name = "Filmoteka.bg";
-	private static final Map<String, User> allUsers = new TreeMap<String,User>(); //Key: Username, Value: User 
+	private static final Map<String, IUser> allUsers = new TreeMap<String,IUser>(); //Key: Username, Value: User 
 	private static final Collection <Product> catalog = new TreeSet(); //TODO Add comparator for products by name and users by email
 	private IUser currentUser;
 	private int money;
@@ -50,6 +50,7 @@ public final class WebSite {
 	}
 	
 	public void loginUser(String username) {
+		//Logs in the user based on his username
 		setCurrentUser(this.allUsers.get(username));
 		System.out.printf("User: %s has signed in at %s%n", this.currentUser.getUsername(), LocalTime.now());
 		this.currentUser.printMainMenu();
@@ -69,6 +70,12 @@ public final class WebSite {
 		System.exit(1);
 	}
 	
+	public void registerUser(IUser newUser) {
+		//Add user to collection
+		WebSite.allUsers.put(newUser.getUsername(), newUser);
+		//Sign in the new user
+		this.loginUser(newUser.getUsername());
+	}
 	
 	private static IUser getGuest(){
 		if(WebSite.guest == null){
@@ -143,5 +150,4 @@ public final class WebSite {
 		
 	}
 
-	
 }

@@ -26,7 +26,7 @@ public class Consumer extends User implements IConsumer {
 	
 	
 	//Constructor
-	public Consumer(String names, String username, String password, String email) throws Exception {
+	public Consumer(String names, String username, String password, String email){
 		super(names, username, password, email);
 	}
 	
@@ -39,8 +39,14 @@ public class Consumer extends User implements IConsumer {
 			//Collect user account information
 			String username = inputUsername();
 			String email = inputUserEmail();
-			String password = "";//inputUserPassword();
-			String names = "";//inputUserNames();
+			String password = inputUserPassword();
+			String names = inputUserNames();
+			
+			//Create user
+			IUser newUser = new Consumer(names, username, password, email);
+			System.out.println(newUser);
+			//WebSite registers user
+			this.getFilmoteka().registerUser(newUser);
 		}
 		catch (InvalidUserInfoException| DatabaseConflictException e) {
 			//User recieves an error message for his input and is prompted to either try again or go back to the main menu; 
@@ -71,7 +77,7 @@ public class Consumer extends User implements IConsumer {
 		}
 		
 		//Check if username is not already taken
-		//TODO --> Think about both username and email validation
+		//TODO --> Think about simultenious username and email validation
 		if(this.getFilmoteka().checkUserName(username)) {
 			throw new DatabaseConflictException("Sorry, the username that you've chosen has already been taken by another user.");
 		}
@@ -89,6 +95,31 @@ public class Consumer extends User implements IConsumer {
 					+ "myeMail@myMailSite.com");
 		}
 		return email;
+	}
+	
+	private String inputUserNames() throws InvalidUserInfoException{
+		//User inputs real names
+		System.out.println("Please enter your names:");
+		String names = Supp.inputString();
+		
+		//Check if names is valid string
+		if(!Supp.validStr(names)) {
+			throw new InvalidUserInfoException("Sorry, you've entered and invalid name.Please try again: ");
+		}
+		return names;
+	}
+	
+	private String inputUserPassword() throws InvalidUserInfoException{
+		//User inputs password
+		System.out.print("Please enter your password: ");
+		String password = Supp.inputString();
+		
+		//Check if password is valid
+		if(!Supp.validPassword(password)) {
+			throw new InvalidUserInfoException("Sorry, you've entered an invalid password. \nPasswords should be at least 6 symbols long,"
+					+ "have at least 1 lowercase letter, 1 upercase letter and 1 digit.");
+		}
+		return password;
 	}
 	
 	@Override
