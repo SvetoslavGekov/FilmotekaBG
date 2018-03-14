@@ -126,15 +126,11 @@ public abstract class Product {
 		return releaseDate;
 	}
 	
-	public static String inputProductName() throws InvalidProductInfoException{
+	public static String inputProductName(){
 		//User inputs product name
 		System.out.print("Please enter the product name: ");
 		String name = Supp.inputString();
 		
-		//Check if productname is valid
-		if(!Supp.validStr(name)) {
-			throw new InvalidProductInfoException("Sorry, you've entered an invalid string for the product name.");
-		}
 		return name;
 	}
 	

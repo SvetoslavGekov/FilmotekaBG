@@ -43,7 +43,7 @@ public abstract class User implements IUser {
 		int option = Supp.getPositiveNumber();
 		switch (option) {
 			case 1: product = this.getFilmoteka().findProductById(); break;
-			case 2: product = null;//this.getFilmoteka().findProductByName(); break;
+			case 2: product = this.getFilmoteka().findProductByName(); break;
 			case 3: this.printMainMenu(); break;
 		default:
 			System.out.println("You've chosen an invalid option for this menu. Please try again.");

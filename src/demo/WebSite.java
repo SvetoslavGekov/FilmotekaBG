@@ -38,10 +38,24 @@ public final class WebSite {
 	}
 	
 	//Methods
+	public Product findProductByName() {
+		Product product = null;
+		String name = Product.inputProductName();
+		
+		for(Product pr : CATALOG) {
+			if(pr.getName().equalsIgnoreCase(name)) {
+				product = pr;
+				break;
+			}
+		}
+		return product;
+	}
+	
 	public Product findProductById() {
 		Product product = null;
 		System.out.print("Please enter the product's ID: ");
 		int id = Product.inputProductId();
+		
 		for (Product pr : CATALOG) {
 			if(pr.getId() == id) {
 				product = pr;
