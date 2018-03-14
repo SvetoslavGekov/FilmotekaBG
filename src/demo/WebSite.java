@@ -23,7 +23,7 @@ public final class WebSite {
 	private static IUser guest;
 	private static final String name = "Filmoteka.bg";
 	private static final Map<String, IUser> allUsers = new TreeMap<String,IUser>(); //Key: Username, Value: User 
-	private static final Collection <Product> catalog = new TreeSet(); //TODO Add comparator for products by name and users by email
+	private static final Collection <Product> catalog = new TreeSet(); //TODO Add comparator for products by name and users by name
 	private IUser currentUser;
 	private int money;
 	

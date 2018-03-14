@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import customexceptions.InvalidProductInfoException;
+import validation.Supp;
+
 public abstract class Product {
 	//Enumerations
 	public enum ProductType{
@@ -37,5 +40,107 @@ public abstract class Product {
 	private Set<Genre> genres = new HashSet<>();
 	private double rentCost;
 	private double buyCost;
+	
+	public Product(int id, String name, ProductType type, LocalDate releaseDate, String pgRating, int duration,
+			double rentCost, double buyCost) {
+		setId();
+		setName(name);
+		setType(type);
+		setReleaseDate(releaseDate);
+		setPgRating(pgRating);
+		setDuration(duration);
+		setRentCost(rentCost);
+		setBuyCost(buyCost);
+	}
+
+	private void setId() {
+		this.id = Product.currentID++;
+	}
+
+	private void setName(String name) {
+		if(Supp.validStr(name)) {
+			this.name = name;
+		}
+	}
+
+	private void setDescription(String description) {
+		if(Supp.validStr(description)) {
+			this.description = description;
+		}
+	}
+
+	private void setType(ProductType type) {
+		if(type != null) {
+			this.type = type;
+		}
+	}
+
+	private void setTrailer(String trailer) {
+		if(Supp.validStr(trailer)) {
+			this.trailer = trailer;
+			
+		}
+	}
+
+	private void setWriters(Set<String> writers) {
+		if(writers != null && !writers.isEmpty() && !writers.contains(null)) {
+			this.writers = writers;
+		}
+	}
+
+	private void setActors(Set<String> actors) {
+		if(actors != null && !actors.isEmpty() && !actors.contains(null)) {
+			this.actors = actors;
+		}
+	}
+
+	private void setReleaseDate(LocalDate releaseDate) {
+		if(releaseDate != null) {
+			this.releaseDate = releaseDate;
+		}
+	}
+
+	private void setViewerRating(double viewerRating) {
+		if( viewerRating >= 0 && viewerRating < Product.MAX_RATING){
+			this.viewerRating = viewerRating;
+		}
+	}
+
+	private void setTotalVotes(int totalVotes) {
+		if(totalVotes > 0) {
+			this.totalVotes = totalVotes;
+		}
+	}
+
+	private void setPgRating(String pgRating) {
+		if(Supp.validStr(pgRating)) {
+			this.pgRating = pgRating;
+		}
+	}
+
+	private void setDuration(int duration) {
+		if(duration > 0) {
+			this.duration = duration;
+		}
+	}
+
+	private void setGenres(Set<Genre> genres) {
+		if(genres != null && !genres.isEmpty() && !genres.contains(null)) {
+			this.genres = genres;
+		}
+	}
+
+	private void setRentCost(double rentCost) {
+		if(rentCost > 0) {
+			this.rentCost = rentCost;	
+		}
+	}
+
+	private void setBuyCost(double buyCost){
+		if(buyCost > 0) {
+			this.buyCost = buyCost;
+		}
+	}
+	
 	
 }
