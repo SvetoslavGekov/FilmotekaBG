@@ -36,7 +36,6 @@ public final class WebSite {
 	
 	public boolean checkUserName(String username) {
 		if(!this.allUsers.containsKey(username)) {
-			System.out.printf("There is no user named %s in the %s user database.%n", username, this.name);
 			return false;
 		}
 		return true;

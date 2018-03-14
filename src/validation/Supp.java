@@ -5,6 +5,10 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public final class Supp {
+	//Fields
+	private static final int MIN_USERNAME_LENGTH = 4;
+	
+	//Methods
 	public static final int RNG(int max) {
 		Random r = new Random();
 		return r.nextInt(max);
@@ -19,12 +23,44 @@ public final class Supp {
 		return str != null && !str.trim().isEmpty();
 	}
 	
-	public static final boolean validEmail(String str){
+	public static final boolean validUsername(String username) {
+		//Check if username is a validString
+		if(!validStr(username)) {
+			return false;
+		}
+		
+		//Check for a minimum length of MIN_USERNAME_LENGTH symbols
+		if(username.length() < MIN_USERNAME_LENGTH) {
+			return false;
+		}
+		
+		//Check if each symbol is a lowercase letter
+		boolean areOnlyLowercase = true;
+		for(int i = 0; i < username.length(); i++) {
+			char ch = username.charAt(i);
+			if(!Character.isLetter(ch)) {
+				return false;
+			}
+			if(Character.isUpperCase(ch)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public static final boolean validEmail(String email){
+		//Check if email is a valid string
+		if(!validStr(email)) {
+			return false;
+		}
+		
+		//Check if email matches the pattern
 		Pattern ptr = Pattern.compile("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-		return ptr.matcher(str).matches();
+		return ptr.matcher(email).matches();
 	}
 	
 	public static final boolean validPassword(String str){
+		//Regex source - https://stackoverflow.com/questions/3802192/regexp-java-for-password-validation
 		Pattern ptr = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,}$");
 		return ptr.matcher(str).matches();
 	}
@@ -34,7 +70,7 @@ public final class Supp {
 	}
 
 	
-	public static String inputString() {
+	public static final String inputString() {
 		Scanner scan = new Scanner(System.in);
 		boolean isValid = false;
 		String input = "";
@@ -48,7 +84,7 @@ public final class Supp {
 		return input;
 	}
 	
-	public static int getPositiveNumber() {
+	public static final int getPositiveNumber() {
 		Scanner scan = new Scanner(System.in);
 		boolean isValid = false;
 		int number = -1;

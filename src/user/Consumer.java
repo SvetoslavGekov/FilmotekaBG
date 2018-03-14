@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.TreeSet;
 
+import customexceptions.DatabaseConflictException;
+import customexceptions.InvalidUserInfoException;
 import orders.Order;
 import products.Product;
 import shoppingcart.ShoppingCart;
@@ -29,6 +31,65 @@ public class Consumer extends User implements IConsumer {
 	}
 	
 	//Methods
+	@Override
+	public void createAccount() {
+		System.out.printf("\n============ %s REGISTRATION FORM ===============%n%n", this.getFilmoteka().getName().toUpperCase());
+		
+		try {
+			//Collect user account information
+			String username = inputUsername();
+			String email = inputUserEmail();
+			String password = "";//inputUserPassword();
+			String names = "";//inputUserNames();
+		}
+		catch (InvalidUserInfoException| DatabaseConflictException e) {
+			//User recieves an error message for his input and is prompted to either try again or go back to the main menu; 
+			System.out.println(e.getMessage());
+			System.out.print("\nWould you like to attempt to register again?\n 1) Continue registration;\n 2) Exit to main menu."
+					+ "\nPlease enter your choice: ");
+			int option = Supp.getPositiveNumber();
+			switch (option) {
+			case 1: this.createAccount(); break;
+			case 2: this.printMainMenu(); break;
+			default:
+				System.out.println("You've entered an invalid option for this menu. Redirecting to the main menu");
+				this.printMainMenu();
+				break;
+			}
+		}
+	}
+	
+	private String inputUsername() throws InvalidUserInfoException, DatabaseConflictException{
+		//User inputs username
+		System.out.print("Please enter your username: ");
+		String username = Supp.inputString();
+		
+		//Check if username is valid
+		if(!Supp.validUsername(username)) {
+			throw new InvalidUserInfoException("Sorry, you've entered an invalid username.\nUsernames should consist of only lowercase characters"
+					+ "(no special symbols or white space) with a minimum length of 4 symbols.");
+		}
+		
+		//Check if username is not already taken
+		//TODO --> Think about both username and email validation
+		if(this.getFilmoteka().checkUserName(username)) {
+			throw new DatabaseConflictException("Sorry, the username that you've chosen has already been taken by another user.");
+		}
+		return username;
+	}
+	
+	private String inputUserEmail() throws InvalidUserInfoException{
+		//User inputs email + makes it lowercase
+		System.out.print("Please enter your email: ");
+		String email = Supp.inputString().toLowerCase();
+		
+		//Check if email is valid
+		if(!Supp.validEmail(email)) {
+			throw new InvalidUserInfoException("Sorry, you've entered an invalid email.\nEmails should look like this: "
+					+ "myeMail@myMailSite.com");
+		}
+		return email;
+	}
 	
 	@Override
 	public void printMainMenu() {
@@ -49,7 +110,7 @@ public class Consumer extends User implements IConsumer {
 		int option = Supp.getPositiveNumber();
 		switch (option) {
 		case 1: this.signIn();break;
-		case 2: break; //Register
+		case 2: this.createAccount(); break; //Register
 		case 3: 
 			this.logout();
 			this.printMainMenu();

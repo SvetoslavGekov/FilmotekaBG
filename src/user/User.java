@@ -58,6 +58,9 @@ public abstract class User implements IUser {
 					return;
 				}
 			}
+			else {
+				System.out.printf("There is no user named %s in the %s user database.%n", username, this.getFilmoteka().getName());
+			}
 		}
 		if(signInAttempts >= WebSite.MAX_SIGN_IN_ATTEMPTS) {
 			System.out.println("\nYou've expended all your attempts at logging in. Redirecting to main menu.");
