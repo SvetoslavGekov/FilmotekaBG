@@ -28,7 +28,7 @@ public abstract class Product {
 	//Fields
 	private static final double MAX_RATING = 10.0d; //Maximum rating that can be given to the product 
 	private static final int RENT_DURATION = 7;
-	private static int currentID;
+	private static int currentID = 1;
 	
 	private int id;
 	private String name;
@@ -63,6 +63,13 @@ public abstract class Product {
 	public String toString() {
 		return String.format("Name: %s	Type: %s	Release date: %s	PGRating: %s	Duration: %s	RentCost: %.2f	Price: %.2f", 
 				this.name, this.type, this.releaseDate, this.pgRating, this.duration, this.rentCost, this.buyCost);
+	}
+	
+	public static int inputProductId(){
+		//User inputs product id
+		System.out.print("Please enter the product's id: ");
+		int id = Supp.getPositiveNumber();
+		return id;
 	}
 	
 	public static double inputBuyCost() throws InvalidProductInfoException{
@@ -239,6 +246,15 @@ public abstract class Product {
 		if(buyCost > 0) {
 			this.buyCost = buyCost;
 		}
+	}
+	
+	//Getters
+	public int getId() {
+		return this.id;
+	}
+	
+	public String getName() {
+		return this.name;
 	}
 	
 	//Comparators

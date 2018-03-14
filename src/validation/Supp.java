@@ -117,6 +117,7 @@ public final class Supp {
 			number = scan.nextDouble();
 			isValid = true;
 		}
+		
 		return number;
 	}
 }

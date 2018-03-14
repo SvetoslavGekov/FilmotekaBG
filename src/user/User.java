@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import demo.WebSite;
+import products.Product;
 import validation.Supp;
 
 public abstract class User implements IUser {
@@ -30,6 +31,26 @@ public abstract class User implements IUser {
 	@Override
 	public String toString() {
 		return String.format("User: %s	Names: %s	Email: %s", this.username, this.names, this.email);
+	}
+	
+	@Override
+	public Product searchForProduct() {
+		Product product = null;
+		System.out.println("\n ========= PRODUCT SEARCH FORM =============");
+		System.out.println("Would you like to search for a product by:\n	1) Identification number;\n	2)Name;\n	3) Return to main menu;");
+		System.out.print("Please select a search option: ");
+		//Get input for option
+		int option = Supp.getPositiveNumber();
+		switch (option) {
+			case 1: product = this.getFilmoteka().findProductById(); break;
+			case 2: product = null;//this.getFilmoteka().findProductByName(); break;
+			case 3: this.printMainMenu(); break;
+		default:
+			System.out.println("You've chosen an invalid option for this menu. Please try again.");
+			return searchForProduct();
+		}
+		
+		return product;
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 
 package demo;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Collections;
@@ -9,7 +10,10 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import customexceptions.InvalidProductInfoException;
+import products.Movie;
 import products.Product;
+import products.TVSeries;
 import user.Administrator;
 import user.Consumer;
 import user.IUser;
@@ -34,6 +38,18 @@ public final class WebSite {
 	}
 	
 	//Methods
+	public Product findProductById() {
+		Product product = null;
+		System.out.print("Please enter the product's ID: ");
+		int id = Product.inputProductId();
+		for (Product pr : CATALOG) {
+			if(pr.getId() == id) {
+				product = pr;
+				break;
+			}
+		}
+		return product;
+	}
 	
 	public boolean checkUserName(String username) {
 		if(!this.ALL_USERS.containsKey(username)) {
@@ -137,6 +153,7 @@ public final class WebSite {
 	//Static block for filling collections with initial data
 	static {
 		HashSet<User> initalUsers = new HashSet<>();
+		TreeSet<Product> initialProducts = new TreeSet<>(Product.compareByNameAndReleaseDate);
 		try {
 			//Creation of 3 users
 			initalUsers.add(new Consumer("Svetoslav Gekov", "sgekov", "Sgekov123", "svetoslav_gekov@abv.bg"));
@@ -148,6 +165,15 @@ public final class WebSite {
 			}
 			
 			//TODO Creation of X products
+			initialProducts.add(new Movie("Titanic", LocalDate.parse("1999-10-10"), "PG-13", 123, 5d, 10d));
+			initialProducts.add(new Movie("Terminator", LocalDate.parse("2000-05-05"), "PG-16", 99, 10d, 15d));
+			initialProducts.add(new Movie("Jumanji", LocalDate.parse("1998-11-10"), "PG-12", 89, 5d, 10d));
+			
+			initialProducts.add(new TVSeries("The Simpsons", LocalDate.parse("2001-02-10"), "PG-13", 22, 2d, 7d));
+			initialProducts.add(new TVSeries("ER", LocalDate.parse("1995-01-10"), "PG-12", 45, 5d, 10d));
+			initialProducts.add(new TVSeries("The Mentalist", LocalDate.parse("2007-03-14"), "PG-12", 42, 6d, 10d));
+			
+			WebSite.CATALOG.addAll(initialProducts);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

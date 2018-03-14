@@ -35,15 +35,23 @@ public class Administrator extends User implements IAdministrator {
 		int option = Supp.getPositiveNumber();
 		
 		switch(option) {
-		case 1: this.createNewProduct();break;
-		case 2: break;
-		case 3: break;
-		case 4: this.printMainMenu(); break;
+			case 1: this.createNewProduct();break;
+			case 2: this.editProductInfo();break;//TODO Edit product info
+			case 3: break;//TODO delete product
+			case 4: this.printMainMenu(); break;
 		default:
 			System.out.println("You've chosen an invalid option for this menu. Please try again.");
 			selectFromProductsManagementMenu();
 			break;
 		}
+	}
+	
+	@Override
+	public void editProductInfo() {
+		System.out.println("\n=========== PRODUCT EDITING FORM ===========");
+		System.out.println("To continue editing a product please select one from the catalog.");
+		Product pr = this.searchForProduct();
+		System.out.println(pr);
 	}
 	
 	@Override

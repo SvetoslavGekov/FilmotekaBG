@@ -2,7 +2,12 @@ package user;
 
 import java.util.Comparator;
 
+import products.Product;
+
 public interface IUser {
+	
+	Product searchForProduct();
+	
 	void exitApplication();
 	
 	void printMainMenu();
