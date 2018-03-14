@@ -103,5 +103,21 @@ public final class Supp {
 		}
 		return number;
 	}
+	
+	public static final double getDouble() {
+		Scanner scan = new Scanner(System.in);
+		double number = 0d;
+		boolean isValid = false;
+		
+		while(!isValid) {
+			while(!scan.hasNextDouble()) {
+				System.out.println("Please enter a valid double value.");
+				scan.nextLine();
+			}
+			number = scan.nextDouble();
+			isValid = true;
+		}
+		return number;
+	}
 }
 
