@@ -63,7 +63,7 @@ public abstract class Product {
 	
 	//Methods
 	
-	private void printFullInfo() {
+	protected void printFullInfo() {
 		System.out.printf("Identification number: %d%n", this.id);
 		System.out.printf("Name: %s%n", this.name);
 		System.out.printf("Description: %s%n", this.description);
@@ -171,6 +171,29 @@ public abstract class Product {
 		}
 	}
 	
+	private void editDescription() {
+		System.out.println("\nCurrent description: " + this.description);
+		this.setDescription(Product.inputProductDescription());
+	}
+	
+	private void editTrailer() {
+		System.out.println("\nCurrent trailer link: " + this.trailer);
+		this.setTrailer(Product.inputProductTrailer());
+	}
+	
+	private void editWriters() {
+		System.out.println("\nCurrent writers: " + this.writers);
+		this.setWriters(Product.inputProductWriters());
+	}
+	
+	private void editActors() {
+		System.out.println("\nCurrent actors: " + this.actors);
+		this.setActors(Product.inputProductActors());
+	}
+	
+	
+	protected abstract void selectFromAdvancedEditingMenu(int option);
+	
 	public void selectFromProductEditingMenu() {
 		System.out.print("\nPlease enter one of the options to continue: ");
 		
@@ -185,10 +208,13 @@ public abstract class Product {
 			case 6: this.editRentCost(); this.printProductEditingMenu(); break;
 			case 7: this.editBuyCost(); this.printProductEditingMenu(); break;
 			case 8: this.editGenres(); this.printProductEditingMenu(); break;
+			case 9: this.editDescription(); this.printProductEditingMenu(); break;
+			case 10: this.editTrailer(); this.printProductEditingMenu(); break;
+			case 11: this.editWriters(); this.printProductEditingMenu(); break;
+			case 12: this.editActors(); this.printProductEditingMenu(); break;
 			case 99: WebSite.getInstance().getCurrentUser().printMainMenu(); break;
 		default: 
-			System.out.println("You've chosen an invalid option for this menu. Please try again.");
-			selectFromProductEditingMenu();
+			selectFromAdvancedEditingMenu(option);
 			break;
 		}
 	}
@@ -206,10 +232,34 @@ public abstract class Product {
 		System.out.println("	6) Edit rent cost");
 		System.out.println("	7) Edit price");
 		System.out.println("	8) Edit genres");
-		
-		if(this.getClass() != Product.class) {
-			selectFromProductEditingMenu();
-		}
+		System.out.println("	9) Edit description");
+		System.out.println("	10) Edit trailer");
+		System.out.println("	11) Edit writers");
+		System.out.println("	12) Edit actors");
+	}
+	
+	public static final String inputProductActors() {
+		//User inputs actors (can be empty)
+		System.out.print("Please enter the product's actors: ");
+		return Supp.inputString();
+	}
+	
+	public static final String inputProductWriters() {
+		//User inputs writers (can be empty)
+		System.out.print("Please enter the product's writers: ");
+		return Supp.inputString();
+	}
+	
+	public static final String inputProductTrailer() {
+		//User inputs trailer link (can be empty)
+		System.out.print("Please enter the product's trailer: ");
+		return Supp.inputString();
+	}
+	
+	public static String inputProductDescription() {
+		//User inputs description (can be empty)
+		System.out.print("Please enter the product's description: ");
+		return Supp.inputString();
 	}
 	
 	public static int inputProductId(){
@@ -354,7 +404,7 @@ public abstract class Product {
 	}
 
 	private void setDescription(String description) {
-		if(Supp.validStr(description)) {
+		if(description != null) {
 			this.description = description;
 		}
 	}
@@ -366,9 +416,8 @@ public abstract class Product {
 	}
 
 	private void setTrailer(String trailer) {
-		if(Supp.validStr(trailer)) {
+		if(trailer != null) {
 			this.trailer = trailer;
-			
 		}
 	}
 

@@ -90,13 +90,8 @@ public final class Supp {
 	
 	//The result can be null when using this method
 	public static final String inputString() {
-		try (Scanner scan = new Scanner(System.in);) {
-			String input = scan.nextLine();
-			return input;
-		}
-		catch(Exception e) {
-			return "";
-		}
+		Scanner scan = new Scanner(System.in);
+		return scan.nextLine();
 	}
 	
 	public static final int getPositiveNumber() {

@@ -14,4 +14,23 @@ public final class TVSeries extends Product {
 			double rentCost, double buyCost) {
 		super(name, ProductType.TVSERIES, releaseDate, pgRating, duration, rentCost, buyCost);
 	}
+
+	//Methods
+	@Override
+	public void printProductEditingMenu() {
+		super.printProductEditingMenu();
+		System.out.println("New items start here");
+		selectFromProductEditingMenu();
+	}
+	
+	@Override
+	protected void selectFromAdvancedEditingMenu(int option) {
+		switch (option) {
+		case 13: //TODO ;break;
+		default:
+			System.out.println("You've chosen an invalid option for this menu. Please try again.");
+			selectFromProductEditingMenu();
+			break;
+		}
+	}
 }
