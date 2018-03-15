@@ -213,7 +213,7 @@ public abstract class Product {
 			case 10: this.editTrailer(); this.printProductEditingMenu(); break;
 			case 11: this.editWriters(); this.printProductEditingMenu(); break;
 			case 12: this.editActors(); this.printProductEditingMenu(); break;
-			case 99: WebSite.getInstance().getCurrentUser().printMainMenu(); break;
+			case 99: break;
 		default: 
 			selectFromAdvancedEditingMenu(option);
 			break;

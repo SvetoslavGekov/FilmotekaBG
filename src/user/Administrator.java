@@ -22,10 +22,10 @@ public class Administrator extends User implements IAdministrator {
 	public void printProductsManagementMenu() {
 		System.out.printf("\n============  PRODUCTS MANAGEMENT MENU  ============%n%n", this.getFilmoteka().getName());
 		System.out.println(this);
-		System.out.println("1) Add new product");
-		System.out.println("2) Edit product info");
-		System.out.println("3) Delete product");
-		System.out.println("4) Return to main menu");
+		System.out.println("	1) Add new product");
+		System.out.println("	2) Edit product info");
+		System.out.println("	3) Delete product");
+		System.out.println("	4) Return to main menu");
 		selectFromProductsManagementMenu();
 	}
 	
@@ -37,9 +37,9 @@ public class Administrator extends User implements IAdministrator {
 		
 		switch(option) {
 			case 1: this.createNewProduct();break;
-			case 2: this.editProductInfo();break;//TODO Edit product info
+			case 2: this.editProductInfo();break;
 			case 3: break;//TODO delete product
-			case 4: this.printMainMenu(); break;
+			case 4: break;
 		default:
 			System.out.println("You've chosen an invalid option for this menu. Please try again.");
 			selectFromProductsManagementMenu();
@@ -58,7 +58,6 @@ public class Administrator extends User implements IAdministrator {
 		//If there is no such product --> return to main menu
 		if(pr == null) {
 			System.out.println("No product matches your search criteria. Redirecting to main menu.");
-			this.printMainMenu();
 		}
 		else {
 			pr.printProductEditingMenu();
@@ -83,7 +82,7 @@ public class Administrator extends User implements IAdministrator {
 			
 			//Attempt to create product
 			switch (pType) {
-			case 1:	product = new Movie(name,releaseDate, pgRating, duration, rentCost, buyCost);break;
+			case 1:	product = new Movie(name,releaseDate, pgRating, duration, rentCost, buyCost); break;
 			case 2: product = new TVSeries(name, releaseDate, pgRating, duration, rentCost, buyCost); break;
 			default:
 				throw new Exception("Sorry, something went wrong while creating the product.");
@@ -108,7 +107,6 @@ public class Administrator extends User implements IAdministrator {
 			case 2: this.printProductsManagementMenu(); break;
 			default:
 				System.out.println("You've entered an invalid option for this menu. Redirecting to the main menu");
-				this.printMainMenu();
 				break;
 			}
 		}
@@ -118,11 +116,11 @@ public class Administrator extends User implements IAdministrator {
 	public void printMainMenu() {
 		System.out.printf("\n============  %s  MAIN  MENU  ============%n%n", this.getFilmoteka().getName());
 		System.out.println(this);
-		System.out.println("1) Manage Products");
-		System.out.println("2) Manage Users");
-		System.out.println("3) Logout");
-		System.out.println("99) Exit Application");
-		selectFromMainMenu();
+		System.out.println("	1) Manage Products");
+		System.out.println("	2) Manage Users");
+		System.out.println("	3) Logout");
+		System.out.println("	99) Exit Application");
+//		selectFromMainMenu();
 	}
 	
 	@Override
@@ -136,7 +134,7 @@ public class Administrator extends User implements IAdministrator {
 		case 2: ; break; //Register
 		case 3: 
 			this.logout();
-			this.printMainMenu();
+//			this.printMainMenu();
 			break;
 		case 99: this.exitApplication(); break;
 		default: 
@@ -158,11 +156,6 @@ public class Administrator extends User implements IAdministrator {
 		if(product != null){
 			this.getFilmoteka().removeProductFromCatalog(product);
 		}
-	}
-
-	@Override
-	public void editProduct(Product product) {
-		// TODO allow Admin to edit products in WebSite
 	}
 
 }

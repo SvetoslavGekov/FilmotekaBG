@@ -26,7 +26,7 @@ public final class WebSite {
 	public static final int MAX_SIGN_IN_ATTEMPTS = 3;
 	private static final String SITE_NAME = "Filmoteka.bg";
 	private static final Map<String, IUser> ALL_USERS = new TreeMap<String,IUser>(); //Key: Username, Value: User 
-	private static final Collection <Product> CATALOG = new TreeSet(Product.compareByNameAndReleaseDate); //TODO Add comparator for products
+	private static final Collection <Product> CATALOG = new TreeSet(Product.compareByNameAndReleaseDate);
 	private static WebSite instance;
 	private static IUser guest;
 	private IUser currentUser;
@@ -83,7 +83,7 @@ public final class WebSite {
 		//Logs in the user based on his username
 		setCurrentUser(WebSite.ALL_USERS.get(username));
 		System.out.printf("User: %s has signed in at %s%n", this.currentUser.getUsername(), LocalTime.now());
-		this.currentUser.printMainMenu();
+//		this.currentUser.printMainMenu();
 	}
 	
 	public void logoutUser() {
@@ -93,7 +93,7 @@ public final class WebSite {
 			setCurrentUser(guest);
 			System.out.println("Switching to Guest user.");
 		}
-		this.currentUser.printMainMenu();
+//		this.currentUser.printMainMenu();
 	}
 	
 	public void stopApp() {
@@ -160,7 +160,10 @@ public final class WebSite {
 	
 	//Demonstration starts from here
 	public static void main(String[] args) {
-		WebSite.getInstance().getCurrentUser().printMainMenu();
+		while(true) {
+			WebSite.getInstance().getCurrentUser().printMainMenu();
+			WebSite.getInstance().getCurrentUser().selectFromMainMenu();
+		}
 	}
 	
 	
@@ -178,7 +181,6 @@ public final class WebSite {
 				WebSite.ALL_USERS.put(user.getUsername(), user);
 			}
 			
-			//TODO Creation of X products
 			initialProducts.add(new Movie("Titanic", LocalDate.parse("1999-10-10"), "PG-13", 123, 5d, 10d));
 			initialProducts.add(new Movie("Terminator", LocalDate.parse("2000-05-05"), "PG-16", 99, 10d, 15d));
 			initialProducts.add(new Movie("Jumanji", LocalDate.parse("1998-11-10"), "PG-12", 89, 5d, 10d));

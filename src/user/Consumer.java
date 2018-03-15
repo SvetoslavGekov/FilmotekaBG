@@ -51,15 +51,15 @@ public class Consumer extends User implements IConsumer {
 		catch (InvalidUserInfoException| DatabaseConflictException e) {
 			//User recieves an error message for his input and is prompted to either try again or go back to the main menu; 
 			System.out.println(e.getMessage());
-			System.out.print("\nWould you like to attempt to register again?\n 1) Continue registration;\n 2) Exit to main menu."
-					+ "\nPlease enter your choice: ");
+			System.out.print("\nWould you like to attempt to register again?\n	1) Continue registration;\n	2) Exit to main menu."
+					+ "\n	Please enter your choice: ");
 			int option = Supp.getPositiveNumber();
 			switch (option) {
 			case 1: this.createAccount(); break;
-			case 2: this.printMainMenu(); break;
+			case 2: break;//this.printMainMenu(); break;
 			default:
 				System.out.println("You've entered an invalid option for this menu. Redirecting to the main menu");
-				this.printMainMenu();
+//				this.printMainMenu();
 				break;
 			}
 		}
@@ -99,7 +99,7 @@ public class Consumer extends User implements IConsumer {
 	
 	private String inputUserNames() throws InvalidUserInfoException{
 		//User inputs real names
-		System.out.println("Please enter your names:");
+		System.out.print("Please enter your names:");
 		String names = Supp.inputValidString();
 		
 		//Check if names is valid string
@@ -126,11 +126,11 @@ public class Consumer extends User implements IConsumer {
 	public void printMainMenu() {
 		System.out.printf("\n============  %s  MAIN  MENU  ============%n%n", this.getFilmoteka().getName());
 		System.out.println(this);
-		System.out.println("1) Sign In With Existing Account");
-		System.out.println("2) Register New Account");
-		System.out.println("3) Logout");
-		System.out.println("99) Exit Application");
-		selectFromMainMenu();
+		System.out.println("	1) Sign In With Existing Account");
+		System.out.println("	2) Register New Account");
+		System.out.println("	3) Logout");
+		System.out.println("	99) Exit Application");
+		//selectFromMainMenu();
 	}
 	
 	@Override
@@ -144,12 +144,12 @@ public class Consumer extends User implements IConsumer {
 		case 2: this.createAccount(); break; //Register
 		case 3: 
 			this.logout();
-			this.printMainMenu();
+//			this.printMainMenu();
 			break;
 		case 99: this.exitApplication(); break;
 		default: 
-			System.out.println("You've chosen an invalid option for this menu. Please try again.");
-			selectFromMainMenu();
+			System.out.println("You've chosen an invalid option for this menu.");
+//			selectFromMainMenu();
 			break;
 		}
 	}
