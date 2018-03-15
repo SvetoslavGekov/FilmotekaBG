@@ -70,7 +70,7 @@ public final class Supp {
 	}
 
 	
-	public static final String inputString() {
+	public static final String inputValidString() {
 		Scanner scan = new Scanner(System.in);
 		boolean isValid = false;
 		String input = "";
@@ -82,6 +82,17 @@ public final class Supp {
 			}
 		}while(!isValid);
 		return input;
+	}
+	
+	//The result can be null when using this method
+	public static final String inputString() {
+		try (Scanner scan = new Scanner(System.in);) {
+			String input = scan.nextLine();
+			return input;
+		}
+		catch(Exception e) {
+			return "";
+		}
 	}
 	
 	public static final int getPositiveNumber() {

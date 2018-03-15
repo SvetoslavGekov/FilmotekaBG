@@ -66,12 +66,12 @@ public abstract class User implements IUser {
 			signInAttempts++;
 			
 			System.out.print("Please enter your username: ");
-			username = Supp.inputString();
+			username = Supp.inputValidString();
 			
 			//Check if name is present in the users collection
 			if(this.getFilmoteka().checkUserName(username)) {
 				System.out.print("Please enter your password: ");
-				password = Supp.inputString();
+				password = Supp.inputValidString();
 				
 				//Check if password is correct
 				if(this.getFilmoteka().checkUserPassword(username, password)) {

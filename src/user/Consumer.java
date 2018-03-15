@@ -68,7 +68,7 @@ public class Consumer extends User implements IConsumer {
 	private String inputUsername() throws InvalidUserInfoException, DatabaseConflictException{
 		//User inputs username
 		System.out.print("Please enter your username: ");
-		String username = Supp.inputString();
+		String username = Supp.inputValidString();
 		
 		//Check if username is valid
 		if(!Supp.validUsername(username)) {
@@ -87,7 +87,7 @@ public class Consumer extends User implements IConsumer {
 	private String inputUserEmail() throws InvalidUserInfoException{
 		//User inputs email + makes it lowercase
 		System.out.print("Please enter your email: ");
-		String email = Supp.inputString().toLowerCase();
+		String email = Supp.inputValidString().toLowerCase();
 		
 		//Check if email is valid
 		if(!Supp.validEmail(email)) {
@@ -100,7 +100,7 @@ public class Consumer extends User implements IConsumer {
 	private String inputUserNames() throws InvalidUserInfoException{
 		//User inputs real names
 		System.out.println("Please enter your names:");
-		String names = Supp.inputString();
+		String names = Supp.inputValidString();
 		
 		//Check if names is valid string
 		if(!Supp.validStr(names)) {
@@ -112,7 +112,7 @@ public class Consumer extends User implements IConsumer {
 	private String inputUserPassword() throws InvalidUserInfoException{
 		//User inputs password
 		System.out.print("Please enter your password: ");
-		String password = Supp.inputString();
+		String password = Supp.inputValidString();
 		
 		//Check if password is valid
 		if(!Supp.validPassword(password)) {

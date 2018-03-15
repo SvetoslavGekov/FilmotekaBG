@@ -32,11 +32,11 @@ public abstract class Product {
 	
 	private int id;
 	private String name;
-	private String description;
+	private String description = "";
 	private ProductType type;
-	private String trailer; //Link to trailer
-	private Set<String> writers = new HashSet<>();
-	private Set<String> actors = new HashSet<>();
+	private String trailer = ""; //Link to trailer
+	private String writers = "";
+	private String actors = "";
 	private LocalDate releaseDate;
 	private double viewerRating;
 	private int totalVotes; //TODO 1 user should vote only once per product;
@@ -59,10 +59,64 @@ public abstract class Product {
 	}
 	
 	//Methods
+	
+	private void printFullInfo() {
+		System.out.printf("Identification number: %d%n", this.id);
+		System.out.printf("Name: %s%n", this.name);
+		System.out.printf("Description: %s%n", this.description);
+		System.out.printf("Type: %s%n", this.type);
+		System.out.printf("Trailer link: %s%n", this.trailer);
+		System.out.printf("Writers: %s%n", this.writers);
+		System.out.printf("Actors: %s%n", this.actors);
+		System.out.printf("Viewer rating: %.2f (Total votes: %d)%n", this.viewerRating, this.totalVotes);
+		System.out.printf("PG Rating: %s%n", this.pgRating);
+		System.out.printf("Duration: %d%n", this.duration);
+		System.out.printf("Genres: %s%n", this.genres);
+		System.out.printf("Rent cost: %.2f%n", this.rentCost);
+		System.out.printf("Price: %.2f%n", this.buyCost);
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("Name: %s	Type: %s	Release date: %s	PGRating: %s	Duration: %s	RentCost: %.2f	Price: %.2f", 
 				this.name, this.type, this.releaseDate, this.pgRating, this.duration, this.rentCost, this.buyCost);
+	}
+	
+	public void selectFromProductEditingMenu() {
+		System.out.print("\nPlease enter one of the options to continue: ");
+		
+		//Get input for the chosen option
+		int option = Supp.getPositiveNumber();
+		switch (option) {
+		case 1: this.printFullInfo(); this.printProductEditingMenu();; break;
+		case 2: ; break; //TODO
+		case 3: break;
+		case 10: ; break;
+		default: 
+			System.out.println("You've chosen an invalid option for this menu. Please try again.");
+			selectFromProductEditingMenu();
+			break;
+		}
+	}
+	
+	public void printProductEditingMenu() {
+		System.out.println("\n=============== PRODUCT EDITING MENU =================");
+		System.out.println(this);
+		System.out.println();
+		System.out.println("	1) View full info");
+		System.out.println("	2) Edit name");
+		System.out.println("	3) Edit release date");
+		System.out.println("	4) Edit PG Rating");
+		System.out.println("	5) Edit duration");
+		System.out.println("	6) Edit rent cost");
+		System.out.println("	7) Edit price");
+		System.out.println("	8) View full product info");
+		System.out.println("	9) Edit genres");
+		System.out.println("	10) Back to main menu");
+		
+		if(this.getClass() != Product.class) {
+			selectFromProductEditingMenu();
+		}
 	}
 	
 	public static int inputProductId(){
@@ -105,7 +159,7 @@ public abstract class Product {
 	public static String inputPGRating() throws InvalidProductInfoException {
 		//User inputs product pgRating
 		System.out.print("Please enter the product pgRating: ");
-		String pgRating = Supp.inputString();
+		String pgRating = Supp.inputValidString();
 		if(!Supp.validStr(pgRating)) {
 			throw new InvalidProductInfoException("Sorry, you've entered an invalid string for the PG Rating.");
 		}
@@ -115,7 +169,7 @@ public abstract class Product {
 	public static LocalDate inputProductReleaseDate() throws InvalidProductInfoException{
 		//User inputs product release date
 		System.out.print("Please enter the product release date: ");
-		String input = Supp.inputString();
+		String input = Supp.inputValidString();
 		LocalDate releaseDate = null;
 		try {
 			releaseDate = LocalDate.parse(input);
@@ -129,7 +183,7 @@ public abstract class Product {
 	public static String inputProductName(){
 		//User inputs product name
 		System.out.print("Please enter the product name: ");
-		String name = Supp.inputString();
+		String name = Supp.inputValidString();
 		
 		return name;
 	}
@@ -150,8 +204,10 @@ public abstract class Product {
 		return pType;
 	}
 	
+
+	
 	//Setters
-	public static void setCurrentID(int currentID) {
+	private static void setCurrentID(int currentID) {
 		Product.currentID = currentID;
 	}
 	
@@ -184,14 +240,14 @@ public abstract class Product {
 		}
 	}
 
-	private void setWriters(Set<String> writers) {
-		if(writers != null && !writers.isEmpty() && !writers.contains(null)) {
+	private void setWriters(String writers) {
+		if(writers != null) {
 			this.writers = writers;
 		}
 	}
 
-	private void setActors(Set<String> actors) {
-		if(actors != null && !actors.isEmpty() && !actors.contains(null)) {
+	private void setActors(String actors) {
+		if(actors != null) {
 			this.actors = actors;
 		}
 	}

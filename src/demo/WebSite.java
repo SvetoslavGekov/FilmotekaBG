@@ -53,7 +53,6 @@ public final class WebSite {
 	
 	public Product findProductById() {
 		Product product = null;
-		System.out.print("Please enter the product's ID: ");
 		int id = Product.inputProductId();
 		
 		for (Product pr : CATALOG) {
@@ -82,7 +81,7 @@ public final class WebSite {
 	
 	public void loginUser(String username) {
 		//Logs in the user based on his username
-		setCurrentUser(this.ALL_USERS.get(username));
+		setCurrentUser(WebSite.ALL_USERS.get(username));
 		System.out.printf("User: %s has signed in at %s%n", this.currentUser.getUsername(), LocalTime.now());
 		this.currentUser.printMainMenu();
 	}

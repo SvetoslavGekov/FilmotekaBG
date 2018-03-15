@@ -16,7 +16,8 @@ public class Administrator extends User implements IAdministrator {
 		super(names, username, password, email);
 	}
 
-	//Methods
+	//Methods	
+	
 	@Override
 	public void printProductsManagementMenu() {
 		System.out.printf("\n============  PRODUCTS MANAGEMENT MENU  ============%n%n", this.getFilmoteka().getName());
@@ -50,8 +51,18 @@ public class Administrator extends User implements IAdministrator {
 	public void editProductInfo() {
 		System.out.println("\n=========== PRODUCT EDITING FORM ===========");
 		System.out.println("To continue editing a product please select one from the catalog.");
+		
+		//Admin attempts to select a product from the catalog
 		Product pr = this.searchForProduct();
-		System.out.println(pr);
+		
+		//If there is no such product --> return to main menu
+		if(pr == null) {
+			System.out.println("No product matches your search criteria. Redirecting to main menu.");
+			this.printMainMenu();
+		}
+		else {
+			pr.printProductEditingMenu();
+		}
 	}
 	
 	@Override

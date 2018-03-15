@@ -111,9 +111,11 @@ Classes:
 User functionality:
 	+ Login;
 	+ Logout;
-	(in progress)- Registration;
+	+ Registration;
 	---> Reset password (Forgotten password);
 	- Edit User Profile;
+	+ Add product from Admin;
+	+ Select products by ID or Name;
 	- Browse catalog;
 	- Add items to cart;
 	- Finalize purchase (rent/buy) (Movies, TV Series);
