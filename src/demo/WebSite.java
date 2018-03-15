@@ -129,7 +129,7 @@ public final class WebSite {
 		try {
 			//Creation of 3 users
 			initalUsers.add(new Consumer("Svetoslav Gekov", "sgekov", "Sgekov123", "svetoslav_gekov@abv.bg"));
-			initalUsers.add(new Consumer("Mario Dimitrov", "mdimitrov", "Mdimitrov123", "napishiSiMeilaTuk@abv.bg"));
+			initalUsers.add(new Consumer("Mario Dimitrov", "mdimitrov", "Mdimitrov123", "mario0.bg@abv.bg"));
 			initalUsers.add(new Administrator("Admin Adminov", "admin", "Admin123", "admin@filmoteka.bg"));
 			
 			for (User user : initalUsers) {
