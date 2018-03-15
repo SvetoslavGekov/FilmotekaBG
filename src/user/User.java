@@ -37,7 +37,7 @@ public abstract class User implements IUser {
 	public Product searchForProduct() {
 		Product product = null;
 		System.out.println("\n ========= PRODUCT SEARCH FORM =============");
-		System.out.println("Would you like to search for a product by:\n	1) Identification number;\n	2)Name;\n	3) Return to main menu;");
+		System.out.println("Would you like to search for a product by:\n	1) Identification number;\n	2) Name;\n	3) Return to main menu;");
 		System.out.print("Please select a search option: ");
 		//Get input for option
 		int option = Supp.getPositiveNumber();
@@ -100,11 +100,12 @@ public abstract class User implements IUser {
 	}
 	
 	//Setters
-	protected void setNames(String names){
+	protected boolean setNames(String names){
 		if(Supp.validStr(names)){
 			this.names = names;
-			return;
+			return true;
 		}
+		return false;
 	}
 
 	protected void setUsername(String username){
@@ -114,18 +115,20 @@ public abstract class User implements IUser {
 		}
 	}
 
-	protected void setPassword(String password) {
+	protected boolean setPassword(String password) {
 		if(Supp.validStr(password) && Supp.validPassword(password)){
 			this.password = password;
-			return;
+			return true;
 		}
+		return false;
 	}
 
-	protected void setEmail(String email){
+	protected boolean setEmail(String email){
 		if(Supp.validStr(email) && Supp.validEmail(email)){
 			this.email = email;
-			return;
+			return true;
 		}
+		return false;
 	}
 
 	protected void setPhone(String phone) {
@@ -142,6 +145,10 @@ public abstract class User implements IUser {
 	
 	public String getEmail() {
 		return this.email;
+	}
+	
+	public String getNames(){
+		return this.names;
 	}
 	
 	protected WebSite getFilmoteka() {

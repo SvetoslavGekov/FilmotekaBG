@@ -253,6 +253,14 @@ public abstract class Product {
 		return this.name;
 	}
 	
+	public double getRentCost() {
+		return this.rentCost;
+	}
+	
+	public double getBuyCost() {
+		return this.buyCost;
+	}
+	
 	//Comparators
 	public static final Comparator<Product> compareByNameAndReleaseDate = new Comparator<Product>() {
 		public int compare(Product o1, Product o2) {
