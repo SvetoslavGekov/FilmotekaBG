@@ -101,17 +101,17 @@ Classes:
 		- messageInfo;
 		
 	9) Order
-		- private static int currentID;
-		- id;
-		- date;
-		- IConsumer consumer;
-		- totalCost;
+		+ private static int currentID;
+		+ id;
+		+ date;
+		+ IConsumer consumer;
+		+ totalCost;
 		
 		
 User functionality:
-	- Login;
-	- Logout;
-	- Registration;
+	+ Login;
+	+ Logout;
+	(in progress)- Registration;
 	---> Reset password (Forgotten password);
 	- Edit User Profile;
 	- Browse catalog;

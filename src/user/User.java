@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import demo.WebSite;
+import products.Product;
 import validation.Supp;
 
 public abstract class User implements IUser {
@@ -18,7 +19,7 @@ public abstract class User implements IUser {
 	private LocalDateTime lastLogin;
 
 	//Constructors
-	public User(String names, String username, String password, String email) throws Exception {
+	public User(String names, String username, String password, String email) {
 		this.setNames(names);
 		this.setUsername(username);
 		this.setPassword(password);
@@ -30,6 +31,26 @@ public abstract class User implements IUser {
 	@Override
 	public String toString() {
 		return String.format("User: %s	Names: %s	Email: %s", this.username, this.names, this.email);
+	}
+	
+	@Override
+	public Product searchForProduct() {
+		Product product = null;
+		System.out.println("\n ========= PRODUCT SEARCH FORM =============");
+		System.out.println("Would you like to search for a product by:\n	1) Identification number;\n	2)Name;\n	3) Return to main menu;");
+		System.out.print("Please select a search option: ");
+		//Get input for option
+		int option = Supp.getPositiveNumber();
+		switch (option) {
+			case 1: product = this.getFilmoteka().findProductById(); break;
+			case 2: product = this.getFilmoteka().findProductByName(); break;
+			case 3: this.printMainMenu(); break;
+		default:
+			System.out.println("You've chosen an invalid option for this menu. Please try again.");
+			return searchForProduct();
+		}
+		
+		return product;
 	}
 	
 	@Override
@@ -58,6 +79,9 @@ public abstract class User implements IUser {
 					return;
 				}
 			}
+			else {
+				System.out.printf("There is no user named %s in the %s user database.%n", username, this.getFilmoteka().getName());
+			}
 		}
 		if(signInAttempts >= WebSite.MAX_SIGN_IN_ATTEMPTS) {
 			System.out.println("\nYou've expended all your attempts at logging in. Redirecting to main menu.");
@@ -76,36 +100,32 @@ public abstract class User implements IUser {
 	}
 	
 	//Setters
-	protected void setNames(String names) throws Exception {
+	protected void setNames(String names){
 		if(Supp.validStr(names)){
 			this.names = names;
 			return;
 		}
-		throw new Exception("You have entered an invalid name! Please enter a new one.");
 	}
 
-	protected void setUsername(String username) throws Exception {
+	protected void setUsername(String username){
 		if(Supp.validStr(username)){
 			this.username = username;
 			return;
 		}
-		throw new Exception("You have entered an invalid username! Please enter a new one.");
 	}
 
-	protected void setPassword(String password) throws Exception {
+	protected void setPassword(String password) {
 		if(Supp.validStr(password) && Supp.validPassword(password)){
 			this.password = password;
 			return;
 		}
-		throw new Exception("You have entered an invalid password! Please enter a new one.");
 	}
 
-	protected void setEmail(String email) throws Exception {
+	protected void setEmail(String email){
 		if(Supp.validStr(email) && Supp.validEmail(email)){
 			this.email = email;
 			return;
 		}
-		throw new Exception("You have entered an invalid email! Please enter a new one.");
 	}
 
 	protected void setPhone(String phone) {

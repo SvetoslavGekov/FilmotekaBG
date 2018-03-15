@@ -1,14 +1,19 @@
 
 package demo;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import customexceptions.InvalidProductInfoException;
+import products.Movie;
 import products.Product;
+import products.TVSeries;
 import user.Administrator;
 import user.Consumer;
 import user.IUser;
@@ -19,11 +24,11 @@ public final class WebSite {
 	
 	//Fields
 	public static final int MAX_SIGN_IN_ATTEMPTS = 3;
+	private static final String SITE_NAME = "Filmoteka.bg";
+	private static final Map<String, IUser> ALL_USERS = new TreeMap<String,IUser>(); //Key: Username, Value: User 
+	private static final Collection <Product> CATALOG = new TreeSet(Product.compareByNameAndReleaseDate); //TODO Add comparator for products
 	private static WebSite instance;
 	private static IUser guest;
-	private static final String name = "Filmoteka.bg";
-	private static final Map<String, User> allUsers = new TreeMap<String,User>(); //Key: Username, Value: User 
-	private static final Collection <Product> catalog = new TreeSet(); //TODO Add comparator for products by name and users by email
 	private IUser currentUser;
 	private int money;
 	
@@ -33,17 +38,42 @@ public final class WebSite {
 	}
 	
 	//Methods
+	public Product findProductByName() {
+		Product product = null;
+		String name = Product.inputProductName();
+		
+		for(Product pr : CATALOG) {
+			if(pr.getName().equalsIgnoreCase(name)) {
+				product = pr;
+				break;
+			}
+		}
+		return product;
+	}
+	
+	public Product findProductById() {
+		Product product = null;
+		System.out.print("Please enter the product's ID: ");
+		int id = Product.inputProductId();
+		
+		for (Product pr : CATALOG) {
+			if(pr.getId() == id) {
+				product = pr;
+				break;
+			}
+		}
+		return product;
+	}
 	
 	public boolean checkUserName(String username) {
-		if(!this.allUsers.containsKey(username)) {
-			System.out.printf("There is no user named %s in the %s user database.%n", username, this.name);
+		if(!this.ALL_USERS.containsKey(username)) {
 			return false;
 		}
 		return true;
 	};
 	
 	public boolean checkUserPassword(String username, String password) {
-		if(!this.allUsers.get(username).getPassword().equals(password)) {
+		if(!this.ALL_USERS.get(username).getPassword().equals(password)) {
 			System.out.println("You've entered a wrong password.");
 			return false;
 		}
@@ -51,7 +81,8 @@ public final class WebSite {
 	}
 	
 	public void loginUser(String username) {
-		setCurrentUser(this.allUsers.get(username));
+		//Logs in the user based on his username
+		setCurrentUser(this.ALL_USERS.get(username));
 		System.out.printf("User: %s has signed in at %s%n", this.currentUser.getUsername(), LocalTime.now());
 		this.currentUser.printMainMenu();
 	}
@@ -70,6 +101,12 @@ public final class WebSite {
 		System.exit(1);
 	}
 	
+	public void registerUser(IUser newUser) {
+		//Add user to collection
+		WebSite.ALL_USERS.put(newUser.getUsername(), newUser);
+		//Sign in the new user
+		this.loginUser(newUser.getUsername());
+	}
 	
 	private static IUser getGuest(){
 		if(WebSite.guest == null){
@@ -98,22 +135,26 @@ public final class WebSite {
 	
 	//Getters
 	public String getName() {
-		return this.name;
+		return this.SITE_NAME;
 	}
 	
 	private IUser getCurrentUser() {
 		return this.currentUser;
 	}
 	
+	public static Collection<Product> getCatalog() {
+		return Collections.unmodifiableCollection(WebSite.CATALOG);
+	}
+	
 	public void addProductToCatalog(Product product) {
 		if(product != null){
-			catalog.add(product);
+			CATALOG.add(product);
 		}
 	}
 	
 	public void removeProductFromCatalog(Product product) {
 		if(product != null){
-			catalog.remove(product);
+			CATALOG.remove(product);
 		}
 	}
 	
@@ -126,6 +167,7 @@ public final class WebSite {
 	//Static block for filling collections with initial data
 	static {
 		HashSet<User> initalUsers = new HashSet<>();
+		TreeSet<Product> initialProducts = new TreeSet<>(Product.compareByNameAndReleaseDate);
 		try {
 			//Creation of 3 users
 			initalUsers.add(new Consumer("Svetoslav Gekov", "sgekov", "Sgekov123", "svetoslav_gekov@abv.bg"));
@@ -133,10 +175,19 @@ public final class WebSite {
 			initalUsers.add(new Administrator("Admin Adminov", "admin", "Admin123", "admin@filmoteka.bg"));
 			
 			for (User user : initalUsers) {
-				WebSite.allUsers.put(user.getUsername(), user);
+				WebSite.ALL_USERS.put(user.getUsername(), user);
 			}
 			
 			//TODO Creation of X products
+			initialProducts.add(new Movie("Titanic", LocalDate.parse("1999-10-10"), "PG-13", 123, 5d, 10d));
+			initialProducts.add(new Movie("Terminator", LocalDate.parse("2000-05-05"), "PG-16", 99, 10d, 15d));
+			initialProducts.add(new Movie("Jumanji", LocalDate.parse("1998-11-10"), "PG-12", 89, 5d, 10d));
+			
+			initialProducts.add(new TVSeries("The Simpsons", LocalDate.parse("2001-02-10"), "PG-13", 22, 2d, 7d));
+			initialProducts.add(new TVSeries("ER", LocalDate.parse("1995-01-10"), "PG-12", 45, 5d, 10d));
+			initialProducts.add(new TVSeries("The Mentalist", LocalDate.parse("2007-03-14"), "PG-12", 42, 6d, 10d));
+			
+			WebSite.CATALOG.addAll(initialProducts);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -144,5 +195,4 @@ public final class WebSite {
 		
 	}
 
-	
 }
