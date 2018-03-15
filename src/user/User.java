@@ -37,7 +37,7 @@ public abstract class User implements IUser {
 	public Product searchForProduct() {
 		Product product = null;
 		System.out.println("\n ========= PRODUCT SEARCH FORM =============");
-		System.out.println("Would you like to search for a product by:\n	1) Identification number;\n	2)Name;\n	3) Return to main menu;");
+		System.out.println("Would you like to search for a product by:\n	1) Identification number;\n	2) Name;\n	3) Return to main menu;");
 		System.out.print("Please select a search option: ");
 		//Get input for option
 		int option = Supp.getPositiveNumber();

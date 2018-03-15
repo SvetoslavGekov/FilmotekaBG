@@ -133,11 +133,12 @@ public final class WebSite {
 	}
 	
 	//Getters
+	
 	public String getName() {
 		return this.SITE_NAME;
 	}
 	
-	private IUser getCurrentUser() {
+	public IUser getCurrentUser() {
 		return this.currentUser;
 	}
 	
