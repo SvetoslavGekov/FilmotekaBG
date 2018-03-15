@@ -44,7 +44,7 @@ public abstract class User implements IUser {
 		switch (option) {
 			case 1: product = this.getFilmoteka().findProductById(); break;
 			case 2: product = this.getFilmoteka().findProductByName(); break;
-			case 3: this.printMainMenu(); break;
+			case 3: break;
 		default:
 			System.out.println("You've chosen an invalid option for this menu. Please try again.");
 			return searchForProduct();
@@ -63,15 +63,15 @@ public abstract class User implements IUser {
 		//Attempt to sign in
 		while(signInAttempts < WebSite.MAX_SIGN_IN_ATTEMPTS) {
 			//Iterate sign in attempts
+			System.out.println("\nSign in attempts remaining: " + (WebSite.MAX_SIGN_IN_ATTEMPTS - signInAttempts));
 			signInAttempts++;
-			
 			System.out.print("Please enter your username: ");
-			username = Supp.inputString();
+			username = Supp.inputValidString();
 			
 			//Check if name is present in the users collection
 			if(this.getFilmoteka().checkUserName(username)) {
 				System.out.print("Please enter your password: ");
-				password = Supp.inputString();
+				password = Supp.inputValidString();
 				
 				//Check if password is correct
 				if(this.getFilmoteka().checkUserPassword(username, password)) {
@@ -85,7 +85,7 @@ public abstract class User implements IUser {
 		}
 		if(signInAttempts >= WebSite.MAX_SIGN_IN_ATTEMPTS) {
 			System.out.println("\nYou've expended all your attempts at logging in. Redirecting to main menu.");
-			this.printMainMenu();
+//			this.printMainMenu();
 		}
 	}
 	

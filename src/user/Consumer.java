@@ -52,15 +52,15 @@ public class Consumer extends User implements IConsumer {
 		catch (InvalidUserInfoException| DatabaseConflictException e) {
 			//User recieves an error message for his input and is prompted to either try again or go back to the main menu; 
 			System.out.println(e.getMessage());
-			System.out.print("\nWould you like to attempt to register again?\n 1) Continue registration;\n 2) Exit to main menu."
-					+ "\nPlease enter your choice: ");
+			System.out.print("\nWould you like to attempt to register again?\n	1) Continue registration;\n	2) Exit to main menu."
+					+ "\n	Please enter your choice: ");
 			int option = Supp.getPositiveNumber();
 			switch (option) {
 			case 1: this.createAccount(); break;
-			case 2: this.printMainMenu(); break;
+			case 2: break;//this.printMainMenu(); break;
 			default:
 				System.out.println("You've entered an invalid option for this menu. Redirecting to the main menu");
-				this.printMainMenu();
+//				this.printMainMenu();
 				break;
 			}
 		}
@@ -69,7 +69,7 @@ public class Consumer extends User implements IConsumer {
 	private String inputUsername() throws InvalidUserInfoException, DatabaseConflictException{
 		//User inputs username
 		System.out.print("Please enter your username: ");
-		String username = Supp.inputString();
+		String username = Supp.inputValidString();
 		
 		//Check if username is valid
 		if(!Supp.validUsername(username)) {
@@ -88,7 +88,7 @@ public class Consumer extends User implements IConsumer {
 	private String inputUserEmail() throws InvalidUserInfoException{
 		//User inputs email + makes it lowercase
 		System.out.print("Please enter your email: ");
-		String email = Supp.inputString().toLowerCase();
+		String email = Supp.inputValidString().toLowerCase();
 		
 		//Check if email is valid
 		if(!Supp.validEmail(email)) {
@@ -100,8 +100,8 @@ public class Consumer extends User implements IConsumer {
 	
 	private String inputUserNames() throws InvalidUserInfoException{
 		//User inputs real names
-		System.out.println("Please enter your names:");
-		String names = Supp.inputString();
+		System.out.print("Please enter your names:");
+		String names = Supp.inputValidString();
 		
 		//Check if names is valid string
 		if(!Supp.validStr(names)) {
@@ -113,7 +113,7 @@ public class Consumer extends User implements IConsumer {
 	private String inputUserPassword() throws InvalidUserInfoException{
 		//User inputs password
 		System.out.print("Please enter your password: ");
-		String password = Supp.inputString();
+		String password = Supp.inputValidString();
 		
 		//Check if password is valid
 		if(!Supp.validPassword(password)) {
@@ -147,14 +147,14 @@ public class Consumer extends User implements IConsumer {
 		case 2: this.createAccount(); break;
 		case 3: 
 			this.logout();
-			this.printMainMenu();
+//			this.printMainMenu();
 			break;
 		case 4: this.myAccountMenu();break;
 		case 5: this.browseCatalog();break;
 		case 99: this.exitApplication(); break;
 		default: 
-			System.out.println("You've chosen an invalid option for this menu. Please try again.");
-			selectFromMainMenu();
+			System.out.println("You've chosen an invalid option for this menu.");
+//			selectFromMainMenu();
 			break;
 		}
 	}

@@ -12,8 +12,6 @@ public interface IAdministrator {
 	
 	void removeProductFromCatalog(Product product);
 	
-	void editProduct(Product product);
-	
 	void printProductsManagementMenu();
 	
 	void selectFromProductsManagementMenu();

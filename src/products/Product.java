@@ -2,6 +2,8 @@ package products;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,6 +11,7 @@ import java.util.Set;
 import customexceptions.DatabaseConflictException;
 import customexceptions.InvalidProductInfoException;
 import customexceptions.InvalidUserInfoException;
+import demo.WebSite;
 import products.Product.ProductType;
 import validation.Supp;
 
@@ -32,11 +35,11 @@ public abstract class Product {
 	
 	private int id;
 	private String name;
-	private String description;
+	private String description = "";
 	private ProductType type;
-	private String trailer; //Link to trailer
-	private Set<String> writers = new HashSet<>();
-	private Set<String> actors = new HashSet<>();
+	private String trailer = ""; //Link to trailer
+	private String writers = "";
+	private String actors = "";
 	private LocalDate releaseDate;
 	private double viewerRating;
 	private int totalVotes; //TODO 1 user should vote only once per product;
@@ -59,10 +62,205 @@ public abstract class Product {
 	}
 	
 	//Methods
+	
+	protected void printFullInfo() {
+		System.out.println("======= PRODUCT INFORMATION ======");
+		System.out.printf("Identification number: %d%n", this.id);
+		System.out.printf("Name: %s%n", this.name);
+		System.out.printf("Description: %s%n", this.description);
+		System.out.printf("Type: %s%n", this.type);
+		System.out.printf("Trailer link: %s%n", this.trailer);
+		System.out.printf("Writers: %s%n", this.writers);
+		System.out.printf("Actors: %s%n", this.actors);
+		System.out.printf("Viewer rating: %.2f (Total votes: %d)%n", this.viewerRating, this.totalVotes);
+		System.out.printf("PG Rating: %s%n", this.pgRating);
+		System.out.printf("Duration: %d%n", this.duration);
+		System.out.printf("Genres: %s%n", this.genres);
+		System.out.printf("Rent cost: %.2f%n", this.rentCost);
+		System.out.printf("Price: %.2f%n", this.buyCost);
+	}
+	
 	@Override
+	//Acts as simple information for the product
 	public String toString() {
 		return String.format("Name: %s	Type: %s	Release date: %s	PGRating: %s	Duration: %s	RentCost: %.2f	Price: %.2f", 
 				this.name, this.type, this.releaseDate, this.pgRating, this.duration, this.rentCost, this.buyCost);
+	}
+	
+	private void editName() {
+		System.out.println("\nCurrent name: " + this.name);
+		this.setName(Product.inputProductName());
+	}
+	
+	private void editReleaseDate() {
+		System.out.println("\nCurrent release date: " + this.releaseDate);
+		try {
+			this.setReleaseDate(Product.inputProductReleaseDate());
+		}
+		catch (InvalidProductInfoException e) {
+			System.out.println(e.getMessage());
+			this.printProductEditingMenu();
+		}
+	}
+	
+	private void editPGRating() {
+		System.out.println("\nCurrent PG Rating: " + this.pgRating);
+		try {
+			this.setPgRating(Product.inputPGRating());
+		}
+		catch (InvalidProductInfoException e) {
+			System.out.println(e.getMessage());
+			this.printProductEditingMenu();
+		}
+	}
+	
+	private void editDuration() {
+		System.out.println("\nCurrent duration: " + this.duration);
+		try {
+			this.setDuration(Product.inputDuration());
+		}
+		catch (InvalidProductInfoException e) {
+			System.out.println(e.getMessage());
+			this.printProductEditingMenu();
+		}
+	}
+	
+	private void editRentCost() {
+		System.out.println("\nCurrent rent cost: " + this.rentCost);
+		try {
+			this.setRentCost(Product.inputRentCost());
+		}
+		catch (InvalidProductInfoException e) {
+			System.out.println(e.getMessage());
+			this.printProductEditingMenu();
+		}
+	}
+	
+	private void editBuyCost() {
+		System.out.println("\nCurrent price is: " + this.buyCost);
+		try {
+			this.setBuyCost(Product.inputBuyCost());
+		}
+		catch (InvalidProductInfoException e) {
+			System.out.println(e.getMessage());
+			this.printProductEditingMenu();
+		}
+	}
+	
+	private void editGenres() {
+		System.out.println("\nCurrent genres are: " + this.genres);
+		
+		try {
+			//Ask user to add or remove genres
+			System.out.println("Would you like to:\n	1) Add a genre;\n	2) Remove a genre;");
+			System.out.print("Please enter an option to continue: ");
+			int option = Supp.getPositiveNumber();
+			
+			switch (option) {
+			case 1:	this.addGenre(Product.inputGenre()); break;
+			case 2: this.removeGenre(Product.inputGenre()); break;
+			default:
+				System.out.println("Invalid option selected.");
+				this.printProductEditingMenu();
+				break;
+			}
+		}
+		catch (InvalidProductInfoException e) {
+			System.out.println(e.getMessage());
+			Product.printGenres();
+			this.printProductEditingMenu();
+		}
+	}
+	
+	private void editDescription() {
+		System.out.println("\nCurrent description: " + this.description);
+		this.setDescription(Product.inputProductDescription());
+	}
+	
+	private void editTrailer() {
+		System.out.println("\nCurrent trailer link: " + this.trailer);
+		this.setTrailer(Product.inputProductTrailer());
+	}
+	
+	private void editWriters() {
+		System.out.println("\nCurrent writers: " + this.writers);
+		this.setWriters(Product.inputProductWriters());
+	}
+	
+	private void editActors() {
+		System.out.println("\nCurrent actors: " + this.actors);
+		this.setActors(Product.inputProductActors());
+	}
+	
+	
+	protected abstract void selectFromAdvancedEditingMenu(int option);
+	
+	public void selectFromProductEditingMenu() {
+		System.out.print("\nPlease enter one of the options to continue: ");
+		
+		//Get input for the chosen option
+		int option = Supp.getPositiveNumber();
+		switch (option) {
+			case 1: this.printFullInfo(); this.printProductEditingMenu();; break;
+			case 2: this.editName(); this.printProductEditingMenu(); break; 
+			case 3: this.editReleaseDate(); this.printProductEditingMenu();break;
+			case 4: this.editPGRating(); this.printProductEditingMenu(); break;
+			case 5: this.editDuration(); this.printProductEditingMenu(); break;
+			case 6: this.editRentCost(); this.printProductEditingMenu(); break;
+			case 7: this.editBuyCost(); this.printProductEditingMenu(); break;
+			case 8: this.editGenres(); this.printProductEditingMenu(); break;
+			case 9: this.editDescription(); this.printProductEditingMenu(); break;
+			case 10: this.editTrailer(); this.printProductEditingMenu(); break;
+			case 11: this.editWriters(); this.printProductEditingMenu(); break;
+			case 12: this.editActors(); this.printProductEditingMenu(); break;
+			case 99: break;
+		default: 
+			selectFromAdvancedEditingMenu(option);
+			break;
+		}
+	}
+	
+	public void printProductEditingMenu() {
+		System.out.println("\n=============== PRODUCT EDITING MENU =================");
+		System.out.println(this);
+		System.out.println();
+		System.out.println("	99) Back to main menu");
+		System.out.println("	1) View full info");
+		System.out.println("	2) Edit name");
+		System.out.println("	3) Edit release date");
+		System.out.println("	4) Edit PG Rating");
+		System.out.println("	5) Edit duration");
+		System.out.println("	6) Edit rent cost");
+		System.out.println("	7) Edit price");
+		System.out.println("	8) Edit genres");
+		System.out.println("	9) Edit description");
+		System.out.println("	10) Edit trailer");
+		System.out.println("	11) Edit writers");
+		System.out.println("	12) Edit actors");
+	}
+	
+	public static final String inputProductActors() {
+		//User inputs actors (can be empty)
+		System.out.print("Please enter the product's actors: ");
+		return Supp.inputString();
+	}
+	
+	public static final String inputProductWriters() {
+		//User inputs writers (can be empty)
+		System.out.print("Please enter the product's writers: ");
+		return Supp.inputString();
+	}
+	
+	public static final String inputProductTrailer() {
+		//User inputs trailer link (can be empty)
+		System.out.print("Please enter the product's trailer: ");
+		return Supp.inputString();
+	}
+	
+	public static String inputProductDescription() {
+		//User inputs description (can be empty)
+		System.out.print("Please enter the product's description: ");
+		return Supp.inputString();
 	}
 	
 	public static int inputProductId(){
@@ -105,7 +303,7 @@ public abstract class Product {
 	public static String inputPGRating() throws InvalidProductInfoException {
 		//User inputs product pgRating
 		System.out.print("Please enter the product pgRating: ");
-		String pgRating = Supp.inputString();
+		String pgRating = Supp.inputValidString();
 		if(!Supp.validStr(pgRating)) {
 			throw new InvalidProductInfoException("Sorry, you've entered an invalid string for the PG Rating.");
 		}
@@ -115,7 +313,7 @@ public abstract class Product {
 	public static LocalDate inputProductReleaseDate() throws InvalidProductInfoException{
 		//User inputs product release date
 		System.out.print("Please enter the product release date: ");
-		String input = Supp.inputString();
+		String input = Supp.inputValidString();
 		LocalDate releaseDate = null;
 		try {
 			releaseDate = LocalDate.parse(input);
@@ -126,10 +324,36 @@ public abstract class Product {
 		return releaseDate;
 	}
 	
+	private static final Genre getGenreByName(String genreName) {
+		Genre[] genres = Product.Genre.values();
+		for (Genre genre : genres) {
+			if(genre.toString().equalsIgnoreCase(genreName)) {
+				return genre;
+			}
+		}
+		return null;
+	}
+	
+	private static final void printGenres() {
+		System.out.println("The available genres are: ");
+		System.out.println(Arrays.toString(Product.Genre.values()));
+	}
+	
+	private static Genre inputGenre() throws InvalidProductInfoException{
+		//User inputs genre
+		System.out.print("Please enter a desired genre: ");
+		String input = Supp.inputValidString();
+		Genre genre = getGenreByName(input);
+		if(genre == null) {
+			throw new InvalidProductInfoException("You've entered an invalid genre name.");
+		}
+		return genre;
+	}
+	
 	public static String inputProductName(){
 		//User inputs product name
 		System.out.print("Please enter the product name: ");
-		String name = Supp.inputString();
+		String name = Supp.inputValidString();
 		
 		return name;
 	}
@@ -150,9 +374,24 @@ public abstract class Product {
 		return pType;
 	}
 	
+
+	
 	//Setters
-	public static void setCurrentID(int currentID) {
+	
+	private static void setCurrentID(int currentID) {
 		Product.currentID = currentID;
+	}
+	
+	private void removeGenre(Genre genre) {
+		if(genre != null) {
+			this.genres.remove(genre);
+		}
+	}
+	
+	private void addGenre(Genre genre) {
+		if(genre != null) {
+			this.genres.add(genre);
+		}
 	}
 	
 	private void setId() {
@@ -166,7 +405,7 @@ public abstract class Product {
 	}
 
 	private void setDescription(String description) {
-		if(Supp.validStr(description)) {
+		if(description != null) {
 			this.description = description;
 		}
 	}
@@ -178,20 +417,19 @@ public abstract class Product {
 	}
 
 	private void setTrailer(String trailer) {
-		if(Supp.validStr(trailer)) {
+		if(trailer != null) {
 			this.trailer = trailer;
-			
 		}
 	}
 
-	private void setWriters(Set<String> writers) {
-		if(writers != null && !writers.isEmpty() && !writers.contains(null)) {
+	private void setWriters(String writers) {
+		if(writers != null) {
 			this.writers = writers;
 		}
 	}
 
-	private void setActors(Set<String> actors) {
-		if(actors != null && !actors.isEmpty() && !actors.contains(null)) {
+	private void setActors(String actors) {
+		if(actors != null) {
 			this.actors = actors;
 		}
 	}

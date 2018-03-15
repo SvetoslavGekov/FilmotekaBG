@@ -4,6 +4,10 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import com.sun.jmx.snmp.Enumerated;
+
+import products.Product;
+
 public final class Supp {
 	//Fields
 	private static final int MIN_USERNAME_LENGTH = 4;
@@ -70,7 +74,7 @@ public final class Supp {
 	}
 
 	
-	public static final String inputString() {
+	public static final String inputValidString() {
 		Scanner scan = new Scanner(System.in);
 		boolean isValid = false;
 		String input = "";
@@ -82,6 +86,12 @@ public final class Supp {
 			}
 		}while(!isValid);
 		return input;
+	}
+	
+	//The result can be null when using this method
+	public static final String inputString() {
+		Scanner scan = new Scanner(System.in);
+		return scan.nextLine();
 	}
 	
 	public static final int getPositiveNumber() {
@@ -98,7 +108,7 @@ public final class Supp {
 				isValid = true;
 			}
 			else {
-				System.out.println("You've entered an negative integer. Try again.");
+				System.out.println("You've entered a negative integer. Try again.");
 			}
 		}
 		return number;
@@ -120,5 +130,7 @@ public final class Supp {
 		
 		return number;
 	}
+	
+	//TODO PGRating validation
 }
 
