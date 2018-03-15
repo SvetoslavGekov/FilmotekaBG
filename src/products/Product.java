@@ -64,6 +64,7 @@ public abstract class Product {
 	//Methods
 	
 	protected void printFullInfo() {
+		System.out.println("======= PRODUCT INFORMATION ======");
 		System.out.printf("Identification number: %d%n", this.id);
 		System.out.printf("Name: %s%n", this.name);
 		System.out.printf("Description: %s%n", this.description);
