@@ -4,10 +4,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import customexceptions.InvalidProductInfoException;
+import user.IUser;
 import validation.Supp;
 
 public abstract class Product {
@@ -39,8 +42,10 @@ public abstract class Product {
 	private double viewerRating;
 	private int totalVotes; //TODO 1 user should vote only once per product;
 	private String pgRating;
+	private double sumOfUsersRatings;
 	private int duration; //Product duration in minutes
 	private Set<Genre> genres = new HashSet<>();
+	private Map<IUser, Double> raters = new HashMap<>();
 	private double rentCost;
 	private double buyCost;
 	
@@ -505,5 +510,26 @@ public abstract class Product {
 			}
 		};
 	};
+
+	public boolean rate(double rate, IUser user) {
+		if(rate > Product.MAX_RATING){
+			return false;
+		}
+		if(!this.raters.containsKey(user)){
+			this.raters.put(user, rate);
+			this.totalVotes++;
+		}
+		this.raters.replace(user, rate);
+		this.updateRating();
+		return true;
+	}
+	
+	private void updateRating(){
+		double allRate = 0;
+		for (Double rate : this.raters.values()) {
+			allRate += rate;
+		}
+		this.viewerRating = allRate/this.totalVotes;
+	}
 	
 }

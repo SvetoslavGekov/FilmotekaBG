@@ -220,9 +220,11 @@ public class Consumer extends User implements IConsumer {
 		System.out.println("	1) Add To Favourites");
 		System.out.println("	2) Add to Cart");
 		System.out.println("	3) Add to Watchlist");
-		System.out.println("	4) Rate");
-		System.out.println("	5) Full Info");
-		System.out.println("	6) Back To Catalog");
+		System.out.println("	4) Remove from Watchlist");
+		System.out.println("	5) Remove from Favourites");
+		System.out.println("	6) Rate");
+		System.out.println("	7) Full Info");
+		System.out.println("	8) Back To Catalog");
 		System.out.println("	99) Exit Application");
 	}
 	
@@ -235,9 +237,11 @@ public class Consumer extends User implements IConsumer {
 			case 1: this.addToFavourites(product);return true;
 			case 2: this.addToShoppingCart(product); return true;
 			case 3: this.addToWatchList(product); return true;
-			case 4: this.rateProduct(product); return true;
-			case 5:	product.printFullInfo(); return true;
-			case 6:	return false;
+			case 4: this.removeFromWatchList(product); return true; 
+			case 5: this.removeFromFavourites(product); return true; 
+			case 6:	this.rateProduct(product); return true;
+			case 7:	product.printFullInfo(); return true;
+			case 8:	return false;
 			case 99: this.exitApplication();
 		default: 
 			System.out.println("You've chosen an invalid option for this menu.");
@@ -246,7 +250,10 @@ public class Consumer extends User implements IConsumer {
 	}
 
 	private void rateProduct(Product product) {
-		
+		do{
+			System.out.print("\nEnter rate for this product(1..10): ");
+
+		}while(!product.rate((double)Supp.getPositiveNumber(), this));
 	}
 
 
@@ -500,7 +507,11 @@ public class Consumer extends User implements IConsumer {
 	
 	public void removeFromWatchList(Product product){
 		if(product != null){
-			watchList.remove(product);
+			if(watchList.remove(product)){
+				System.out.println("\nSuccessfully removed product from your Watchlist!");
+				return;
+			}
+			System.out.println("\nThis product isn't exists in your Watchlist!");
 		}
 	}
 	
@@ -512,6 +523,7 @@ public class Consumer extends User implements IConsumer {
 			int option = 0;
 			
 			do{
+				System.out.print("Choice: ");
 				option = Supp.getPositiveNumber();
 			}while(option > 2);
 			
