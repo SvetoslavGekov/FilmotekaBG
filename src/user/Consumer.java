@@ -265,7 +265,8 @@ public class Consumer extends User implements IConsumer {
 		System.out.println("	3) View Favourites");
 		System.out.println("	4) View Products");
 		System.out.println("	5) Go To Cart");
-		System.out.println("	6) Back To Main Menu");
+		System.out.println("	6) View Order History");
+		System.out.println("	7) Back To Main Menu");
 		System.out.println("	99) Exit Application");
 //		selectFromMyAccountMenu();
 	}
@@ -296,7 +297,8 @@ public class Consumer extends User implements IConsumer {
 					}
 				} 
 				return true;
-			case 6: return false;//this.printMainMenu();break;
+			case 6: this.viewOrderHistory(); return true;
+			case 7: return false;
 			case 99: this.exitApplication(); return true;
 		default: 
 			System.out.println("You've chosen an invalid option for this menu. Please try again.");
@@ -320,19 +322,28 @@ public class Consumer extends User implements IConsumer {
 	
 	private void buyAllProducts(){
 		 double moneyForProductsInCart = this.shoppingCart.getAllProductsPrice();
-			if(this.shoppingCart.buyProductsInCart(this.money)){
-				this.money -= moneyForProductsInCart;
-				//User buys products from cart
-				for(Entry<Product, Boolean> entry: this.shoppingCart.getAllProducts().entrySet()){
-					if(entry.getValue()){
-						this.products.put(entry.getKey(), null);
-					}
-					else{
-						this.products.put(entry.getKey(), LocalDate.now().plusDays(Product.RENT_DURATION));
-					}
+		 //If user has money
+		if(this.shoppingCart.buyProductsInCart(this.money)){
+			this.money -= moneyForProductsInCart;
+			//User gets products from cart
+			for(Entry<Product, Boolean> entry: this.shoppingCart.getAllProducts().entrySet()){
+				if(entry.getValue()){
+					this.products.put(entry.getKey(), null);
 				}
-				this.shoppingCart.clearShoppingCart();
+				else{
+					this.products.put(entry.getKey(), LocalDate.now().plusDays(Product.RENT_DURATION));
+				}
 			}
+			
+			//A new order is added to his order history
+			//Create order
+			Order order = new Order(this, new ShoppingCart(this.shoppingCart));
+			this.ordersHistory.add(order);
+			//Add order to history
+					
+			//User clears his shopping cart
+			this.shoppingCart.clearShoppingCart();
+		}
 	}
 	
 	private boolean selectFromGoToCartMenu() {
@@ -366,6 +377,14 @@ public class Consumer extends User implements IConsumer {
 		}
 	}
 
+	@Override
+	public void viewOrderHistory() {
+		System.out.println("\n========= ORDERS HISTORY ========");
+		for (Order order : this.ordersHistory) {
+			order.printInfo();
+		}
+	}
+	
 	private void showFavourites() {
 		System.out.println("\n\nMY FAVOURITES:");
 		
@@ -403,11 +422,6 @@ public class Consumer extends User implements IConsumer {
 		System.out.println("	4) Edit Phone");
 		System.out.println("	5) Back To My Account");
 		System.out.println("	99) Exit Application");
-//		try {
-//			this.selectFromEditProfileMenu();
-//		} catch (InvalidUserInfoException e) {
-//			System.out.println(e.getMessage());
-//		}
 	}
 	
 	private void editNames() {
