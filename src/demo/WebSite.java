@@ -36,6 +36,13 @@ public final class WebSite {
 	}
 	
 	//Methods
+	public void notifyProductDeleters(Product pr) {
+		//Notify each user to delete the reference from their
+		for (IUser user : ALL_USERS.values()) {
+			user.deleteProductFromCollections(pr);
+		}
+	}
+	
 	public Product findProductByName() {
 		Product product = null;
 		String name = Product.inputProductName();
