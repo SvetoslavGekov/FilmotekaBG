@@ -4,10 +4,6 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-import com.sun.jmx.snmp.Enumerated;
-
-import products.Product;
-
 public final class Supp {
 	//Fields
 	private static final int MIN_USERNAME_LENGTH = 4;
@@ -39,7 +35,6 @@ public final class Supp {
 		}
 		
 		//Check if each symbol is a lowercase letter
-		boolean areOnlyLowercase = true;
 		for(int i = 0; i < username.length(); i++) {
 			char ch = username.charAt(i);
 			if(!Character.isLetter(ch)) {

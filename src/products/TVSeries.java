@@ -2,9 +2,6 @@ package products;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.Map;
-import java.util.TreeMap;
-
 import customexceptions.InvalidProductInfoException;
 import validation.Supp;
 

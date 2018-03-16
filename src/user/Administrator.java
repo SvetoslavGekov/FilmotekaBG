@@ -2,10 +2,8 @@ package user;
 
 import java.time.LocalDate;
 
-import customexceptions.InvalidProductInfoException;
 import products.Movie;
 import products.Product;
-import products.Product.ProductType;
 import products.TVSeries;
 import validation.Supp;
 
@@ -91,9 +89,6 @@ public class Administrator extends User implements IAdministrator {
 			//Add product to catalog and return user to management menu
 			this.addProductToCatalog(product);
 			
-			for (Product pr : this.getFilmoteka().getCatalog()) {
-				System.out.println(pr);
-			}
 			this.printProductsManagementMenu();
 		}
 		catch (Exception e) {

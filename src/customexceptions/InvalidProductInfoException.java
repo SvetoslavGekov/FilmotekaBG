@@ -1,9 +1,5 @@
 package customexceptions;
 
-import java.time.LocalDate;
-
-import products.Product;
-
 public final class InvalidProductInfoException extends Exception {
 
 	public InvalidProductInfoException() {

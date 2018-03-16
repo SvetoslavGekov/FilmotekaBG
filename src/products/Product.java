@@ -2,17 +2,12 @@ package products;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
-import customexceptions.DatabaseConflictException;
 import customexceptions.InvalidProductInfoException;
-import customexceptions.InvalidUserInfoException;
-import demo.WebSite;
-import products.Product.ProductType;
 import validation.Supp;
 
 public abstract class Product {
@@ -461,12 +456,6 @@ public abstract class Product {
 	private void setDuration(int duration) {
 		if(duration > 0) {
 			this.duration = duration;
-		}
-	}
-
-	private void setGenres(Set<Genre> genres) {
-		if(genres != null && !genres.isEmpty() && !genres.contains(null)) {
-			this.genres = genres;
 		}
 	}
 

@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import customexceptions.InvalidProductInfoException;
 import products.Movie;
 import products.Product;
 import products.TVSeries;
@@ -18,7 +17,6 @@ import user.Administrator;
 import user.Consumer;
 import user.IUser;
 import user.User;
-import validation.Supp;
 
 public final class WebSite {
 	
@@ -26,7 +24,7 @@ public final class WebSite {
 	public static final int MAX_SIGN_IN_ATTEMPTS = 3;
 	private static final String SITE_NAME = "Filmoteka.bg";
 	private static final Map<String, IUser> ALL_USERS = new TreeMap<String,IUser>(); //Key: Username, Value: User 
-	private static final Collection <Product> CATALOG = new TreeSet(Product.compareByNameAndReleaseDate);
+	private static final Collection <Product> CATALOG = new TreeSet<Product>(Product.compareByNameAndReleaseDate);
 	private static WebSite instance;
 	private static IUser guest;
 	private IUser currentUser;
@@ -65,14 +63,14 @@ public final class WebSite {
 	}
 	
 	public boolean checkUserName(String username) {
-		if(!this.ALL_USERS.containsKey(username)) {
+		if(!WebSite.ALL_USERS.containsKey(username)) {
 			return false;
 		}
 		return true;
 	};
 	
 	public boolean checkUserPassword(String username, String password) {
-		if(!this.ALL_USERS.get(username).getPassword().equals(password)) {
+		if(!WebSite.ALL_USERS.get(username).getPassword().equals(password)) {
 			System.out.println("You've entered a wrong password.");
 			return false;
 		}
@@ -135,7 +133,7 @@ public final class WebSite {
 	//Getters
 	
 	public String getName() {
-		return this.SITE_NAME;
+		return WebSite.SITE_NAME;
 	}
 	
 	public IUser getCurrentUser() {
