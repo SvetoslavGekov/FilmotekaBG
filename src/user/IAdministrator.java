@@ -8,6 +8,8 @@ public interface IAdministrator {
 
 	void editProductInfo();
 	
+	void deleteProduct();
+	
 	void addProductToCatalog(Product product);
 	
 	void removeProductFromCatalog(Product product);

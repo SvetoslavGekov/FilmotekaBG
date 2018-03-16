@@ -36,11 +36,33 @@ public class Administrator extends User implements IAdministrator {
 		switch(option) {
 			case 1: this.createNewProduct();return true;
 			case 2: this.editProductInfo();return true;
-			case 3: return true;//TODO delete product
+			case 3: this.deleteProduct(); return true;//TODO delete product
 			case 4: return false;
 		default:
 			System.out.println("You've chosen an invalid option for this menu. Please try again.");
 			return true;
+		}
+	}
+	
+	@Override
+	public void deleteProduct() {
+		//User searches for a product
+		System.out.println("\n =========== PRODUCT DELETION FORM =========");
+		System.out.println("To delete a product please select one from the catalog.");
+		
+		//Admin attempts to select a product from the catalog
+		Product pr = this.searchForProduct();
+		
+		//If we've returned a product --> prompt to delete
+		if(pr != null) {
+			System.out.println(pr);
+			System.out.println("Would you like to delete this product?\n	1) Yes;\n	2) No;");
+			System.out.print("Please enter your option: ");
+			int option = Supp.getPositiveNumber();
+			switch (option) {
+				case 1: this.removeProductFromCatalog(pr);	break;
+			default: break;
+			}
 		}
 	}
 	
@@ -52,11 +74,8 @@ public class Administrator extends User implements IAdministrator {
 		//Admin attempts to select a product from the catalog
 		Product pr = this.searchForProduct();
 		
-		//If there is no such product --> return to main menu
-		if(pr == null) {
-			System.out.println("No product matches your search criteria. Redirecting to product management menu.");
-		}
-		else {
+		//If we've returned a product --> work with it
+		if(pr != null) {
 			while(true) {
 				pr.printProductEditingMenu();
 				if(!pr.selectFromProductEditingMenu()) {
@@ -153,12 +172,17 @@ public class Administrator extends User implements IAdministrator {
 			this.getFilmoteka().addProductToCatalog(product);
 		}
 	}
-
+	
 	@Override
 	public void removeProductFromCatalog(Product product) {
 		if(product != null){
 			this.getFilmoteka().removeProductFromCatalog(product);
+			this.getFilmoteka().notifyProductDeleters(product);
 		}
+	}
+
+	@Override
+	public void deleteProductFromCollections(Product pr) {
 	}
 
 }

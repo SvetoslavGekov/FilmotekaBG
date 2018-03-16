@@ -14,7 +14,7 @@ public abstract class User implements IUser {
 	private String username;
 	private String password;
 	private String email;
-	private String phone;
+	private String phone = "";
 	private LocalDate registrationDate;
 	private LocalDateTime lastLogin;
 
@@ -30,7 +30,7 @@ public abstract class User implements IUser {
 	//Methods
 	@Override
 	public String toString() {
-		return String.format("User: %s	Names: %s	Email: %s", this.username, this.names, this.email);
+		return String.format("User: %s	Names: %s	Email: %s	Phone number: %s", this.username, this.names, this.email, this.phone);
 	}
 	
 	@Override
@@ -159,5 +159,9 @@ public abstract class User implements IUser {
 	
 	public String getPassword() {
 		return this.password;
+	}
+	
+	public String getPhone() {
+		return this.phone;
 	}
 }

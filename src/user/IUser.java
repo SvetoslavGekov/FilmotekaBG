@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 import products.Product;
 
-public interface IUser {
+public interface IUser extends IProductDeleter {
 	
 	Product searchForProduct();
 	

@@ -32,6 +32,15 @@ public class Consumer extends User implements IConsumer {
 	}
 	
 	//Methods
+	
+	@Override
+	public void deleteProductFromCollections(Product pr) {
+		//User receives notification from website to delete product from their collections
+		this.favourites.remove(pr);
+		this.watchList.remove(pr);
+		this.products.remove(pr);
+	}
+	
 	@Override
 	public void createAccount() {
 		System.out.printf("\n============ %s REGISTRATION FORM ===============%n%n", this.getFilmoteka().getName().toUpperCase());
@@ -96,6 +105,19 @@ public class Consumer extends User implements IConsumer {
 					+ "myeMail@myMailSite.com");
 		}
 		return email;
+	}
+	
+	private String inputUserPhone() throws InvalidUserInfoException{
+		//User inputs phone
+		System.out.print("Please enter your phone number: ");
+		String phone = Supp.inputValidString();
+		
+		//Check if phone is valid
+		if(!Supp.validPhoneNumber(phone)) {
+			throw new InvalidUserInfoException("Sorry, you've entered an invalid phone numbers.\n"
+					+ "Phone numbers should have 10 digits.");
+		}
+		return phone;
 	}
 	
 	private String inputUserNames() throws InvalidUserInfoException{
@@ -371,7 +393,8 @@ public class Consumer extends User implements IConsumer {
 		System.out.println("	1) Edit Name");
 		System.out.println("	2) Edit Password");
 		System.out.println("	3) Edit Email");
-		System.out.println("	4) Back To My Account");
+		System.out.println("	4) Edit Phone");
+		System.out.println("	5) Back To My Account");
 		System.out.println("	99) Exit Application");
 //		try {
 //			this.selectFromEditProfileMenu();
@@ -399,7 +422,8 @@ public class Consumer extends User implements IConsumer {
 			case 1: this.editNames(); return true;
 			case 2: this.changePassword(); return true; 
 			case 3: this.editEmail(); return true;
-			case 4: return false;
+			case 4: this.editPhone(); return true;
+			case 5: return false;
 			case 99: this.exitApplication();
 		default: 
 			System.out.println("You've chosen an invalid option for this menu. Please try again.");
@@ -409,31 +433,48 @@ public class Consumer extends User implements IConsumer {
 //		printEditProfileMenu();
 	}
 	
+	private void editPhone() {
+		System.out.println("\nCurrent phone is " + this.getPhone());
+		try {
+			this.setPhone(inputUserPhone());
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	} 
+	
 	private boolean editEmail(){
-		System.out.println("\nEnter your new email: ");
-		if(!this.setEmail(Supp.inputString())){
-			System.out.println("\nUnsuccessfully changed email!");
+		System.out.println("\nCurrent email is " + this.getEmail());
+		
+		try {
+			this.setEmail(inputUserEmail());
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+			System.out.println("\nEmail change not successfull!");
 			return false;
 		}
+		
 		System.out.println("\nSuccessfully changed email!");
 		return true;
 	}
 	
 	private void changePassword(){
-		System.out.println("\nPlease, enter your old password: ");
+		System.out.print("\nPlease, enter your old password: ");
 		String password = Supp.inputString();
 		
 		if(this.getFilmoteka().checkUserPassword(this.getUsername(), password)){
-			System.out.println("\nEnter your new password: ");
-			String newPassword = Supp.inputString();
 			
-			if(this.setPassword(newPassword)){
-				System.out.println("\nSuccessfully changed password!");
-				return;
+			try {
+				this.setPassword(inputUserPassword());
+				System.out.println("\nPassword change successfull!");
 			}
-			System.out.println("\nUnsuccessfully changed password!");
+			catch (InvalidUserInfoException e) {
+				System.out.println(e.getMessage());
+				System.out.println("\nPassword change not successfull!");
+			}
 		}
-		this.printEditProfileMenu();
+//		this.printEditProfileMenu();
 	}
 
 	public void addToFavourites(Product product){

@@ -113,8 +113,10 @@ User functionality:
 	+ Logout;
 	+ Registration;
 	---> Reset password (Forgotten password);
-	- Edit User Profile;
+	+ Edit User Profile - names, phones, email, password;
 	+ Add product from Admin;
+	+ Edit product info from Admin;
+	+ Delete product from Admin;
 	+ Select products by ID or Name;
 	+ Browse catalog;
 	- Add items to cart;
