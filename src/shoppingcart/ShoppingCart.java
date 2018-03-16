@@ -1,5 +1,6 @@
 package shoppingcart;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -64,7 +65,6 @@ public final class ShoppingCart {
 		}
 		if(money >= getAllProductsPrice()){
 			System.out.println("\nSuccessfully buy/rented products from cart!");
-			clearShoppingCart();
 			return true;
 		}
 		System.out.println("\nUnsuccessfully buy/rented products from cart! You have not enough money. Try to remove samo of the products.");
@@ -84,5 +84,9 @@ public final class ShoppingCart {
 			return true;
 		}
 		return false;
+	}
+	
+	public Map<Product, Boolean> getAllProducts(){
+		return Collections.unmodifiableMap(this.products);
 	}
 }

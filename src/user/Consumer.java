@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeSet;
 
 import customexceptions.DatabaseConflictException;
@@ -23,7 +24,7 @@ public class Consumer extends User implements IConsumer {
 	private Map<Product, LocalDate> products = new HashMap<>();
 	private Collection <Order> ordersHistory = new TreeSet<>();;
 	private ShoppingCart shoppingCart = new ShoppingCart();
-	private double money;
+	private double money = 250;
 	
 	
 	//Constructor
@@ -218,7 +219,7 @@ public class Consumer extends User implements IConsumer {
 		System.out.println(product+"\n");
 		System.out.println("	1) Add To Favourites");
 		System.out.println("	2) Add to Cart");
-		System.out.println("	3) Rent");
+		System.out.println("	3) Add to Watchlist");
 		System.out.println("	4) Rate");
 		System.out.println("	5) Full Info");
 		System.out.println("	6) Back To Catalog");
@@ -231,13 +232,13 @@ public class Consumer extends User implements IConsumer {
 		//Get input for the chosen option
 		int option = Supp.getPositiveNumber();
 		switch (option) {
-		case 1: this.addToFavourites(product);return true;
-		case 2: this.addToShoppingCart(product); return true;
-		case 3: this.rentProduct(product); return true;
-		case 4: this.rateProduct(product); return true;
-		case 5:	product.printFullInfo(); return true;
-		case 6:	return false;
-		case 99: this.exitApplication();
+			case 1: this.addToFavourites(product);return true;
+			case 2: this.addToShoppingCart(product); return true;
+			case 3: this.addToWatchList(product); return true;
+			case 4: this.rateProduct(product); return true;
+			case 5:	product.printFullInfo(); return true;
+			case 6:	return false;
+			case 99: this.exitApplication();
 		default: 
 			System.out.println("You've chosen an invalid option for this menu.");
 			return true;
@@ -246,19 +247,8 @@ public class Consumer extends User implements IConsumer {
 
 	private void rateProduct(Product product) {
 		
-		
-		
 	}
 
-	private void rentProduct(Product product) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void buyProduct(Product product) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	private void printMyAccountMenu() {
 		System.out.println("\n===================  MY ACCOUNT  ===================\n");
@@ -325,6 +315,16 @@ public class Consumer extends User implements IConsumer {
 		 double moneyForProductsInCart = this.shoppingCart.getAllProductsPrice();
 			if(this.shoppingCart.buyProductsInCart(this.money)){
 				this.money -= moneyForProductsInCart;
+				//User buys products from cart
+				for(Entry<Product, Boolean> entry: this.shoppingCart.getAllProducts().entrySet()){
+					if(entry.getValue()){
+						this.products.put(entry.getKey(), null);
+					}
+					else{
+						this.products.put(entry.getKey(), LocalDate.now().plusDays(Product.RENT_DURATION));
+					}
+				}
+				this.shoppingCart.clearShoppingCart();
 			}
 	}
 	
@@ -493,6 +493,7 @@ public class Consumer extends User implements IConsumer {
 	
 	public void addToWatchList(Product product){
 		if(product != null){
+			System.out.println("\nSuccessfully added product to your Watchlist!");
 			watchList.add(product);
 		}
 	}
@@ -507,7 +508,7 @@ public class Consumer extends User implements IConsumer {
 		if(product != null){
 			
 			boolean buy = false;
-			System.out.println("\nSelect:\n\t1) Buy\n\t2)Rent");
+			System.out.println("\nSelect:\n\t1) Buy\n\t2) Rent");
 			int option = 0;
 			
 			do{

@@ -25,7 +25,7 @@ public abstract class Product {
 	
 	//Fields
 	private static final double MAX_RATING = 10.0d; //Maximum rating that can be given to the product 
-	private static final int RENT_DURATION = 7;
+	public static final int RENT_DURATION = 7;
 	private static int currentID = 1;
 	
 	private int id;
