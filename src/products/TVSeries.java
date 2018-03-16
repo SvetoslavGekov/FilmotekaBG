@@ -18,7 +18,7 @@ public final class TVSeries extends Product {
 	}
 
 	//Methods
-	protected void printFullInfo() {
+	public void printFullInfo() {
 		super.printFullInfo();
 		System.out.printf("Finished airing: %s%n", (this.finishedAiring != null) ? this.finishedAiring : " ");
 		System.out.printf("Total seasons: %d%n", this.totalSeasons);

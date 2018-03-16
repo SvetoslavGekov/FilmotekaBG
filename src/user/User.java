@@ -46,10 +46,12 @@ public abstract class User implements IUser {
 			case 2: product = this.getFilmoteka().findProductByName(); break;
 			case 3: break;
 		default:
-			System.out.println("You've chosen an invalid option for this menu. Please try again.");
+			System.out.println("\nYou've chosen an invalid option for this menu. Please try again.");
 			return searchForProduct();
 		}
-		
+		if(product == null && option != 3){
+			System.out.println("\n\nNo product matches your search criteria.");
+		}
 		return product;
 	}
 	

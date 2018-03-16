@@ -17,7 +17,7 @@ public final class Movie extends Product {
 	//Methods
 	
 	@Override
-	protected void printFullInfo() {
+	public void printFullInfo() {
 		super.printFullInfo();
 		System.out.printf("Director: %s%n", this.director);
 	}

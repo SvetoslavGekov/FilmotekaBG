@@ -41,7 +41,7 @@ public final class ShoppingCart {
 			else{
 				System.out.println("( RENT )");
 			}
-			entry.getKey();
+			System.out.println(entry.getKey());
 		}
 	}
 

@@ -157,7 +157,13 @@ public class Consumer extends User implements IConsumer {
 				}	
 			}
 			break;
-		case 5: this.browseCatalog();break;
+		case 5: 
+				while(true){
+					if(!this.browseCatalog()){
+						break;
+					}
+				}
+				break;
 		case 99: this.exitApplication(); break;
 		default: 
 			System.out.println("You've chosen an invalid option for this menu.");
@@ -166,13 +172,70 @@ public class Consumer extends User implements IConsumer {
 		}
 	}
 	
-	private void browseCatalog() {
+	private boolean browseCatalog() {
 		System.out.println("\n\n============================ CATALOG ============================\n");
 		for(Product product: WebSite.getCatalog()){
 			System.out.println(product);
 		}
 		Product product = this.searchForProduct();
-		//TODO Meke Consumer Favourite/Rate/Add to Cart/Buy if not null
+		
+		if(product != null){
+			while(true){
+				this.printOptionsForProduct(product);
+				if(!selectFromOptionsForProduct(product)){
+					break;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	private void printOptionsForProduct(Product product){
+		System.out.println("\n\n===========================  CHOSEN PRODUCT  ===========================\n");
+		System.out.println(product+"\n");
+		System.out.println("	1) Add To Favourites");
+		System.out.println("	2) Add to Cart");
+		System.out.println("	3) Rent");
+		System.out.println("	4) Rate");
+		System.out.println("	5) Full Info");
+		System.out.println("	6) Back To Catalog");
+		System.out.println("	99) Exit Application");
+	}
+	
+	private boolean selectFromOptionsForProduct(Product product){
+		System.out.print("\nPlease enter one of the Options for Product menu to continue: ");
+		
+		//Get input for the chosen option
+		int option = Supp.getPositiveNumber();
+		switch (option) {
+		case 1: this.addToFavourites(product);return true;
+		case 2: this.addToShoppingCart(product); return true;
+		case 3: this.rentProduct(product); return true;
+		case 4: this.rateProduct(product); return true;
+		case 5:	product.printFullInfo(); return true;
+		case 6:	return false;
+		case 99: this.exitApplication();
+		default: 
+			System.out.println("You've chosen an invalid option for this menu.");
+			return true;
+		}
+	}
+
+	private void rateProduct(Product product) {
+		
+		
+		
+	}
+
+	private void rentProduct(Product product) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void buyProduct(Product product) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void printMyAccountMenu() {
@@ -236,6 +299,13 @@ public class Consumer extends User implements IConsumer {
 //		selectFromGoToCartMenu();
 	}
 	
+	private void buyAllProducts(){
+		 double moneyForProductsInCart = this.shoppingCart.getAllProductsPrice();
+			if(this.shoppingCart.buyProductsInCart(this.money)){
+				this.money -= moneyForProductsInCart;
+			}
+	}
+	
 	private boolean selectFromGoToCartMenu() {
 		
 		System.out.print("\nPlease enter one of the Go To Cart Menu options to continue: ");
@@ -244,13 +314,7 @@ public class Consumer extends User implements IConsumer {
 		int option = Supp.getPositiveNumber();
 		switch (option) {
 			case 1: this.shoppingCart.showProducts(); return true;
-			
-			case 2: double moneyForProductsInCart = this.shoppingCart.getAllProductsPrice();
-					if(this.shoppingCart.buyProductsInCart(this.money)){
-						this.money -= moneyForProductsInCart;
-					}
-					return true; 
-					
+			case 2: this.buyAllProducts(); return true; 
 			case 3: this.removeFromShoppingCart(); return true; 	
 			case 4: this.shoppingCart.clearShoppingCart(); return true;
 			case 5: return false;
@@ -374,6 +438,7 @@ public class Consumer extends User implements IConsumer {
 
 	public void addToFavourites(Product product){
 		if(product != null){
+			System.out.println("\nSuccessfully added product to your favourite list!");
 			favourites.add(product);
 		}
 	}
@@ -381,6 +446,7 @@ public class Consumer extends User implements IConsumer {
 	public void removeFromFavourites(Product product){
 		if(product != null){
 			favourites.remove(product);
+			System.out.println("\nSuccessfully removed product from your favourite list!");
 		}
 	}
 	
@@ -396,8 +462,19 @@ public class Consumer extends User implements IConsumer {
 		}
 	}
 	
-	public void addToShoppingCart(Product product, boolean buy){
+	public void addToShoppingCart(Product product){
 		if(product != null){
+			
+			boolean buy = false;
+			System.out.println("\nSelect:\n\t1) Buy\n\t2)Rent");
+			int option = 0;
+			
+			do{
+				option = Supp.getPositiveNumber();
+			}while(option > 2);
+			
+			buy = (option==1) ? true : false;
+			
 			shoppingCart.addProduct(product, buy);
 		}
 	}
