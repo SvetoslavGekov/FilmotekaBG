@@ -10,7 +10,7 @@ import java.util.Set;
 import customexceptions.InvalidProductInfoException;
 import validation.Supp;
 
-public abstract class Product {
+public abstract class Product implements Comparable<Product>{
 	//Enumerations
 	public enum ProductType{
 		MOVIE, TVSERIES;
@@ -58,6 +58,11 @@ public abstract class Product {
 	
 	//Methods
 	
+	@Override
+	public int compareTo(Product o) {
+		return this.id - o.id;
+	}
+	
 	public void printFullInfo() {
 		System.out.println("======= PRODUCT INFORMATION ======");
 		System.out.printf("Identification number: %d%n", this.id);
@@ -78,8 +83,8 @@ public abstract class Product {
 	@Override
 	//Acts as simple information for the product
 	public String toString() {
-		return String.format("Name: %s	Type: %s	Release date: %s	PGRating: %s	Duration: %s	RentCost: %.2f	Price: %.2f", 
-				this.name, this.type, this.releaseDate, this.pgRating, this.duration, this.rentCost, this.buyCost);
+		return String.format("Name: %s	ID: %d	Type: %s	Release date: %s	PGRating: %s	Duration: %s	RentCost: %.2f	Price: %.2f", 
+				this.name, this.id, this.type, this.releaseDate, this.pgRating, this.duration, this.rentCost, this.buyCost);
 	}
 	
 	private void editName() {

@@ -4,13 +4,23 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import products.Product;
 
 public final class ShoppingCart {
 	//Fields
-	private Map<Product, Boolean> products = new HashMap<>(); //Map with products and flag for renting or buying // buy(true) - rent(false)
+	private Map<Product, Boolean> products = new TreeMap<>(); //Map with products and flag for renting or buying // buy(true) - rent(false)
 
+	//Constructors
+	public ShoppingCart() {
+		
+	}
+	
+	public ShoppingCart(ShoppingCart cart) {
+		this.products = new TreeMap<Product, Boolean>(cart.products);
+	}
+	//Methods
 	public void addProduct(Product product, boolean buy){
 		if(product != null){
 			products.put(product, buy);

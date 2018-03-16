@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import validation.Supp;
 
-public final class Movie extends Product {
+public final class Movie extends Product{
 	//Fields
 	private String director = "";
 
