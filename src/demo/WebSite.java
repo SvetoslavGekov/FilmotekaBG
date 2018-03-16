@@ -112,7 +112,7 @@ public final class WebSite {
 		this.loginUser(newUser.getUsername());
 	}
 	
-	private static IUser getGuest(){
+	public static IUser getGuest(){
 		if(WebSite.guest == null){
 			try {
 				WebSite.guest = new Consumer("Guest", "Guest", "Guest123", "Guest@filmoteka.bg") ;
