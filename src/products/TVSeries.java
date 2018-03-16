@@ -52,7 +52,7 @@ public final class TVSeries extends Product {
 		//Print advanced menu
 		System.out.println("	13) Edit finished airing");
 		System.out.println("	14) Edit number of total seasons");
-		selectFromProductEditingMenu();
+//		selectFromProductEditingMenu();
 	}
 	
 	private void editFinishedAiring() {
@@ -72,14 +72,13 @@ public final class TVSeries extends Product {
 	}
 	
 	@Override
-	protected void selectFromAdvancedEditingMenu(int option) {
+	protected boolean selectFromAdvancedEditingMenu(int option) {
 		switch (option) {
-		case 13: this.editFinishedAiring(); this.printProductEditingMenu(); break;
-		case 14: this.editTotalSeasons(); this.printProductEditingMenu(); break;
+		case 13: this.editFinishedAiring(); return true;
+		case 14: this.editTotalSeasons(); return true;
 		default:
-			System.out.println("You've chosen an invalid option for this menu. Please try again.");
-			selectFromProductEditingMenu();
-			break;
+			System.out.println("You've chosen an invalid option for the TVSeries menu. Please try again.");
+			return false;
 		}
 	}
 	

@@ -127,13 +127,13 @@ public class Consumer extends User implements IConsumer {
 	public void printMainMenu() {
 		System.out.printf("\n============  %s  MAIN  MENU  ============%n%n", this.getFilmoteka().getName());
 		System.out.println(this);
-		System.out.println("1) Sign In With Existing Account");
-		System.out.println("2) Register New Account");
-		System.out.println("3) Logout");
-		System.out.println("4) My Account");
-		System.out.println("5) Browse Catalog");
-		System.out.println("99) Exit Application");
-		selectFromMainMenu();
+		System.out.println("	1) Sign In With Existing Account");
+		System.out.println("	2) Register New Account");
+		System.out.println("	3) Logout");
+		System.out.println("	4) My Account");
+		System.out.println("	5) Browse Catalog");
+		System.out.println("	99) Exit Application");
+//		selectFromMainMenu();
 	}
 	
 	@Override
@@ -149,7 +149,14 @@ public class Consumer extends User implements IConsumer {
 			this.logout();
 //			this.printMainMenu();
 			break;
-		case 4: this.myAccountMenu();break;
+		case 4:
+			while(true) {
+				this.printMyAccountMenu();
+				if(!this.selectFromMyAccountMenu()) {
+					break;
+				}	
+			}
+			break;
 		case 5: this.browseCatalog();break;
 		case 99: this.exitApplication(); break;
 		default: 
@@ -168,80 +175,92 @@ public class Consumer extends User implements IConsumer {
 		//TODO Meke Consumer Favourite/Rate/Add to Cart/Buy if not null
 	}
 
-	private void myAccountMenu() {
-		
+	private void printMyAccountMenu() {
 		System.out.println("\n===================  MY ACCOUNT  ===================\n");
 		System.out.println(this);
-		System.out.println("1) Edit Profile");
-		System.out.println("2) View Watchlist");
-		System.out.println("3) View Favourites");
-		System.out.println("4) View Products");
-		System.out.println("5) Go To Cart");
-		System.out.println("6) Back To Main Menu");
-		System.out.println("99) Exit Application");
-		selectFromMyAccountMenu();
-		
+		System.out.println("	1) Edit Profile");
+		System.out.println("	2) View Watchlist");
+		System.out.println("	3) View Favourites");
+		System.out.println("	4) View Products");
+		System.out.println("	5) Go To Cart");
+		System.out.println("	6) Back To Main Menu");
+		System.out.println("	99) Exit Application");
+//		selectFromMyAccountMenu();
 	}
 
-	private void selectFromMyAccountMenu() {
+	private boolean selectFromMyAccountMenu() {
 		
 		System.out.print("\nPlease enter one of the my account menu options to continue: ");
 		
 		//Get input for the chosen option
 		int option = Supp.getPositiveNumber();
 		switch (option) {
-		case 1: this.editProfileMenu();;break;
-		case 2: this.showWatchList(); break; 
-		case 3: this.showFavourites();break;
-		case 4: this.showProducts();break;
-		case 5: this.goToCart();break;
-		case 6: this.printMainMenu();break;
-		case 99: this.exitApplication(); break;
+			case 1:
+				while(true) {
+					this.printEditProfileMenu();
+					if(!this.selectFromEditProfileMenu()) {
+						break;
+					}
+				}
+				 return true;
+			case 2: this.showWatchList(); return true; 
+			case 3: this.showFavourites(); return true;
+			case 4: this.showProducts(); return true;
+			case 5: 
+				while(true) {
+					this.goToCart();
+					if(!this.selectFromGoToCartMenu()) {
+						break;
+					}
+				} 
+				return true;
+			case 6: return false;//this.printMainMenu();break;
+			case 99: this.exitApplication(); return true;
 		default: 
 			System.out.println("You've chosen an invalid option for this menu. Please try again.");
-			selectFromMyAccountMenu();
-			break;
+//			selectFromMyAccountMenu();
+			return true;
 		}
-		myAccountMenu();
+//		printMyAccountMenu();
 		
 	}
 
 	private void goToCart() {
 		System.out.println("\n\n================  MY SHOPPING CART  ================\n");
-		System.out.println("1) Show Products In Cart");
-		System.out.println("2) Buy All Products");
-		System.out.println("3) Remove Product From Cart");
-		System.out.println("4) Empty Cart");
-		System.out.println("5) Back To My Account");
-		System.out.println("99) Exit Application");
-		selectFromGoToCartMenu();
+		System.out.println("	1) Show Products In Cart");
+		System.out.println("	2) Buy All Products");
+		System.out.println("	3) Remove Product From Cart");
+		System.out.println("	4) Empty Cart");
+		System.out.println("	5) Back To My Account");
+		System.out.println("	99) Exit Application");
+//		selectFromGoToCartMenu();
 	}
 	
-	private void selectFromGoToCartMenu() {
+	private boolean selectFromGoToCartMenu() {
 		
 		System.out.print("\nPlease enter one of the Go To Cart Menu options to continue: ");
 		
 		//Get input for the chosen option
 		int option = Supp.getPositiveNumber();
 		switch (option) {
-		case 1: this.shoppingCart.showProducts();break;
-		
-		case 2: double moneyForProductsInCart = this.shoppingCart.getAllProductsPrice();
-				if(this.shoppingCart.buyProductsInCart(this.money)){
-					this.money -= moneyForProductsInCart;
-				}
-				break; 
-				
-		case 3: this.removeFromShoppingCart(); break; 	
-		case 4: this.shoppingCart.clearShoppingCart();break;
-		case 5: this.myAccountMenu();break;
-		case 99: this.exitApplication(); break;
+			case 1: this.shoppingCart.showProducts(); return true;
+			
+			case 2: double moneyForProductsInCart = this.shoppingCart.getAllProductsPrice();
+					if(this.shoppingCart.buyProductsInCart(this.money)){
+						this.money -= moneyForProductsInCart;
+					}
+					return true; 
+					
+			case 3: this.removeFromShoppingCart(); return true; 	
+			case 4: this.shoppingCart.clearShoppingCart(); return true;
+			case 5: return false;
+			case 99: this.exitApplication();
 		default: 
 			System.out.println("You've chosen an invalid option for this menu. Please try again.");
-			selectFromGoToCartMenu();
-			break;
+//			selectFromGoToCartMenu();
+			return true;
 		}
-		goToCart();
+//		goToCart();
 	}
 
 	private void showProducts() {
@@ -282,40 +301,48 @@ public class Consumer extends User implements IConsumer {
 		return false;
 	}
 
-	private void editProfileMenu() {
-		
+	private void printEditProfileMenu() {
 		System.out.println("\n=================  EDIT PROFILE MENU  =================");
 		System.out.println(this);
-		System.out.println("1) Edit Name");
-		System.out.println("2) Edit Password");
-		System.out.println("3) Edit Email");
-		System.out.println("4) Back To My Account");
-		System.out.println("99) Exit Application");
+		System.out.println("	1) Edit Name");
+		System.out.println("	2) Edit Password");
+		System.out.println("	3) Edit Email");
+		System.out.println("	4) Back To My Account");
+		System.out.println("	99) Exit Application");
+//		try {
+//			this.selectFromEditProfileMenu();
+//		} catch (InvalidUserInfoException e) {
+//			System.out.println(e.getMessage());
+//		}
+	}
+	
+	private void editNames() {
 		try {
-			this.selectFromEditProfileMenu();
-		} catch (InvalidUserInfoException e) {
+			if(!this.setNames(this.inputUserNames()))
+				System.out.println("\nUnsuccessfully changed names!");
+		}
+		catch (InvalidUserInfoException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 	
-	private void selectFromEditProfileMenu() throws InvalidUserInfoException {
+	private boolean selectFromEditProfileMenu() {
 		System.out.print("\nPlease enter one of the edit profile menu options to continue: ");
 		
 		//Get input for the chosen option
 		int option = Supp.getPositiveNumber();
 		switch (option) {
-		case 1: if(!this.setNames(this.inputUserNames()))
-				System.out.println("\nUnsuccessfully changed names!");break;
-		case 2: this.changePassword(); break; 
-		case 3: this.editEmail();break;
-		case 4: this.myAccountMenu();break;
-		case 99: this.exitApplication(); break;
+			case 1: this.editNames(); return true;
+			case 2: this.changePassword(); return true; 
+			case 3: this.editEmail(); return true;
+			case 4: return false;
+			case 99: this.exitApplication();
 		default: 
 			System.out.println("You've chosen an invalid option for this menu. Please try again.");
-			selectFromEditProfileMenu();
-			break;
+//			selectFromEditProfileMenu();
+			return true;
 		}
-		editProfileMenu();
+//		printEditProfileMenu();
 	}
 	
 	private boolean editEmail(){
@@ -342,7 +369,7 @@ public class Consumer extends User implements IConsumer {
 			}
 			System.out.println("\nUnsuccessfully changed password!");
 		}
-		this.editProfileMenu();
+		this.printEditProfileMenu();
 	}
 
 	public void addToFavourites(Product product){

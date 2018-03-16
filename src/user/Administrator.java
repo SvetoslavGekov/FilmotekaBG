@@ -24,24 +24,23 @@ public class Administrator extends User implements IAdministrator {
 		System.out.println("	2) Edit product info");
 		System.out.println("	3) Delete product");
 		System.out.println("	4) Return to main menu");
-		selectFromProductsManagementMenu();
+//		selectFromProductsManagementMenu();
 	}
 	
 	@Override
-	public void selectFromProductsManagementMenu() {
+	public boolean selectFromProductsManagementMenu() {
 		System.out.println("\nPlease enter one of the products management menu options to continue:");
 		//Get input for the chosen option
 		int option = Supp.getPositiveNumber();
 		
 		switch(option) {
-			case 1: this.createNewProduct();break;
-			case 2: this.editProductInfo();break;
-			case 3: break;//TODO delete product
-			case 4: break;
+			case 1: this.createNewProduct();return true;
+			case 2: this.editProductInfo();return true;
+			case 3: return true;//TODO delete product
+			case 4: return false;
 		default:
 			System.out.println("You've chosen an invalid option for this menu. Please try again.");
-			selectFromProductsManagementMenu();
-			break;
+			return true;
 		}
 	}
 	
@@ -55,10 +54,15 @@ public class Administrator extends User implements IAdministrator {
 		
 		//If there is no such product --> return to main menu
 		if(pr == null) {
-			System.out.println("No product matches your search criteria. Redirecting to main menu.");
+			System.out.println("No product matches your search criteria. Redirecting to product management menu.");
 		}
 		else {
-			pr.printProductEditingMenu();
+			while(true) {
+				pr.printProductEditingMenu();
+				if(!pr.selectFromProductEditingMenu()) {
+					break;
+				}
+			}
 		}
 	}
 	
@@ -89,7 +93,7 @@ public class Administrator extends User implements IAdministrator {
 			//Add product to catalog and return user to management menu
 			this.addProductToCatalog(product);
 			
-			this.printProductsManagementMenu();
+//			this.printProductsManagementMenu();
 		}
 		catch (Exception e) {
 			//User recieves an error message for his input and is prompted to either try again or go back to a menu; 
@@ -99,9 +103,9 @@ public class Administrator extends User implements IAdministrator {
 			int option = Supp.getPositiveNumber();
 			switch (option) {
 			case 1: this.createNewProduct(); break;
-			case 2: this.printProductsManagementMenu(); break;
+			case 2: break;//this.printProductsManagementMenu(); break;
 			default:
-				System.out.println("You've entered an invalid option for this menu. Redirecting to the main menu");
+				System.out.println("You've entered an invalid option for the new product creation menu. Redirecting to the main menu");
 				break;
 			}
 		}
@@ -125,16 +129,20 @@ public class Administrator extends User implements IAdministrator {
 		//Get input for the chosen option
 		int option = Supp.getPositiveNumber();
 		switch (option) {
-		case 1: this.printProductsManagementMenu();break;
-		case 2: ; break; //Register
-		case 3: 
-			this.logout();
-//			this.printMainMenu();
+		case 1: 
+			while(true) {
+				this.printProductsManagementMenu();
+				if(!this.selectFromProductsManagementMenu()) {
+					break;
+				}
+			}
 			break;
+		case 2: ; break; //Register
+		case 3: this.logout();	break;
 		case 99: this.exitApplication(); break;
 		default: 
-			System.out.println("You've chosen an invalid option for this menu. Please try again.");
-			selectFromMainMenu();
+			System.out.println("You've chosen an invalid option from the main administrator menu. Please try again.");
+//			selectFromMainMenu();
 			break;
 		}
 	}

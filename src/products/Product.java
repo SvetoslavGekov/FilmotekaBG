@@ -94,7 +94,7 @@ public abstract class Product {
 		}
 		catch (InvalidProductInfoException e) {
 			System.out.println(e.getMessage());
-			this.printProductEditingMenu();
+//			this.printProductEditingMenu();
 		}
 	}
 	
@@ -105,7 +105,7 @@ public abstract class Product {
 		}
 		catch (InvalidProductInfoException e) {
 			System.out.println(e.getMessage());
-			this.printProductEditingMenu();
+//			this.printProductEditingMenu();
 		}
 	}
 	
@@ -116,7 +116,7 @@ public abstract class Product {
 		}
 		catch (InvalidProductInfoException e) {
 			System.out.println(e.getMessage());
-			this.printProductEditingMenu();
+//			this.printProductEditingMenu();
 		}
 	}
 	
@@ -127,7 +127,7 @@ public abstract class Product {
 		}
 		catch (InvalidProductInfoException e) {
 			System.out.println(e.getMessage());
-			this.printProductEditingMenu();
+//			this.printProductEditingMenu();
 		}
 	}
 	
@@ -138,7 +138,7 @@ public abstract class Product {
 		}
 		catch (InvalidProductInfoException e) {
 			System.out.println(e.getMessage());
-			this.printProductEditingMenu();
+//			this.printProductEditingMenu();
 		}
 	}
 	
@@ -163,7 +163,7 @@ public abstract class Product {
 		catch (InvalidProductInfoException e) {
 			System.out.println(e.getMessage());
 			Product.printGenres();
-			this.printProductEditingMenu();
+//			this.printProductEditingMenu();
 		}
 	}
 	
@@ -188,30 +188,29 @@ public abstract class Product {
 	}
 	
 	
-	protected abstract void selectFromAdvancedEditingMenu(int option);
+	protected abstract boolean selectFromAdvancedEditingMenu(int option);
 	
-	public void selectFromProductEditingMenu() {
-		System.out.print("\nPlease enter one of the options to continue: ");
+	public boolean selectFromProductEditingMenu() {
+		System.out.print("\nPlease enter one of the product editing options to continue: ");
 		
 		//Get input for the chosen option
 		int option = Supp.getPositiveNumber();
 		switch (option) {
-			case 1: this.printFullInfo(); this.printProductEditingMenu();; break;
-			case 2: this.editName(); this.printProductEditingMenu(); break; 
-			case 3: this.editReleaseDate(); this.printProductEditingMenu();break;
-			case 4: this.editPGRating(); this.printProductEditingMenu(); break;
-			case 5: this.editDuration(); this.printProductEditingMenu(); break;
-			case 6: this.editRentCost(); this.printProductEditingMenu(); break;
-			case 7: this.editBuyCost(); this.printProductEditingMenu(); break;
-			case 8: this.editGenres(); this.printProductEditingMenu(); break;
-			case 9: this.editDescription(); this.printProductEditingMenu(); break;
-			case 10: this.editTrailer(); this.printProductEditingMenu(); break;
-			case 11: this.editWriters(); this.printProductEditingMenu(); break;
-			case 12: this.editActors(); this.printProductEditingMenu(); break;
-			case 99: break;
+			case 1: this.printFullInfo(); return true;
+			case 2: this.editName(); return true; 
+			case 3: this.editReleaseDate(); return true;
+			case 4: this.editPGRating(); return true;
+			case 5: this.editDuration(); return true;
+			case 6: this.editRentCost(); return true;
+			case 7: this.editBuyCost(); return true;
+			case 8: this.editGenres(); return true;
+			case 9: this.editDescription(); return true;
+			case 10: this.editTrailer(); return true;
+			case 11: this.editWriters(); return true;
+			case 12: this.editActors(); return true;
+			case 99: return false;
 		default: 
-			selectFromAdvancedEditingMenu(option);
-			break;
+			 return (selectFromAdvancedEditingMenu(option)) ? false : true;
 		}
 	}
 	

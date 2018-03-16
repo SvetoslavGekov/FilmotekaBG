@@ -29,7 +29,7 @@ public final class Movie extends Product {
 		
 		//Print advanced menu
 		System.out.println("	13) Edit director");
-		selectFromProductEditingMenu();
+//		selectFromProductEditingMenu();
 	}
 	
 	private void editDirector() {
@@ -38,13 +38,12 @@ public final class Movie extends Product {
 	}
 	
 	@Override
-	protected void selectFromAdvancedEditingMenu(int option) {
+	protected boolean selectFromAdvancedEditingMenu(int option) {
 		switch (option) {
-		case 13: this.editDirector(); this.printProductEditingMenu(); break;
+		case 13: this.editDirector(); return true;
 		default:
-			System.out.println("You've chosen an invalid option for this menu. Please try again.");
-			selectFromProductEditingMenu();
-			break;
+			System.out.println("You've chosen an invalid option for the MOVIES menu. Please try again.");
+			return false;
 		}
 	}
 	

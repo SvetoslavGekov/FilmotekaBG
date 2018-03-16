@@ -14,5 +14,5 @@ public interface IAdministrator {
 	
 	void printProductsManagementMenu();
 	
-	void selectFromProductsManagementMenu();
+	boolean selectFromProductsManagementMenu();
 }

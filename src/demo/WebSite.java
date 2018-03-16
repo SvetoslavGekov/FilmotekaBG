@@ -166,6 +166,7 @@ public final class WebSite {
 	
 	
 	//Static block for filling collections with initial data
+	
 	static {
 		HashSet<User> initalUsers = new HashSet<>();
 		TreeSet<Product> initialProducts = new TreeSet<>(Product.compareByNameAndReleaseDate);

@@ -116,9 +116,9 @@ User functionality:
 	- Edit User Profile;
 	+ Add product from Admin;
 	+ Select products by ID or Name;
-	- Browse catalog;
+	+ Browse catalog;
 	- Add items to cart;
-	- Finalize purchase (rent/buy) (Movies, TV Series);
+	+ (must be tested) Finalize purchase (rent/buy) (Movies, TV Series);
 	- View order history;
 	---> Redeem Product Code;
 	- Rate product;
