@@ -154,7 +154,7 @@ public abstract class User implements IUser {
 	}
 	
 	protected WebSite getFilmoteka() {
-		return this.filmoteka;
+		return User.filmoteka;
 	}
 	
 	public String getPassword() {

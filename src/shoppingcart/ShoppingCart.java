@@ -1,7 +1,6 @@
 package shoppingcart;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -20,6 +19,7 @@ public final class ShoppingCart {
 	public ShoppingCart(ShoppingCart cart) {
 		this.products = new TreeMap<Product, Boolean>(cart.products);
 	}
+	
 	//Methods
 	public void addProduct(Product product, boolean buy){
 		if(product != null){
@@ -88,7 +88,7 @@ public final class ShoppingCart {
 		}
 	}
 	
-	private boolean isShoppingCartEmpty(){
+	public boolean isShoppingCartEmpty(){
 		if(this.products.isEmpty()){
 			System.out.println("\nYour shopping cart is empty!");
 			return true;

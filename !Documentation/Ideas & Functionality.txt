@@ -121,13 +121,12 @@ User functionality:
 	+ Browse catalog;
 	+ Add items to cart;
 	+ (must be tested) Finalize purchase (rent/buy) (Movies, TV Series);
-	- View order history;
+	+ View order history;
 	---> Redeem Product Code;
 	- Rate product;
 	+ Add to favorites product;
 	+ Add to watchList;
-	---> Search;
-	- Subscribe for newsletter (информационен бюлетин);
+	---> Subscribe for newsletter (информационен бюлетин);
 	---> Subscribe for movies/TV Series --> different subscriptions;
 	---> Check site contact info;
 	---> Write a review;

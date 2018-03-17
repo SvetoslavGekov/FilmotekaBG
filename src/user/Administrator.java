@@ -15,7 +15,7 @@ public class Administrator extends User implements IAdministrator {
 	}
 
 	//Methods	
-	
+	//============== MENU PRINTING AND SELECTING OPTIONS METHODS ================
 	@Override
 	public void printProductsManagementMenu() {
 		System.out.printf("\n============  PRODUCTS MANAGEMENT MENU  ============%n%n", this.getFilmoteka().getName());
@@ -36,13 +36,51 @@ public class Administrator extends User implements IAdministrator {
 		switch(option) {
 			case 1: this.createNewProduct();return true;
 			case 2: this.editProductInfo();return true;
-			case 3: this.deleteProduct(); return true;//TODO delete product
+			case 3: this.deleteProduct(); return true;
 			case 4: return false;
 		default:
 			System.out.println("You've chosen an invalid option for this menu. Please try again.");
 			return true;
 		}
 	}
+	
+	@Override
+	public void printMainMenu() {
+		System.out.printf("\n============  %s  MAIN  MENU  ============%n%n", this.getFilmoteka().getName());
+		System.out.println(this);
+		System.out.println("	1) Manage Products");
+		System.out.println("	2) Manage Users");
+		System.out.println("	3) Logout");
+		System.out.println("	99) Exit Application");
+//		selectFromMainMenu();
+	}
+	
+	@Override
+	public void selectFromMainMenu() {
+		System.out.print("\nPlease enter one of the main menu options to continue: ");
+		
+		//Get input for the chosen option
+		int option = Supp.getPositiveNumber();
+		switch (option) {
+		case 1: 
+			while(true) {
+				this.printProductsManagementMenu();
+				if(!this.selectFromProductsManagementMenu()) {
+					break;
+				}
+			}
+			break;
+		case 2: ; break; //Register
+		case 3: this.logout();	break;
+		case 99: this.exitApplication(); break;
+		default: 
+			System.out.println("You've chosen an invalid option from the main administrator menu. Please try again.");
+//			selectFromMainMenu();
+			break;
+		}
+	}
+	
+	//============== MENU SELECTION METHODS ===============
 	
 	@Override
 	public void deleteProduct() {
@@ -127,42 +165,6 @@ public class Administrator extends User implements IAdministrator {
 				System.out.println("You've entered an invalid option for the new product creation menu. Redirecting to the main menu");
 				break;
 			}
-		}
-	}
-	
-	@Override
-	public void printMainMenu() {
-		System.out.printf("\n============  %s  MAIN  MENU  ============%n%n", this.getFilmoteka().getName());
-		System.out.println(this);
-		System.out.println("	1) Manage Products");
-		System.out.println("	2) Manage Users");
-		System.out.println("	3) Logout");
-		System.out.println("	99) Exit Application");
-//		selectFromMainMenu();
-	}
-	
-	@Override
-	public void selectFromMainMenu() {
-		System.out.print("\nPlease enter one of the main menu options to continue: ");
-		
-		//Get input for the chosen option
-		int option = Supp.getPositiveNumber();
-		switch (option) {
-		case 1: 
-			while(true) {
-				this.printProductsManagementMenu();
-				if(!this.selectFromProductsManagementMenu()) {
-					break;
-				}
-			}
-			break;
-		case 2: ; break; //Register
-		case 3: this.logout();	break;
-		case 99: this.exitApplication(); break;
-		default: 
-			System.out.println("You've chosen an invalid option from the main administrator menu. Please try again.");
-//			selectFromMainMenu();
-			break;
 		}
 	}
 	

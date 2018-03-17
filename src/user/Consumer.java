@@ -42,110 +42,7 @@ public class Consumer extends User implements IConsumer {
 		this.products.remove(pr);
 	}
 	
-	@Override
-	public void createAccount() {
-		System.out.printf("\n============ %s REGISTRATION FORM ===============%n%n", this.getFilmoteka().getName().toUpperCase());
-		
-		try {
-			//Collect user account information
-			String username = inputUsername();
-			String email = inputUserEmail();
-			String password = inputUserPassword();
-			String names = inputUserNames();
-			
-			//Create user
-			IUser newUser = new Consumer(names, username, password, email);
-			System.out.println(newUser);
-			//WebSite registers user
-			this.getFilmoteka().registerUser(newUser);
-		}
-		catch (InvalidUserInfoException| DatabaseConflictException e) {
-			//User recieves an error message for his input and is prompted to either try again or go back to the main menu; 
-			System.out.println(e.getMessage());
-			System.out.print("\nWould you like to attempt to register again?\n	1) Continue registration;\n	2) Exit to main menu."
-					+ "\n	Please enter your choice: ");
-			int option = Supp.getPositiveNumber();
-			switch (option) {
-			case 1: this.createAccount(); break;
-			case 2: break;//this.printMainMenu(); break;
-			default:
-				System.out.println("You've entered an invalid option for this menu. Redirecting to the main menu");
-//				this.printMainMenu();
-				break;
-			}
-		}
-	}
-	
-	private String inputUsername() throws InvalidUserInfoException, DatabaseConflictException{
-		//User inputs username
-		System.out.print("Please enter your username: ");
-		String username = Supp.inputValidString();
-		
-		//Check if username is valid
-		if(!Supp.validUsername(username)) {
-			throw new InvalidUserInfoException("Sorry, you've entered an invalid username.\nUsernames should consist of only lowercase characters"
-					+ "(no special symbols or white space) with a minimum length of 4 symbols.");
-		}
-		
-		//Check if username is not already taken
-		//TODO --> Think about simultenious username and email validation
-		if(this.getFilmoteka().checkUserName(username)) {
-			throw new DatabaseConflictException("Sorry, the username that you've chosen has already been taken by another user.");
-		}
-		return username;
-	}
-	
-	private String inputUserEmail() throws InvalidUserInfoException{
-		//User inputs email + makes it lowercase
-		System.out.print("Please enter your email: ");
-		String email = Supp.inputValidString().toLowerCase();
-		
-		//Check if email is valid
-		if(!Supp.validEmail(email)) {
-			throw new InvalidUserInfoException("Sorry, you've entered an invalid email.\nEmails should look like this: "
-					+ "myeMail@myMailSite.com");
-		}
-		return email;
-	}
-	
-	private String inputUserPhone() throws InvalidUserInfoException{
-		//User inputs phone
-		System.out.print("Please enter your phone number: ");
-		String phone = Supp.inputValidString();
-		
-		//Check if phone is valid
-		if(!Supp.validPhoneNumber(phone)) {
-			throw new InvalidUserInfoException("Sorry, you've entered an invalid phone numbers.\n"
-					+ "Phone numbers should have 10 digits.");
-		}
-		return phone;
-	}
-	
-	private String inputUserNames() throws InvalidUserInfoException{
-		//User inputs real names
-		System.out.print("Please enter your names:");
-		String names = Supp.inputValidString();
-		
-		//Check if names is valid string
-		if(!Supp.validStr(names)) {
-			throw new InvalidUserInfoException("Sorry, you've entered and invalid name.Please try again: ");
-		}
-		return names;
-	}
-	
-	private String inputUserPassword() throws InvalidUserInfoException{
-		//User inputs password
-		System.out.print("Please enter your password: ");
-		String password = Supp.inputValidString();
-		
-		//Check if password is valid
-		if(!Supp.validPassword(password)) {
-			throw new InvalidUserInfoException("Sorry, you've entered an invalid password. \nPasswords should be at least 6 symbols long,"
-					+ "have at least 1 lowercase letter, 1 upercase letter and 1 digit.");
-		}
-		return password;
-	}
-	
+	//============== MENU PRINTING AND SELECTING OPTIONS METHODS ================
 	@Override
 	public void printMainMenu() {
 		System.out.printf("\n============  %s  MAIN  MENU  ============%n%n", this.getFilmoteka().getName());
@@ -249,14 +146,6 @@ public class Consumer extends User implements IConsumer {
 		}
 	}
 
-	private void rateProduct(Product product) {
-		do{
-			System.out.print("\nEnter rate for this product(1..10): ");
-
-		}while(!product.rate((double)Supp.getPositiveNumber(), this));
-	}
-
-
 	private void printMyAccountMenu() {
 		System.out.println("\n===================  MY ACCOUNT  ===================\n");
 		System.out.println(this);
@@ -320,7 +209,72 @@ public class Consumer extends User implements IConsumer {
 //		selectFromGoToCartMenu();
 	}
 	
+	private boolean selectFromGoToCartMenu() {
+		System.out.print("\nPlease enter one of the Go To Cart Menu options to continue: ");
+		
+		//Get input for the chosen option
+		int option = Supp.getPositiveNumber();
+		switch (option) {
+			case 1: this.shoppingCart.showProducts(); return true;
+			case 2: this.buyAllProducts(); return true; 
+			case 3: this.removeFromShoppingCart(); return true; 	
+			case 4: this.shoppingCart.clearShoppingCart(); return true;
+			case 5: return false;
+			case 99: this.exitApplication();
+		default: 
+			System.out.println("You've chosen an invalid option for this menu. Please try again.");
+//			selectFromGoToCartMenu();
+			return true;
+		}
+//		goToCart();
+	}
+
+	private void printEditProfileMenu() {
+		System.out.println("\n=================  EDIT PROFILE MENU  =================");
+		System.out.println(this);
+		System.out.println("	1) Edit Name");
+		System.out.println("	2) Edit Password");
+		System.out.println("	3) Edit Email");
+		System.out.println("	4) Edit Phone");
+		System.out.println("	5) Back To My Account");
+		System.out.println("	99) Exit Application");
+	}
+
+	
+	private boolean selectFromEditProfileMenu() {
+		System.out.print("\nPlease enter one of the edit profile menu options to continue: ");
+		
+		//Get input for the chosen option
+		int option = Supp.getPositiveNumber();
+		switch (option) {
+			case 1: this.editNames(); return true;
+			case 2: this.changePassword(); return true; 
+			case 3: this.editEmail(); return true;
+			case 4: this.editPhone(); return true;
+			case 5: return false;
+			case 99: this.exitApplication();
+		default: 
+			System.out.println("You've chosen an invalid option for this menu. Please try again.");
+//			selectFromEditProfileMenu();
+			return true;
+		}
+//		printEditProfileMenu();
+	}
+	
+	//====================== Menu selection methods =======================
+	private void rateProduct(Product product) {
+		do{
+			System.out.print("\nEnter rate for this product(1..10): ");
+
+		}while(!product.rate((double)Supp.getPositiveNumber(), this));
+	}
+	
 	private void buyAllProducts(){
+		//If the shopping cart is empty
+		if(this.shoppingCart.isShoppingCartEmpty()) {
+			return;
+		}
+		
 		 double moneyForProductsInCart = this.shoppingCart.getAllProductsPrice();
 		 //If user has money
 		if(this.shoppingCart.buyProductsInCart(this.money)){
@@ -346,27 +300,6 @@ public class Consumer extends User implements IConsumer {
 		}
 	}
 	
-	private boolean selectFromGoToCartMenu() {
-		
-		System.out.print("\nPlease enter one of the Go To Cart Menu options to continue: ");
-		
-		//Get input for the chosen option
-		int option = Supp.getPositiveNumber();
-		switch (option) {
-			case 1: this.shoppingCart.showProducts(); return true;
-			case 2: this.buyAllProducts(); return true; 
-			case 3: this.removeFromShoppingCart(); return true; 	
-			case 4: this.shoppingCart.clearShoppingCart(); return true;
-			case 5: return false;
-			case 99: this.exitApplication();
-		default: 
-			System.out.println("You've chosen an invalid option for this menu. Please try again.");
-//			selectFromGoToCartMenu();
-			return true;
-		}
-//		goToCart();
-	}
-
 	private void showProducts() {
 		System.out.println("\n\nMY PRODUCTS:");
 		
@@ -411,91 +344,6 @@ public class Consumer extends User implements IConsumer {
 			return true;
 		}
 		return false;
-	}
-
-	private void printEditProfileMenu() {
-		System.out.println("\n=================  EDIT PROFILE MENU  =================");
-		System.out.println(this);
-		System.out.println("	1) Edit Name");
-		System.out.println("	2) Edit Password");
-		System.out.println("	3) Edit Email");
-		System.out.println("	4) Edit Phone");
-		System.out.println("	5) Back To My Account");
-		System.out.println("	99) Exit Application");
-	}
-	
-	private void editNames() {
-		try {
-			if(!this.setNames(this.inputUserNames()))
-				System.out.println("\nUnsuccessfully changed names!");
-		}
-		catch (InvalidUserInfoException e) {
-			System.out.println(e.getMessage());
-		}
-	}
-	
-	private boolean selectFromEditProfileMenu() {
-		System.out.print("\nPlease enter one of the edit profile menu options to continue: ");
-		
-		//Get input for the chosen option
-		int option = Supp.getPositiveNumber();
-		switch (option) {
-			case 1: this.editNames(); return true;
-			case 2: this.changePassword(); return true; 
-			case 3: this.editEmail(); return true;
-			case 4: this.editPhone(); return true;
-			case 5: return false;
-			case 99: this.exitApplication();
-		default: 
-			System.out.println("You've chosen an invalid option for this menu. Please try again.");
-//			selectFromEditProfileMenu();
-			return true;
-		}
-//		printEditProfileMenu();
-	}
-	
-	private void editPhone() {
-		System.out.println("\nCurrent phone is " + this.getPhone());
-		try {
-			this.setPhone(inputUserPhone());
-		}
-		catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-	} 
-	
-	private boolean editEmail(){
-		System.out.println("\nCurrent email is " + this.getEmail());
-		
-		try {
-			this.setEmail(inputUserEmail());
-		}
-		catch (Exception e) {
-			System.out.println(e.getMessage());
-			System.out.println("\nEmail change not successfull!");
-			return false;
-		}
-		
-		System.out.println("\nSuccessfully changed email!");
-		return true;
-	}
-	
-	private void changePassword(){
-		System.out.print("\nPlease, enter your old password: ");
-		String password = Supp.inputString();
-		
-		if(this.getFilmoteka().checkUserPassword(this.getUsername(), password)){
-			
-			try {
-				this.setPassword(inputUserPassword());
-				System.out.println("\nPassword change successfull!");
-			}
-			catch (InvalidUserInfoException e) {
-				System.out.println(e.getMessage());
-				System.out.println("\nPassword change not successfull!");
-			}
-		}
-//		this.printEditProfileMenu();
 	}
 
 	public void addToFavourites(Product product){
@@ -551,5 +399,164 @@ public class Consumer extends User implements IConsumer {
 		System.out.println("\nEnter id of the product you want to remove: ");
 		this.shoppingCart.removeProduct(Supp.getPositiveNumber());
 	}
-
+	
+	@Override
+	public void createAccount() {
+		System.out.printf("\n============ %s REGISTRATION FORM ===============%n%n", this.getFilmoteka().getName().toUpperCase());
+		
+		try {
+			//Collect user account information
+			String username = inputUsername();
+			String email = inputUserEmail();
+			String password = inputUserPassword();
+			String names = inputUserNames();
+			
+			//Create user
+			IUser newUser = new Consumer(names, username, password, email);
+			System.out.println(newUser);
+			//WebSite registers user
+			this.getFilmoteka().registerUser(newUser);
+		}
+		catch (InvalidUserInfoException| DatabaseConflictException e) {
+			//User recieves an error message for his input and is prompted to either try again or go back to the main menu; 
+			System.out.println(e.getMessage());
+			System.out.print("\nWould you like to attempt to register again?\n	1) Continue registration;\n	2) Exit to main menu."
+					+ "\n	Please enter your choice: ");
+			int option = Supp.getPositiveNumber();
+			switch (option) {
+			case 1: this.createAccount(); break;
+			case 2: break;//this.printMainMenu(); break;
+			default:
+				System.out.println("You've entered an invalid option for this menu. Redirecting to the main menu");
+//				this.printMainMenu();
+				break;
+			}
+		}
+	}
+	
+	//================== Methods for editing profile information =====================
+	private void editNames() {
+		try {
+			if(!this.setNames(this.inputUserNames()))
+				System.out.println("\nUnsuccessfully changed names!");
+		}
+		catch (InvalidUserInfoException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	private void editPhone() {
+		System.out.println("\nCurrent phone is " + this.getPhone());
+		try {
+			this.setPhone(inputUserPhone());
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	} 
+	
+	private boolean editEmail(){
+		System.out.println("\nCurrent email is " + this.getEmail());
+		
+		try {
+			this.setEmail(inputUserEmail());
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+			System.out.println("\nEmail change not successfull!");
+			return false;
+		}
+		
+		System.out.println("\nSuccessfully changed email!");
+		return true;
+	}
+	
+	private void changePassword(){
+		System.out.print("\nPlease, enter your old password: ");
+		String password = Supp.inputString();
+		
+		if(this.getFilmoteka().checkUserPassword(this.getUsername(), password)){
+			
+			try {
+				this.setPassword(inputUserPassword());
+				System.out.println("\nPassword change successfull!");
+			}
+			catch (InvalidUserInfoException e) {
+				System.out.println(e.getMessage());
+				System.out.println("\nPassword change not successfull!");
+			}
+		}
+//		this.printEditProfileMenu();
+	}
+	
+	//=================== Console input methods ============================
+	private String inputUsername() throws InvalidUserInfoException, DatabaseConflictException{
+		//User inputs username
+		System.out.print("Please enter your username: ");
+		String username = Supp.inputValidString();
+		
+		//Check if username is valid
+		if(!Supp.validUsername(username)) {
+			throw new InvalidUserInfoException("Sorry, you've entered an invalid username.\nUsernames should consist of only lowercase characters"
+					+ "(no special symbols or white space) with a minimum length of 4 symbols.");
+		}
+		
+		//Check if username is not already taken
+		//TODO --> Think about simultenious username and email validation
+		if(this.getFilmoteka().checkUserName(username)) {
+			throw new DatabaseConflictException("Sorry, the username that you've chosen has already been taken by another user.");
+		}
+		return username;
+	}
+	
+	private String inputUserEmail() throws InvalidUserInfoException{
+		//User inputs email + makes it lowercase
+		System.out.print("Please enter your email: ");
+		String email = Supp.inputValidString().toLowerCase();
+		
+		//Check if email is valid
+		if(!Supp.validEmail(email)) {
+			throw new InvalidUserInfoException("Sorry, you've entered an invalid email.\nEmails should look like this: "
+					+ "myeMail@myMailSite.com");
+		}
+		return email;
+	}
+	
+	private String inputUserPhone() throws InvalidUserInfoException{
+		//User inputs phone
+		System.out.print("Please enter your phone number: ");
+		String phone = Supp.inputValidString();
+		
+		//Check if phone is valid
+		if(!Supp.validPhoneNumber(phone)) {
+			throw new InvalidUserInfoException("Sorry, you've entered an invalid phone numbers.\n"
+					+ "Phone numbers should have 10 digits.");
+		}
+		return phone;
+	}
+	
+	private String inputUserNames() throws InvalidUserInfoException{
+		//User inputs real names
+		System.out.print("Please enter your names:");
+		String names = Supp.inputValidString();
+		
+		//Check if names is valid string
+		if(!Supp.validStr(names)) {
+			throw new InvalidUserInfoException("Sorry, you've entered and invalid name.Please try again: ");
+		}
+		return names;
+	}
+	
+	private String inputUserPassword() throws InvalidUserInfoException{
+		//User inputs password
+		System.out.print("Please enter your password: ");
+		String password = Supp.inputValidString();
+		
+		//Check if password is valid
+		if(!Supp.validPassword(password)) {
+			throw new InvalidUserInfoException("Sorry, you've entered an invalid password. \nPasswords should be at least 6 symbols long,"
+					+ "have at least 1 lowercase letter, 1 upercase letter and 1 digit.");
+		}
+		return password;
+	}
 }

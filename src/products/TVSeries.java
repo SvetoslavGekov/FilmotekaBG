@@ -8,7 +8,6 @@ import validation.Supp;
 public final class TVSeries extends Product {
 	//Fields
 	private LocalDate finishedAiring;
-	//private Map<Integer, Integer> seasons = new TreeMap<>(); //Key: Total Seasons, value: Total episodes per season
 	private int totalSeasons;
 	
 	//Constructor
@@ -53,7 +52,6 @@ public final class TVSeries extends Product {
 		//Print advanced menu
 		System.out.println("	13) Edit finished airing");
 		System.out.println("	14) Edit number of total seasons");
-//		selectFromProductEditingMenu();
 	}
 	
 	private void editFinishedAiring() {

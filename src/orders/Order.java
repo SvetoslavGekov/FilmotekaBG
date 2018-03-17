@@ -1,8 +1,6 @@
 package orders;
 
 import java.time.LocalDate;
-import java.util.TreeMap;
-
 import shoppingcart.ShoppingCart;
 import user.IConsumer;
 
@@ -35,7 +33,7 @@ public final class Order implements Comparable<Order> {
 		System.out.printf("%nOrder ID: %d%n", this.id);
 		System.out.printf("Date of purchase: %s%n", this.date);
 		System.out.printf("Buyer: %s%n", this.consumer);
-		System.out.printf("Total cost: %.2f%n", this.cart.getAllProductsPrice());
+		System.out.printf("Total cost: %.2f%n", this.totalCost);
 		this.cart.showProducts();
 	}
 	

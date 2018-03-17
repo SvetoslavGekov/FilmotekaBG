@@ -29,7 +29,6 @@ public final class Movie extends Product{
 		
 		//Print advanced menu
 		System.out.println("	13) Edit director");
-//		selectFromProductEditingMenu();
 	}
 	
 	private void editDirector() {
