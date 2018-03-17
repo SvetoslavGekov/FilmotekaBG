@@ -70,18 +70,28 @@ public class Consumer extends User implements IConsumer {
 //			this.printMainMenu();
 			break;
 		case 4:
-			while(true) {
-				this.printMyAccountMenu();
-				if(!this.selectFromMyAccountMenu()) {
-					break;
-				}	
-			}
-			break;
-		case 5: 
-				while(true){
-					if(!this.browseCatalog()){
+			if(this != WebSite.getGuest()){
+				while(true) {
+					this.printMyAccountMenu();
+					if(!this.selectFromMyAccountMenu()) {
 						break;
 					}
+				}
+			}
+			else{
+				System.out.println("\n\nYou have to Sign In or Register!");
+			}
+			break;
+		case 5:
+				if(this != WebSite.getGuest()){
+					while(true){
+						if(!this.browseCatalog()){
+							break;
+						}
+					}
+				}
+				else{
+					System.out.println("\n\nYou have to Sign In or Register!");
 				}
 				break;
 		case 99: this.exitApplication(); break;
