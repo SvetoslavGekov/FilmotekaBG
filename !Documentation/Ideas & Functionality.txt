@@ -105,6 +105,7 @@ Classes:
 		+ id;
 		+ date;
 		+ IConsumer consumer;
+		+ shoppingCart;
 		+ totalCost;
 		
 		
@@ -120,10 +121,10 @@ User functionality:
 	+ Select products by ID or Name;
 	+ Browse catalog;
 	+ Add items to cart;
-	+ (must be tested) Finalize purchase (rent/buy) (Movies, TV Series);
+	+ Finalize purchase (rent/buy) (Movies, TV Series);
 	+ View order history;
 	---> Redeem Product Code;
-	- Rate product;
+	+ Rate product;
 	+ Add to favorites product;
 	+ Add to watchList;
 	---> Subscribe for newsletter (информационен бюлетин);
