@@ -6,7 +6,7 @@
 Classes:
 	1) WebSite ()
 		+ Collection <String, User> allUsers;
-		- Collection HashSet<User> subscribers;
+		---> Collection HashSet<User> subscribers;
 		+ Collection <Product> catalog;
 		+ currentUser (User);
 		+ money;
@@ -47,7 +47,6 @@ Classes:
 		+ private static final double MAX_RATING;
 		
 		+ id;
-		+ productState???
 		+ name;
 		+ description;
 		+ productType;
