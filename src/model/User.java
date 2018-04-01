@@ -2,6 +2,7 @@ package model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.InputMismatchException;
 
 import validation.Supp;
 import webSite.WebSite;
@@ -19,49 +20,72 @@ public class User {
 	private String phone = "";
 	private LocalDate registrationDate;
 	private LocalDateTime lastLogin;
+	private String profilePicture;
 	private double money;
 	
 	
 	//Constructors
-	public User(int userTypeId, String firstName,String lastName, String username, String password, String email) {
+	public User(int userTypeId,
+				String firstName,
+				String lastName, 
+				String username,
+				String password,
+				String email,
+				String phone,
+				LocalDate registrationDate,
+				LocalDateTime lastLogin,
+				double money) throws InputMismatchException{
+		
 		this.setFirstName(firstName);
 		this.setLastName(lastName);
 		this.setUsername(username);
 		this.setPassword(password);
 		this.setEmail(email);
-		this.registrationDate = LocalDate.now();
-		this.lastLogin = LocalDateTime.now();
+		this.setPhone(phone);
+		this.setRegistrationdate(registrationDate);
+		this.setLastLogin(lastLogin);
+		this.setMoney(money);
 	}
 	
-	public User(int userId, int userTypeId, String firstName,String lastName, String username, String password, String email) {
-		this(userTypeId, firstName, lastName, username, password, email);
+	public User(int userId,
+				int userTypeId,
+				String firstName,
+				String lastName, 
+				String username,
+				String password,
+				String email,
+				String phone,
+				LocalDate registrationDate,
+				LocalDateTime lastLogin,
+				double money) {
+		
+		this(userTypeId, firstName, lastName, username, password, email, phone, registrationDate, lastLogin, money);
 		this.setUserId(userId);
 	}
 
-	//Getter and Setters
-	protected int getUserId() {
+	//Getters and Setters
+	public int getUserId() {
 		return userId;
 	}
 
-	protected void setUserId(int userId) {
+	protected void setUserId(int userId) throws InputMismatchException {
 		if(userId > 0) {
 		   this.userId = userId;
 		}
-
 	}
 
-	protected int getUserTypeId() {
+	public int getUserTypeId() {
 		return userTypeId;
 	}
 
-	protected void setUserTypeId(int userTypeId) {
+	protected void setUserTypeId(int userTypeId) throws InputMismatchException {
 		if(userTypeId == 1 || userTypeId == 2) {
 			this.userTypeId = userTypeId;
 		}
 
 	}
 
-	protected String getFirstName() {
+	public String getFirstName() {
 		return firstName;
 	}
 
@@ -72,7 +96,7 @@ public class User {
 		}
 	}
 
-	protected String getLastName() {
+	public String getLastName() {
 		return lastName;
 	}
 
@@ -83,7 +107,7 @@ public class User {
 		}
 	}
 
-	protected String getUsername() {
+	public String getUsername() {
 		return username;
 	}
 
@@ -94,7 +118,7 @@ public class User {
 		}
 	}
 
-	protected String getPassword() {
+	public String getPassword() {
 		return password;
 	}
 
@@ -106,7 +130,7 @@ public class User {
 		return false;
 	}
 
-	protected String getEmail() {
+	public String getEmail() {
 		return email;
 	}
 
@@ -118,7 +142,7 @@ public class User {
 		return false;
 	}
 
-	protected String getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
@@ -128,18 +152,47 @@ public class User {
 		}	
 	}
 
-	protected double getMoney() {
+	public double getMoney() {
 		return money;
 	}
 
-	protected void setMoney(double money) {
+	protected void setMoney(double money) throws InputMismatchException{
 		if(money >= 0) {
 		   this.money = money;
 		}
 	}
 	
+	public LocalDate getRegisrtationDate() {
+		return this.registrationDate;
+	}
+	
+	protected void setRegistrationdate(LocalDate registrationDate) {
+		this.registrationDate = registrationDate;
+	}
+
+	public LocalDateTime getLastLogin() {
+		return lastLogin;
+	}
+
+	protected void setLastLogin(LocalDateTime lastLogin) {
+		this.lastLogin = lastLogin;
+	}
+	
+	public String getProfilePicture() {
+		return this.profilePicture;
+	}
+
+	protected void setProfilePicture(String profilePicture) {
+		//TODO check if string is valid path
+		this.profilePicture = profilePicture;
+	}
+
 	@Override
 	public String toString() {
-		return String.format("User: %s	FirstName: %s LastName: %s	Email: %s	Phone number: %s", this.username, this.firstName, this.lastName, this.email, this.phone);
+		return String.format("User: %s	FirstName: %s LastName: %s	Email: %s	Phone number: %s", this.username,
+																								   this.firstName,
+																								   this.lastName, 
+																								   this.email, 
+																								   this.phone);
 	}
 }
