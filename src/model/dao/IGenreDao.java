@@ -2,6 +2,7 @@ package model.dao;
 
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Map;
 
 import exceptions.InvalidGenreDataException;
 import model.Genre;
@@ -12,5 +13,5 @@ public interface IGenreDao {
 	
 	void updateGenre(Genre g) throws SQLException;
 	
-	Collection<Genre> getAllGenres() throws SQLException, InvalidGenreDataException;
+	Map<Integer,Genre> getAllGenres() throws SQLException, InvalidGenreDataException;
 }

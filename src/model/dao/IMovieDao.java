@@ -11,5 +11,5 @@ public interface IMovieDao {
 	
 	void updateMovie(Movie m) throws SQLException;
 	
-	Collection<Movie> getAllMovies() throws SQLException;
+	Collection<Movie> getAllMovies() throws SQLException, InvalidProductDataException;
 }

@@ -6,12 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 import dbManager.DBManager;
 import exceptions.InvalidProductDataException;
 import model.Genre;
 import model.Product;
+import webSite.WebSite;
 
 public class ProductDao implements IProductDao {
 	// Fields
@@ -95,6 +97,21 @@ public class ProductDao implements IProductDao {
 		}
 	}
 
+	@Override
+	public Collection<Genre> getProductGenresById(int id) throws SQLException {
+		Collection<Genre> productGenres = new HashSet<>();
+		try(PreparedStatement ps = con.prepareStatement("SELECT genre_id FROM product_has_genres WHERE product_id = ?;")){
+			ps.setInt(1, id);
+			try(ResultSet rs = ps.executeQuery()) {
+				while(rs.next()) {
+					Genre g = WebSite.getGenreById(rs.getInt("genre_id"));
+					productGenres.add(g);
+				}
+			}
+		}
+		return productGenres;
+	}
+	
 	@Override
 	public Collection<Product> getAllProducts() throws SQLException {
 		// TODO Auto-generated method stub

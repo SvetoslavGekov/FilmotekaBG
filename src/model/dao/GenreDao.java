@@ -4,14 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
+import java.util.TreeMap;
 
 import dbManager.DBManager;
 import exceptions.InvalidGenreDataException;
 import model.Genre;
-import webSite.WebSite;
 
 public final class GenreDao implements IGenreDao {
 	//Fields
@@ -57,20 +56,20 @@ public final class GenreDao implements IGenreDao {
 	}
 
 	@Override
-	public Collection<Genre> getAllGenres() throws SQLException, InvalidGenreDataException {
-		Collection<Genre> allGenres = new ArrayList();
+	public Map<Integer,Genre> getAllGenres() throws SQLException, InvalidGenreDataException {
+		TreeMap<Integer, Genre> allGenres = new TreeMap<Integer,Genre>();
 		try(PreparedStatement ps = con.prepareStatement("SELECT genre_id, value FROM genres ORDER BY genre_id;");){
 			try(ResultSet rs = ps.executeQuery();){
 				//While there are genres to be created
 				while(rs.next()) {
 					//Create next genre with full data
 					Genre g = new Genre(rs.getInt("genre_id"), rs.getString("value"));
-					allGenres.add(g);
+					allGenres.put(g.getId(),g);
 				}
 			}
 		}
 		if(allGenres.isEmpty()) {
-			return Collections.emptyList();
+			return Collections.emptyMap();
 		}
 		return allGenres;
 	}

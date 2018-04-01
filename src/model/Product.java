@@ -48,11 +48,12 @@ public abstract class Product{
 
 	//Constructor for loading a product from the DB
 	public Product(int id, String name, LocalDate releaseDate, String pgRating, int duration, double rentCost,
-			double buyCost, String description, String trailer, String writers, String actors, double viewerRating,
+			double buyCost, String description, String poster, String trailer, String writers, String actors, double viewerRating,
 			int totalVotes, double sumOfUsersRatings, Set<Genre> genres) throws InvalidProductDataException {
 		this(name, releaseDate, pgRating, duration, rentCost, buyCost);
 		setId(id);
 		setDescription(description);
+		setPoster(poster);
 		setTrailer(trailer);
 		setWriters(writers);
 		setActors(actors);
@@ -130,6 +131,10 @@ public abstract class Product{
 		this.description = description;
 	}
 
+	public void setPoster(String poster) {
+		this.poster = poster;
+	}
+	
 	public void setTrailer(String trailer) {
 		this.trailer = trailer;
 	}

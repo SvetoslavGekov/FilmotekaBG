@@ -2,12 +2,9 @@ package webSite;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import exceptions.InvalidGenreDataException;
 import exceptions.InvalidProductDataException;
@@ -20,7 +17,7 @@ import model.dao.MovieDao;
 public final class WebSite {
 	// Fields
 	private static WebSite instance;
-	private static final List<Genre> GENRES = new CopyOnWriteArrayList<>();
+	private static final Map<Integer,Genre> GENRES = new TreeMap<>();
 	private static final Map<Integer,Product> PRODUCTS = new ConcurrentHashMap<>(); 
 	// Constructors
 	private WebSite() {
@@ -34,10 +31,14 @@ public final class WebSite {
 		}
 		return instance;
 	}
-
+	
+	public static Genre getGenreById(int id) {
+		return GENRES.get(id);
+	}
+	
 	public static void addGenre(Genre g) {
 		if (g != null) {
-			GENRES.add(g);
+			GENRES.put(g.getId(),g);
 		}
 	}
 	
@@ -48,13 +49,17 @@ public final class WebSite {
 	}
 
 	public static void main(String[] args) throws SQLException, InvalidGenreDataException, InvalidProductDataException {
-		GENRES.addAll(GenreDao.getInstance().getAllGenres());
+		GENRES.putAll(GenreDao.getInstance().getAllGenres());
 		
-		Movie m = new Movie("Jikus", LocalDate.now(), "asd", 123, 123, 322);
-		MovieDao.getInstance().saveMovie(m);
-		m.setActors("Bace pepi");
-		m.setTrailer("wwwwwwwwww");
-		m.setGenres(new HashSet<>(GENRES));
-		MovieDao.getInstance().updateMovie(m);
+		for (Movie m : MovieDao.getInstance().getAllMovies()) {
+			System.out.println(m);
+		}
+		
+//		Movie m = new Movie("Jikus", LocalDate.now(), "asd", 123, 123, 322);
+//		MovieDao.getInstance().saveMovie(m);
+//		m.setActors("Bace pepi");
+//		m.setTrailer("wwwwwwwwww");
+//		m.setDirector("Cameron John");
+//		MovieDao.getInstance().updateMovie(m);
 	}
 }
