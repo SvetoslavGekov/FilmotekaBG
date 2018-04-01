@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.InvalidGenreDataException;
 import validation.Supp;
 
 public class Genre {
@@ -10,12 +11,12 @@ public class Genre {
 
 	//Constructors
 	//Constructor for creating a new genre
-	public Genre(String value) {
+	public Genre(String value) throws InvalidGenreDataException {
 		setValue(value);
 	}
 
 	//Constructor for loading an existing genre from the DB
-	public Genre(int id, String value) {
+	public Genre(int id, String value) throws InvalidGenreDataException {
 		this(value);
 		setId(id);
 	}
@@ -27,15 +28,21 @@ public class Genre {
 	}
 
 	//Setters
-	public void setId(int id) {
+	public void setId(int id) throws InvalidGenreDataException {
 		if(id > 0) {
 			this.id = id;
 		}
+		else {
+			throw new InvalidGenreDataException("Invalid genre name.");
+		}
 	}
 	
-	private void setValue(String value) {
+	public void setValue(String value) throws InvalidGenreDataException {
 		if(Supp.isValidStr(value)) {
 			this.value = value;
+		}
+		else {
+			throw new InvalidGenreDataException("Invalid genre id.");
 		}
 	}
 	

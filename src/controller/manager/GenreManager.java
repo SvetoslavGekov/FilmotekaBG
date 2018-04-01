@@ -1,6 +1,11 @@
 package controller.manager;
 
+import java.sql.SQLException;
+
+import exceptions.InvalidGenreDataException;
+import model.Genre;
 import model.dao.GenreDao;
+import webSite.WebSite;
 
 public final class GenreManager {
 	//Fields
@@ -19,5 +24,35 @@ public final class GenreManager {
 			instance = new GenreManager();
 		}
 		return instance;
+	}
+	
+	public void createNewGenre(String genreName) {
+		Genre g;
+		try {
+			//Create new genre with the given data
+			g = new Genre(genreName);
+			//Add genre to DB
+			dao.saveGenre(g);
+			//Add genre to the GENRES collection
+			WebSite.addGenre(g);
+		}
+		catch (InvalidGenreDataException | SQLException e) {
+			// TODO Handle genre exception
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateExistingGenre(Genre g, String newGenreName) {
+		try {
+			//Set new genre characteristics
+			g.setValue(newGenreName);
+			//Update characteristics in DB
+			dao.updateGenre(g);
+		}
+		catch (InvalidGenreDataException | SQLException e) {
+			// TODO Handle genre exception
+			e.printStackTrace();
+		}
+
 	}
 }

@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import dbManager.DBManager;
+import exceptions.InvalidGenreDataException;
 import model.Genre;
 import webSite.WebSite;
 
@@ -32,31 +33,33 @@ public final class GenreDao implements IGenreDao {
 	}
 
 	@Override
-	public void saveGenre(Genre g) throws SQLException {
+	public void saveGenre(Genre g) throws SQLException, InvalidGenreDataException {
 		try(PreparedStatement ps = con.prepareStatement("INSERT INTO genres (value) VALUES(?);", PreparedStatement.RETURN_GENERATED_KEYS)){
 			ps.setString(1, g.getValue());
 			//If the insertion is successful
 			if(ps.executeUpdate() > 0) {
-				//Update the genre's Id and add it to the GENRES collection
+				//Update the genre's Id
 				try(ResultSet rs = ps.getGeneratedKeys()){
 					rs.next();
 					g.setId(rs.getInt("GENERATED_KEY"));
-					WebSite.addGenre(g);
 				}
 			}
 		}
 	}
 
 	@Override
-	public void editGenre(Genre g) {
-		// TODO Auto-generated method stub
-		
+	public void updateGenre(Genre g) throws SQLException {
+		try(PreparedStatement ps = con.prepareStatement("UPDATE genres SET value = ? WHERE genre_id = ?;")){
+			ps.setString(1, g.getValue());
+			ps.setInt(2, g.getId());
+			ps.executeUpdate();
+		}
 	}
 
 	@Override
-	public Collection<Genre> getAllGenres() throws SQLException {
+	public Collection<Genre> getAllGenres() throws SQLException, InvalidGenreDataException {
 		Collection<Genre> allGenres = new ArrayList();
-		try(PreparedStatement ps = con.prepareStatement("SELECT genre_id, value FROM genres;");){
+		try(PreparedStatement ps = con.prepareStatement("SELECT genre_id, value FROM genres ORDER BY genre_id;");){
 			try(ResultSet rs = ps.executeQuery();){
 				//While there are genres to be created
 				while(rs.next()) {

@@ -1,15 +1,18 @@
 package webSite;
+
 import java.sql.SQLException;
-import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import controller.manager.GenreManager;
+import exceptions.InvalidGenreDataException;
 import model.Genre;
 import model.dao.GenreDao;
 
 public final class WebSite {
 	// Fields
 	private static WebSite instance;
-	private static final Collection<Genre> GENRES = new CopyOnWriteArrayList<>();
+	private static final List<Genre> GENRES = new CopyOnWriteArrayList<>();
 
 	// Constructors
 	private WebSite() {
@@ -23,21 +26,18 @@ public final class WebSite {
 		}
 		return instance;
 	}
-	
+
 	public static void addGenre(Genre g) {
-		if(g != null) {
+		if (g != null) {
 			GENRES.add(g);
 		}
 	}
 
-	public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) throws SQLException, InvalidGenreDataException {
 		GENRES.addAll(GenreDao.getInstance().getAllGenres());
-
 		for (Genre g : GENRES) {
 			System.out.println(g);
 		}
-		
 
-		
 	}
 }
