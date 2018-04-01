@@ -27,8 +27,9 @@ DROP TABLE IF EXISTS `genres`;
 CREATE TABLE `genres` (
   `genre_id` tinyint(4) NOT NULL AUTO_INCREMENT COMMENT 'Primary key - GENRE ID',
   `value` varchar(45) NOT NULL COMMENT 'Genre''s name',
-  PRIMARY KEY (`genre_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`genre_id`),
+  UNIQUE KEY `values_unique` (`value`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -332,7 +333,8 @@ DROP TABLE IF EXISTS `user_types`;
 CREATE TABLE `user_types` (
   `user_type_id` tinyint(4) NOT NULL AUTO_INCREMENT,
   `value` varchar(45) NOT NULL,
-  PRIMARY KEY (`user_type_id`)
+  PRIMARY KEY (`user_type_id`),
+  UNIQUE KEY `value_UNIQUE` (`value`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -395,4 +397,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-01 12:19:38
+-- Dump completed on 2018-04-01 14:23:54
