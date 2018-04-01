@@ -32,7 +32,8 @@ public final class WebSite {
 
 	public static void main(String[] args) throws SQLException {
 		GENRES.addAll(GenreDao.getInstance().getAllGenres());
-
+		Genre ge = new Genre("KIRO");
+		GenreDao.getInstance().saveGenre(ge);
 		for (Genre g : GENRES) {
 			System.out.println(g);
 		}
