@@ -35,6 +35,7 @@ public final class WebSite {
 
 	public static void main(String[] args) throws SQLException, InvalidGenreDataException {
 		GENRES.addAll(GenreDao.getInstance().getAllGenres());
+
 		for (Genre g : GENRES) {
 			System.out.println(g);
 		}
