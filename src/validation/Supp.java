@@ -1,8 +1,12 @@
 package validation;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+
+import javax.imageio.ImageIO;
 
 public final class Supp {
 	//Fields
@@ -56,6 +60,21 @@ public final class Supp {
 	
 	public static final boolean isValidPhoneNumber(String str){
 		return str.length() == 10 && str.charAt(0) == '0' && str.matches("[0-9]+");
+	}
+	
+	//Validating for the profile pictures
+	public static final boolean isValidImagePath(String filePath) throws IOException {
+		if(!isValidStr(filePath)) {
+			return false;
+		}
+		File file = new File(filePath);
+		if(file.exists() && file.isFile()) {
+			//If file is an image
+		    if (ImageIO.read(file) != null) {
+			     return true;
+			}
+		}
+		return false;
 	}
 	
 	
