@@ -1,8 +1,16 @@
 package model;
 
+import java.io.IOException;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.InputMismatchException;
+import java.util.Map;
+import java.util.TreeSet;
 
 import validation.Supp;
 import webSite.WebSite;
@@ -19,10 +27,16 @@ public class User {
 	private String email;
 	private String phone = "";
 	private LocalDate registrationDate;
-	private LocalDateTime lastLogin;
+	private LocalDateTime lastLogin;//TODO LoacalDateTime
 	private String profilePicture;
 	private double money;
 	
+	//Collections
+	private Collection<Product> favourites = new HashSet<>();
+	private Collection<Product> watchList = new HashSet<>();
+	private Map<Product, LocalDate> products = new HashMap<>();
+	//private Collection <Order> ordersHistory = new TreeSet<>();;
+	//private ShoppingCart shoppingCart = new ShoppingCart();
 	
 	//Constructors
 	public User(int userTypeId,
@@ -35,7 +49,7 @@ public class User {
 				LocalDate registrationDate,
 				LocalDateTime lastLogin,
 				double money) throws InputMismatchException{
-		
+		this.setUserTypeId(userTypeId);
 		this.setFirstName(firstName);
 		this.setLastName(lastName);
 		this.setUsername(username);
@@ -89,7 +103,7 @@ public class User {
 		return firstName;
 	}
 
-	protected void setFirstName(String firstName) {
+	public void setFirstName(String firstName) {
 		if(Supp.isValidStr(firstName)){
 			this.firstName = firstName;
 			return;
@@ -100,7 +114,7 @@ public class User {
 		return lastName;
 	}
 
-	protected void setLastName(String lastName) {
+	public void setLastName(String lastName) {
 		if(Supp.isValidStr(lastName)){
 			this.lastName = lastName;
 			return;
@@ -111,7 +125,7 @@ public class User {
 		return username;
 	}
 
-	protected void setUsername(String username) {
+	public void setUsername(String username) {
 		if(Supp.isValidStr(username)){
 			this.username = username;
 			return;
@@ -122,7 +136,7 @@ public class User {
 		return password;
 	}
 
-	protected boolean setPassword(String password) {
+	public boolean setPassword(String password) {
 		if(Supp.isValidStr(password) && Supp.isValidPassword(password)){
 			this.password = password;
 			return true;
@@ -134,7 +148,7 @@ public class User {
 		return email;
 	}
 
-	protected boolean setEmail(String email) {
+	public boolean setEmail(String email) {
 		if(Supp.isValidStr(email) && Supp.isValidEmail(email)){
 			this.email = email;
 			return true;
@@ -146,7 +160,7 @@ public class User {
 		return phone;
 	}
 
-	protected void setPhone(String phone) {
+	public void setPhone(String phone) {
 		if(Supp.isValidPhoneNumber(phone)) {
 			this.phone = phone;
 		}	
@@ -156,7 +170,7 @@ public class User {
 		return money;
 	}
 
-	protected void setMoney(double money) throws InputMismatchException{
+	public void setMoney(double money) throws InputMismatchException{
 		if(money >= 0) {
 		   this.money = money;
 		}
@@ -166,7 +180,7 @@ public class User {
 		return this.registrationDate;
 	}
 	
-	protected void setRegistrationdate(LocalDate registrationDate) {
+	private void setRegistrationdate(LocalDate registrationDate) {
 		this.registrationDate = registrationDate;
 	}
 
@@ -174,7 +188,7 @@ public class User {
 		return lastLogin;
 	}
 
-	protected void setLastLogin(LocalDateTime lastLogin) {
+	public void setLastLogin(LocalDateTime lastLogin) {
 		this.lastLogin = lastLogin;
 	}
 	
@@ -182,17 +196,22 @@ public class User {
 		return this.profilePicture;
 	}
 
-	protected void setProfilePicture(String profilePicture) {
-		//TODO check if string is valid path
-		this.profilePicture = profilePicture;
+	public void setProfilePicture(String profilePicture) throws IOException{
+		if(Supp.isValidImagePath(profilePicture)) {
+			this.profilePicture = profilePicture;
+		}
 	}
 
 	@Override
 	public String toString() {
-		return String.format("User: %s	FirstName: %s LastName: %s	Email: %s	Phone number: %s", this.username,
+		return String.format("ID: %d\tUser: %s\tFirstName: %s\tLastName: %s \t Email: %s\tPhone number: %s\tRegDate: %s\tLastLogin: %s",
+																								   this.userId,
+																								   this.username,
 																								   this.firstName,
 																								   this.lastName, 
 																								   this.email, 
-																								   this.phone);
+																								   this.phone,
+																								   this.registrationDate,
+																								   this.lastLogin.format(DateTimeFormatter.ofPattern("yyyy/MM/dd - HH:mm:ss")));
 	}
 }
