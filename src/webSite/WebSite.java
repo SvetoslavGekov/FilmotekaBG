@@ -15,10 +15,17 @@ import exceptions.InvalidProductDataException;
 import model.Genre;
 import model.Movie;
 import model.Product;
+<<<<<<< HEAD
+import model.TVSeries;
+import model.dao.GenreDao;
+import model.dao.MovieDao;
+import model.dao.TVSeriesDao;
+=======
 import model.User;
 import model.dao.GenreDao;
 import model.dao.MovieDao;
 import model.dao.UserDao;
+>>>>>>> 05c80539c67798cb6e23d25689bbba274c9f11e8
 
 public final class WebSite {
 	// Fields
@@ -74,8 +81,10 @@ public final class WebSite {
 			System.out.println(m);
 		}
 		
+		for (TVSeries tvs : TVSeriesDao.getInstance().getAllTVSeries()) {
+			System.out.println(tvs);
+		}
 
-		
 //		Movie m = new Movie("Jikus", LocalDate.now(), "asd", 123, 123, 322);
 //		MovieDao.getInstance().saveMovie(m);
 //		m.setActors("Bace pepi");

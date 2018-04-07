@@ -5,7 +5,9 @@ package model;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import exceptions.InvalidProductDataException;
 import validation.Supp;
@@ -27,10 +29,8 @@ public abstract class Product{
 	private String writers;
 	private String actors;
 	private double viewerRating;
-	private int totalVotes;
-	private double sumOfUsersRatings;
 	private Set<Genre> genres = new HashSet<>();
-//	private Map<IUser, Double> raters = new HashMap<>();
+	private Map<Integer, Double> raters = new TreeMap<Integer,Double>();//Key: UserId -> Value: User rating
 
 
 	//Constructors
@@ -48,8 +48,8 @@ public abstract class Product{
 
 	//Constructor for loading a product from the DB
 	public Product(int id, String name, LocalDate releaseDate, String pgRating, int duration, double rentCost,
-			double buyCost, String description, String poster, String trailer, String writers, String actors, double viewerRating,
-			int totalVotes, double sumOfUsersRatings, Set<Genre> genres) throws InvalidProductDataException {
+			double buyCost, String description, String poster, String trailer, String writers, String actors,
+			Set<Genre> genres, Map<Integer, Double> raters) throws InvalidProductDataException {
 		this(name, releaseDate, pgRating, duration, rentCost, buyCost);
 		setId(id);
 		setDescription(description);
@@ -58,12 +58,30 @@ public abstract class Product{
 		setWriters(writers);
 		setActors(actors);
 		setViewerRating(viewerRating);
-		setTotalVotes(totalVotes);
-		setSumOfUsersRatings(sumOfUsersRatings);
 		setGenres(genres);
+		setRaters(raters);
+		
+		//Calculate and set the viewerRating
+		setViewerRating(calculateRating());
 	}
 
+
+
 	//Setters
+	private double calculateRating() {
+		double totalVotes = (double) this.raters.size();
+		
+		if(totalVotes < 1) {
+			return 0.0d;
+		}
+		
+		double sumOfRatings = 0d;
+		for (Double rating : this.raters.values()) {
+			sumOfRatings += rating;
+		}
+		return (sumOfRatings/totalVotes);
+	}
+	
 	public void setId(int id) throws InvalidProductDataException {
 		if(id > 0) {
 			this.id = id;
@@ -153,23 +171,15 @@ public abstract class Product{
 		}
 	}
 
-	public void setTotalVotes(int totalVotes) {
-		if(totalVotes >= 0) {
-			this.totalVotes = totalVotes;
-		}
-	}
-
-	public void setSumOfUsersRatings(double sumOfUsersRatings) {
-		if(sumOfUsersRatings >= 0) {
-			this.sumOfUsersRatings = sumOfUsersRatings;
-		}
-	}
-
 	public void setGenres(Set<Genre> genres) {
 		this.genres = genres;
 	}
 
-	
+	public void setRaters(Map<Integer, Double> raters) {
+		if(raters != null) {
+			this.raters = raters;
+		}
+	}
 	
 	//Getters
 	public int getId() {
@@ -224,17 +234,11 @@ public abstract class Product{
 		return this.viewerRating;
 	}
 
-	public int getTotalVotes() {
-		return this.totalVotes;
-	}
-
-	public double getSumOfUsersRatings() {
-		return this.sumOfUsersRatings;
-	}
-
 	public Set<Genre> getGenres() {
 		return Collections.unmodifiableSet(this.genres);
 	}
 	
-	
+	public Map<Integer, Double> getRaters() {
+		return Collections.unmodifiableMap(this.raters);
+	}
 }

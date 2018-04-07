@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import dbManager.DBManager;
 import exceptions.InvalidProductDataException;
@@ -98,13 +100,15 @@ public class MovieDao implements IMovieDao {
 				"	INNER JOIN products AS p USING (product_id);")){
 			try(ResultSet rs = ps.executeQuery();){
 				while(rs.next()) {
+					int movieId = rs.getInt("product_id");
 					//Collect the movie's genres
-					Set<Genre> genres = new HashSet<>(ProductDao.getInstance().getProductGenresById(rs.getInt("product_id")));
-					//Calcualte the sum of all user ratings
+					Set<Genre> genres = new HashSet<>(ProductDao.getInstance().getProductGenresById(movieId));
+					
+					//Collect the movie's raters
+					Map<Integer, Double> raters = new TreeMap<>(ProductDao.getInstance().getProductRatersById(movieId));
 					
 					//Construct the new movie
-					//TODO --> grab product's raters and sumOfUserRatings
-					Movie m = new Movie(rs.getInt("product_id"),
+					Movie m = new Movie(movieId,
 							rs.getString("name"),
 							rs.getDate("release_year").toLocalDate(),
 							rs.getString("pg_rating"),
@@ -116,10 +120,8 @@ public class MovieDao implements IMovieDao {
 							rs.getString("trailer"),
 							rs.getString("writers"),
 							rs.getString("actors"),
-							rs.getDouble("viewer_rating"),
-							rs.getInt("total_votes"),
-							12,
 							genres,
+							raters,
 							rs.getString("director"));
 					
 					allMovies.add(m);
