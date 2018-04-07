@@ -8,6 +8,8 @@ public interface IUserDao {
 
 	User getUserByID(int id) throws Exception;
 	
+	User getUserByUsername(String username) throws Exception;
+	
 	void deleteUser(User user) throws Exception;
 	
 	void saveUser(User user) throws Exception;
@@ -15,5 +17,7 @@ public interface IUserDao {
 	void updateUser(User user) throws Exception;
 	
 	Collection<User> getAllUsers() throws Exception;
+
+	
 	
 }

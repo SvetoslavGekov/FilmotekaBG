@@ -18,7 +18,7 @@ import webSite.WebSite;
 public class User {
 	//Fields
 	private static WebSite filmoteka = WebSite.getInstance();
-	private int userId;
+	private long userId;
 	private int userTypeId;
 	private String firstName;
 	private String lastName;
@@ -31,10 +31,6 @@ public class User {
 	private String profilePicture;
 	private double money;
 	
-	//Collections
-	private Collection<Product> favourites = new HashSet<>();
-	private Collection<Product> watchList = new HashSet<>();
-	private Map<Product, LocalDate> products = new HashMap<>();
 	//private Collection <Order> ordersHistory = new TreeSet<>();;
 	//private ShoppingCart shoppingCart = new ShoppingCart();
 	
@@ -45,10 +41,8 @@ public class User {
 				String username,
 				String password,
 				String email,
-				String phone,
-				LocalDate registrationDate,
-				LocalDateTime lastLogin,
-				double money) throws InputMismatchException{
+				String phone) throws InputMismatchException{
+		
 		this.setUserTypeId(userTypeId);
 		this.setFirstName(firstName);
 		this.setLastName(lastName);
@@ -61,7 +55,7 @@ public class User {
 		this.setMoney(money);
 	}
 	
-	public User(int userId,
+	public User(long userId,
 				int userTypeId,
 				String firstName,
 				String lastName, 
@@ -73,16 +67,19 @@ public class User {
 				LocalDateTime lastLogin,
 				double money) {
 		
-		this(userTypeId, firstName, lastName, username, password, email, phone, registrationDate, lastLogin, money);
+		this(userTypeId, firstName, lastName, username, password, email, phone);
 		this.setUserId(userId);
+		this.setRegistrationdate(registrationDate);
+		this.setLastLogin(lastLogin);
+		this.setMoney(money);
 	}
 
 	//Getters and Setters
-	public int getUserId() {
+	public long getUserId() {
 		return userId;
 	}
 
-	protected void setUserId(int userId) throws InputMismatchException {
+	public void setUserId(long userId) throws InputMismatchException {
 		if(userId > 0) {
 		   this.userId = userId;
 		}
@@ -180,7 +177,7 @@ public class User {
 		return this.registrationDate;
 	}
 	
-	private void setRegistrationdate(LocalDate registrationDate) {
+	public void setRegistrationdate(LocalDate registrationDate) {
 		this.registrationDate = registrationDate;
 	}
 

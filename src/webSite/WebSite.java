@@ -3,7 +3,10 @@ package webSite;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,7 +25,7 @@ public final class WebSite {
 	private static WebSite instance;
 	private static final Map<Integer,Genre> GENRES = new TreeMap<>();
 	private static final Map<Integer,Product> PRODUCTS = new ConcurrentHashMap<>(); 
-	private static final Map<Integer,User> USERS = new ConcurrentHashMap<>(); 
+	private static final Map<Long,User> USERS = new ConcurrentHashMap<>(); 
 	// Constructors
 	private WebSite() {
 
@@ -40,6 +43,10 @@ public final class WebSite {
 		return GENRES.get(id);
 	}
 	
+	public static Collection<User> getUsers(){
+		return Collections.unmodifiableCollection(USERS.values());
+	}
+	
 	public static void addGenre(Genre g) {
 		if (g != null) {
 			GENRES.put(g.getId(),g);
@@ -49,6 +56,12 @@ public final class WebSite {
 	public static void addProduct(Product p) {
 		if(p != null) {
 			PRODUCTS.put(p.getId(), p);
+		}
+	}
+	
+	public static void addUser(User user) {
+		if(user != null) {
+			USERS.put(user.getUserId(), user);
 		}
 	}
 
@@ -70,4 +83,5 @@ public final class WebSite {
 //		m.setDirector("Cameron John");
 //		MovieDao.getInstance().updateMovie(m);
 	}
+
 }
