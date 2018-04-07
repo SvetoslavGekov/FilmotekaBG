@@ -15,17 +15,13 @@ import exceptions.InvalidProductDataException;
 import model.Genre;
 import model.Movie;
 import model.Product;
-<<<<<<< HEAD
+
 import model.TVSeries;
-import model.dao.GenreDao;
-import model.dao.MovieDao;
-import model.dao.TVSeriesDao;
-=======
 import model.User;
 import model.dao.GenreDao;
 import model.dao.MovieDao;
+import model.dao.TVSeriesDao;
 import model.dao.UserDao;
->>>>>>> 05c80539c67798cb6e23d25689bbba274c9f11e8
 
 public final class WebSite {
 	// Fields
