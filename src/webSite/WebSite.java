@@ -11,8 +11,10 @@ import exceptions.InvalidProductDataException;
 import model.Genre;
 import model.Movie;
 import model.Product;
+import model.TVSeries;
 import model.dao.GenreDao;
 import model.dao.MovieDao;
+import model.dao.TVSeriesDao;
 
 public final class WebSite {
 	// Fields
@@ -53,6 +55,10 @@ public final class WebSite {
 		
 		for (Movie m : MovieDao.getInstance().getAllMovies()) {
 			System.out.println(m);
+		}
+		
+		for (TVSeries tvs : TVSeriesDao.getInstance().getAllTVSeries()) {
+			System.out.println(tvs);
 		}
 		
 //		Movie m = new Movie("Jikus", LocalDate.now(), "asd", 123, 123, 322);

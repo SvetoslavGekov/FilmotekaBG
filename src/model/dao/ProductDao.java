@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import dbManager.DBManager;
@@ -62,7 +64,7 @@ public class ProductDao implements IProductDao {
 		try (PreparedStatement ps = con
 				.prepareStatement("UPDATE products SET name = ?, release_year = ?, pg_rating = ?,"
 						+ " duration = ?, rent_cost = ?, buy_cost = ?, description = ?, poster = ?, trailer = ?, writers = ?,"
-						+ "actors = ?, viewer_rating = ?, total_votes = ? WHERE product_id = ?")) {
+						+ "actors = ? WHERE product_id = ?")) {
 			ps.setString(1, p.getName());
 			ps.setInt(2, p.getReleaseDate().getYear());
 			ps.setString(3, p.getPgRating());
@@ -74,9 +76,7 @@ public class ProductDao implements IProductDao {
 			ps.setString(9, p.getTrailer());
 			ps.setString(10, p.getWriters());
 			ps.setString(11, p.getActors());
-			ps.setDouble(12, p.getViewerRating());
-			ps.setInt(13, p.getTotalVotes());
-			ps.setInt(14, p.getId());
+			ps.setInt(12, p.getId());
 			ps.executeUpdate();
 		}
 
@@ -116,5 +116,20 @@ public class ProductDao implements IProductDao {
 	public Collection<Product> getAllProducts() throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public Map<Integer,Double> getProductRatersById(int movieId) throws SQLException {
+		Map<Integer,Double> productRaters = new HashMap<>();
+		
+		try(PreparedStatement ps = con.prepareStatement("SELECT user_id, rating FROM product_has_raters"
+				+ " WHERE product_id = ?");){
+			ps.setInt(1, movieId);
+			try(ResultSet rs = ps.executeQuery()){
+				while(rs.next()) {
+					productRaters.put(rs.getInt("user_id"), rs.getDouble("rating"));
+				}
+			}
+		}
+		return productRaters;
 	}
 }

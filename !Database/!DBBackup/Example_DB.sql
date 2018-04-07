@@ -29,7 +29,7 @@ CREATE TABLE `genres` (
   `value` varchar(45) NOT NULL COMMENT 'Genre''s name',
   PRIMARY KEY (`genre_id`),
   UNIQUE KEY `values_unique` (`value`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `genres` (
 
 LOCK TABLES `genres` WRITE;
 /*!40000 ALTER TABLE `genres` DISABLE KEYS */;
-INSERT INTO `genres` VALUES (1,'ACTION'),(2,'ADVENTURE'),(3,'ANIMATION'),(4,'BIOGRAPHY'),(5,'COMEDY'),(6,'CRIME'),(7,'DOCUMENTARY'),(8,'DRAMA'),(9,'FAMILY'),(10,'FANTASY'),(11,'HISTORY'),(12,'HORROR'),(13,'MUSIC'),(14,'MUSICAL'),(15,'MYSTERY'),(16,'ROMANCE'),(17,'SCIFI'),(18,'SPORT'),(19,'SUPERHERO'),(20,'THRILLER'),(21,'WAR'),(22,'WESTERN');
+INSERT INTO `genres` VALUES (1,'ACTION'),(2,'ADVENTURE'),(3,'ANIMATION'),(4,'BIOGRAPHY'),(5,'COMEDY'),(6,'CRIME'),(7,'DOCUMENTARY'),(8,'DRAMA'),(9,'FAMILY'),(10,'FANTASY'),(11,'HISTORY'),(12,'HORROR'),(13,'MUSIC'),(14,'MUSICAL'),(15,'MYSTERY'),(16,'ROMANCE'),(17,'SCIFI'),(18,'SPORT'),(19,'SUPERHERO'),(31,'tAKO'),(20,'THRILLER'),(21,'WAR'),(22,'WESTERN');
 /*!40000 ALTER TABLE `genres` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -159,6 +159,7 @@ DROP TABLE IF EXISTS `product_has_raters`;
 CREATE TABLE `product_has_raters` (
   `product_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `rating` decimal(3,1) NOT NULL,
   PRIMARY KEY (`product_id`,`user_id`),
   KEY `fk_PRODUCT_HAS_RATERS_User1_idx` (`user_id`),
   CONSTRAINT `fk_PRODUCT_HAS_RATERS_Product1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -172,6 +173,7 @@ CREATE TABLE `product_has_raters` (
 
 LOCK TABLES `product_has_raters` WRITE;
 /*!40000 ALTER TABLE `product_has_raters` DISABLE KEYS */;
+INSERT INTO `product_has_raters` VALUES (1,1,3.1),(1,2,4.8),(4,1,5.5),(4,2,4.6),(6,3,3.2);
 /*!40000 ALTER TABLE `product_has_raters` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -195,8 +197,6 @@ CREATE TABLE `products` (
   `trailer` varchar(200) DEFAULT NULL COMMENT 'Path to the product''s trailer',
   `writers` varchar(200) DEFAULT NULL COMMENT 'Writers',
   `actors` varchar(1000) DEFAULT NULL COMMENT 'Actors',
-  `viewer_rating` decimal(3,1) DEFAULT '0.0' COMMENT 'Accumulated viewer rating - starts at 0.',
-  `total_votes` int(11) DEFAULT '0' COMMENT 'Total viewer votes - starts at 0',
   PRIMARY KEY (`product_id`),
   KEY `NAME_INDEX` (`name`),
   KEY `RELEASE_YEAR` (`release_year`)
@@ -209,7 +209,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'The Terminator',1984,'R',107,5.00,10.00,'A seemingly indestructible humanoid cyborg is sent from 2029 to 1984 to assassinate a waitress, whose unborn son will lead humanity in a war against the machines, while a soldier from that war is sent to protect her at all costs.',NULL,NULL,'James Cameron, Gale Anne Hurd','Arnold Schwarzenegger, Linda Hamilton, Michael Biehn',0.0,0),(2,'Titanic ',1997,'PG-13',194,10.00,15.00,'84 years later, a 100 year-old woman named Rose DeWitt Bukater tells the story to her granddaughter Lizzy Calvert, Brock Lovett, Lewis Bodine, Bobby Buell and Anatoly Mikailavich on the Keldysh about her life set in April 10th 1912, on a ship called Titanic when young Rose boards the departing ship with the upper-class passengers and her mother, Ruth DeWitt Bukater, and her fiancé, Caledon Hockley. Meanwhile, a drifter and artist named Jack Dawson and his best friend Fabrizio De Rossi win third-class tickets to the ship in a game. And she explains the whole story from departure until the death of Titanic on its first and last voyage April 15th, 1912 at 2:20 in the morning.',NULL,NULL,'James Cameron','Leonardo DiCaprio, Kate Winslet, Billy Zane',0.0,0),(3,'Jumanji ',1995,'PG',104,5.00,7.50,'After being trapped in a jungle board game for 26 years, a Man-Child wins his release from the game. But, no sooner has he arrived that he is forced to play again, and this time sets the creatures of the jungle loose on the city. Now it is up to him to stop them.',NULL,NULL,'Jonathan Hensleigh, Greg Taylor','Robin Williams, Kirsten Dunst, Bonnie Hunt',0.0,0),(4,'The Simpsons',1989,'-',22,3.00,5.00,'This is an animated sitcom about the antics of a dysfunctional family. Homer is the oafish unhealthy beer loving father, Marge is the hardworking homemaker wife, Bart is the perpetual ten-year-old underachiever (and proud of it), Lisa is the unappreciated eight-year-old genius, and Maggie is the cute, pacifier loving silent infant.',NULL,NULL,'James L. Brooks, Matt Groening, Sam Simon','Dan Castellaneta, Nancy Cartwright, Julie Kavner',0.0,0),(5,'ER',1994,'-',44,3.00,5.00,'Michael Crichton has created a medical drama that chronicles life and death in a Chicago hospital emergency room. Each episode tells the tale of another day in the ER, from the exciting to the mundane, and the joyous to the heart-rending. Frenetic pacing, interwoven plot lines, and emotional rollercoastering is used to attempt to accurately depict the stressful environment found there. This show even portrays the plight of medical students in their quest to become physicians.',NULL,NULL,'Michael Crichton','Anthony Edwards, George Clooney, Julianna Margulies',0.0,0),(6,'The Mentalist',2008,'-',43,3.00,5.00,'After a serial killer named Red John murdered Patrick Jane\'s wife and daughter, Jane dedicated his life to hunting down and killing Red John. To that end he gave up his lucrative pretense of being a psychic and joined the California Bureau of Investigation (CBI) as a consultant to the team responsible for investigating the Red John case, led by Senior Agent Teresa Lisbon. Using Jane\'s exceptional gift for observation and his mentalist tric able to close an unprecedented number of cases, but Jane\'s unconventional and often outright illegal methods also bring much censure down on Lisbon\'s head, making his assistance both a blessing and a curse. Meanwhile, the hunt for Red John continues...',NULL,NULL,'Bruno Heller','Simon Baker, Robin Tunney, Tim Kang',0.0,0);
+INSERT INTO `products` VALUES (1,'The Terminator',1984,'R',107,5.00,10.00,'A seemingly indestructible humanoid cyborg is sent from 2029 to 1984 to assassinate a waitress, whose unborn son will lead humanity in a war against the machines, while a soldier from that war is sent to protect her at all costs.',NULL,NULL,'James Cameron, Gale Anne Hurd','Arnold Schwarzenegger, Linda Hamilton, Michael Biehn'),(2,'Titanic ',1997,'PG-13',194,10.00,15.00,'84 years later, a 100 year-old woman named Rose DeWitt Bukater tells the story to her granddaughter Lizzy Calvert, Brock Lovett, Lewis Bodine, Bobby Buell and Anatoly Mikailavich on the Keldysh about her life set in April 10th 1912, on a ship called Titanic when young Rose boards the departing ship with the upper-class passengers and her mother, Ruth DeWitt Bukater, and her fiancé, Caledon Hockley. Meanwhile, a drifter and artist named Jack Dawson and his best friend Fabrizio De Rossi win third-class tickets to the ship in a game. And she explains the whole story from departure until the death of Titanic on its first and last voyage April 15th, 1912 at 2:20 in the morning.',NULL,NULL,'James Cameron','Leonardo DiCaprio, Kate Winslet, Billy Zane'),(3,'Jumanji ',1995,'PG',104,5.00,7.50,'After being trapped in a jungle board game for 26 years, a Man-Child wins his release from the game. But, no sooner has he arrived that he is forced to play again, and this time sets the creatures of the jungle loose on the city. Now it is up to him to stop them.',NULL,NULL,'Jonathan Hensleigh, Greg Taylor','Robin Williams, Kirsten Dunst, Bonnie Hunt'),(4,'The Simpsons',1989,'-',22,3.00,5.00,'This is an animated sitcom about the antics of a dysfunctional family. Homer is the oafish unhealthy beer loving father, Marge is the hardworking homemaker wife, Bart is the perpetual ten-year-old underachiever (and proud of it), Lisa is the unappreciated eight-year-old genius, and Maggie is the cute, pacifier loving silent infant.',NULL,NULL,'James L. Brooks, Matt Groening, Sam Simon','Dan Castellaneta, Nancy Cartwright, Julie Kavner'),(5,'ER',1994,'-',44,3.00,5.00,'Michael Crichton has created a medical drama that chronicles life and death in a Chicago hospital emergency room. Each episode tells the tale of another day in the ER, from the exciting to the mundane, and the joyous to the heart-rending. Frenetic pacing, interwoven plot lines, and emotional rollercoastering is used to attempt to accurately depict the stressful environment found there. This show even portrays the plight of medical students in their quest to become physicians.',NULL,NULL,'Michael Crichton','Anthony Edwards, George Clooney, Julianna Margulies'),(6,'The Mentalist',2008,'-',43,3.00,5.00,'After a serial killer named Red John murdered Patrick Jane\'s wife and daughter, Jane dedicated his life to hunting down and killing Red John. To that end he gave up his lucrative pretense of being a psychic and joined the California Bureau of Investigation (CBI) as a consultant to the team responsible for investigating the Red John case, led by Senior Agent Teresa Lisbon. Using Jane\'s exceptional gift for observation and his mentalist tric able to close an unprecedented number of cases, but Jane\'s unconventional and often outright illegal methods also bring much censure down on Lisbon\'s head, making his assistance both a blessing and a curse. Meanwhile, the hunt for Red John continues...',NULL,NULL,'Bruno Heller','Simon Baker, Robin Tunney, Tim Kang');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -221,14 +221,13 @@ DROP TABLE IF EXISTS `tvseries`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tvseries` (
-  `tvseries_id` int(11) NOT NULL AUTO_INCREMENT,
-  `product_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL AUTO_INCREMENT,
   `season` tinyint(4) NOT NULL,
   `finished_airing` date DEFAULT NULL COMMENT 'TVSeries'' date of last episode airing',
-  PRIMARY KEY (`tvseries_id`),
+  PRIMARY KEY (`product_id`),
   KEY `fk_tvseries_products_idx` (`product_id`),
   CONSTRAINT `fk_tvseries_products` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -237,7 +236,7 @@ CREATE TABLE `tvseries` (
 
 LOCK TABLES `tvseries` WRITE;
 /*!40000 ALTER TABLE `tvseries` DISABLE KEYS */;
-INSERT INTO `tvseries` VALUES (1,4,1,'1990-05-13'),(2,4,2,'1991-07-11'),(3,5,1,'1995-05-18'),(4,6,1,'2009-05-19'),(5,6,2,'2010-05-20'),(6,6,3,'2011-05-19'),(7,4,1,'1990-05-13'),(8,4,2,'1991-07-11');
+INSERT INTO `tvseries` VALUES (4,1,NULL),(5,1,NULL),(6,1,NULL);
 /*!40000 ALTER TABLE `tvseries` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -397,4 +396,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-01 14:23:54
+-- Dump completed on 2018-04-07 14:58:30
