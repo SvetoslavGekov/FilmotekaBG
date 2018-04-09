@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.InputMismatchException;
@@ -33,6 +34,11 @@ public class User {
 	
 	//private Collection <Order> ordersHistory = new TreeSet<>();;
 	//private ShoppingCart shoppingCart = new ShoppingCart();
+	
+	//Collections
+	private Collection<Product> favourites = new HashSet<>();
+	private Collection<Product> watchList = new HashSet<>();
+	private Map<Product, LocalDate> products = new HashMap<>();
 	
 	//Constructors
 	public User(int userTypeId,
@@ -196,6 +202,37 @@ public class User {
 	public void setProfilePicture(String profilePicture) throws IOException{
 		if(Supp.isValidImagePath(profilePicture)) {
 			this.profilePicture = profilePicture;
+		}
+	}
+
+	public Collection<Product> getFavourites() {
+		return Collections.unmodifiableCollection(favourites);
+	}
+
+	public Collection<Product> getWatchList() {
+		return Collections.unmodifiableCollection(watchList);
+	}
+
+	public Map<Product, LocalDate> getProducts() {
+		return Collections.unmodifiableMap(products);
+	}
+	
+
+	public void setFavourites(Collection<Product> favourites) {
+		if(favourites != null && !favourites.isEmpty()) {
+			this.favourites.addAll(favourites);
+		}
+	}
+
+	public void setWatchList(Collection<Product> watchList) {
+		if(watchList != null && !watchList.isEmpty()) {
+			this.watchList.addAll(watchList);
+		}
+	}
+
+	public void setProducts(Map<Product, LocalDate> products) {
+		if(products != null && !products.isEmpty()) {
+			this.products.putAll(products);;
 		}
 	}
 

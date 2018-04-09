@@ -121,12 +121,14 @@ public class ProductDao implements IProductDao {
 	public Map<Integer,Double> getProductRatersById(int movieId) throws SQLException {
 		Map<Integer,Double> productRaters = new HashMap<>();
 		
-		try(PreparedStatement ps = con.prepareStatement("SELECT user_id, rating FROM product_has_raters"
-				+ " WHERE product_id = ?");){
+		try(PreparedStatement ps = con.prepareStatement("SELECT u.user_id, p.viewer_rating FROM product_has_raters AS phr\r\n" + 
+				"JOIN products AS p ON(p.product_id = phr.product_id) \r\n" + 
+				"JOIN users AS u ON(u.user_id = phr.user_id)\r\n" + 
+				"WHERE p.product_id = ?;");){
 			ps.setInt(1, movieId);
 			try(ResultSet rs = ps.executeQuery()){
 				while(rs.next()) {
-					productRaters.put(rs.getInt("user_id"), rs.getDouble("rating"));
+					productRaters.put(rs.getInt("user_id"), rs.getDouble("viewer_rating"));
 				}
 			}
 		}

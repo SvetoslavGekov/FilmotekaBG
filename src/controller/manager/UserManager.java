@@ -10,6 +10,7 @@ import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 
+import exceptions.InvalidProductDataException;
 import model.Product;
 import model.User;
 import model.dao.UserDao;
@@ -21,10 +22,7 @@ public class UserManager {
 	private static UserManager instance;
 	private static UserDao userDao = UserDao.getInstance();
 	
-	//Collections
-	private Collection<Product> favourites = new HashSet<>();
-	private Collection<Product> watchList = new HashSet<>();
-	private Map<Product, LocalDate> products = new HashMap<>();
+
 
 	private UserManager() {
 		
@@ -70,37 +68,49 @@ public class UserManager {
 	}
 	
 	public synchronized boolean signIn(String username, String password) {
-		Scanner scan = new Scanner(System.in);
-		do {
-			username = scan.next();
-			password = scan.next();
-		}while(!Supp.isValidUsername(username) || !Supp.isValidPassword(password));
+//		Scanner scan = new Scanner(System.in);
+//		do {
+//			username = scan.next();
+//			password = scan.next();
+//		}while(!Supp.isValidUsername(username) || !Supp.isValidPassword(password));
 		
 		User u = null;
 		try {
 			u = userDao.getUserByUsername(username);
 			if(password.equals(u.getPassword())) {
 				u.setLastLogin(LocalDateTime.now());
-				scan.close();
+				//this.chargeCollectionsForTheUser(u);
+				userDao.updateUser(u);
+				//scan.close();
 				return true;
 			}
 			System.out.println("Wrong password.");
-			scan.close();
+			//scan.close();
 			return false;
 			
 		} catch (SQLException e) {
 			System.out.println("User with this username doesn't exists. "+e.getMessage());
-			scan.close();
+			//scan.close();
 			return false;
 		}
 	}
 	
+	public void chargeCollectionsForTheUser(User u) {
+		try {
+			u.setProducts(userDao.chargeBoughtProducts(u));
+			u.setFavourites(userDao.chargeFavourites(u));
+			u.setWatchList(userDao.chargeWatchlist(u));
+		}catch(Exception e){
+			System.out.println("Problem charging collections of the user "+e.getMessage());
+		}
+	}
+
 	public boolean addProductToFavourites(User user, Product product) {
 		if(product != null){
 
 			try{
 				userDao.addToFavourites(user, product);
-				favourites.add(product);
+				user.getFavourites().add(product);
 				System.out.println("\nSuccessfully added product to your favourite list!");
 			}catch(SQLException e) {
 				System.out.println("Unsuccessfully added product to your favourite list! "+e.getMessage());
@@ -116,7 +126,7 @@ public class UserManager {
 
 			try{
 				userDao.removeFromFavourites(user, product);
-				favourites.add(product);
+				user.getFavourites().add(product);
 				System.out.println("\nSuccessfully removed product from your favourite list!");
 			}catch(SQLException e) {
 				System.out.println("Unsuccessfully removed product from your favourite list! "+e.getMessage());
@@ -133,7 +143,7 @@ public class UserManager {
 			try{
 				LocalDate validity = LocalDate.now();
 				userDao.addToProducts(user, product, validity);
-				products.put(product, validity);
+				user.getProducts().put(product, validity);
 				System.out.println("\nSuccessfully bought product!");
 			}catch(SQLException e) {
 				System.out.println("Unsuccessfully bought product! "+e.getMessage());
@@ -149,7 +159,7 @@ public class UserManager {
 
 			try{
 				userDao.removeFromProducts(user, product);
-				products.remove(product);
+				user.getProducts().remove(product);
 				System.out.println("\nSuccessfully removed product!");
 			}catch(SQLException e) {
 				System.out.println("Unsuccessfully removed product! "+e.getMessage());
@@ -165,7 +175,7 @@ public class UserManager {
 
 			try{
 				userDao.addToWatchlist(user, product);
-				watchList.add(product);
+				user.getWatchList().add(product);
 				System.out.println("\nSuccessfully added product to your watchlist!");
 			}catch(SQLException e) {
 				System.out.println("Unsuccessfully added product to your watchlist! "+e.getMessage());
@@ -181,7 +191,7 @@ public class UserManager {
 
 			try{
 				userDao.removeFromWatchlist(user, product);
-				watchList.remove(product);
+				user.getWatchList().remove(product);
 				System.out.println("\nSuccessfully removed product from your watchlist!");
 			}catch(SQLException e) {
 				System.out.println("Unsuccessfully removed product from your watchlist! "+e.getMessage());

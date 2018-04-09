@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
+import controller.manager.UserManager;
 import exceptions.InvalidGenreDataException;
 import exceptions.InvalidProductDataException;
 import model.Genre;
@@ -70,8 +71,10 @@ public final class WebSite {
 
 	public static void main(String[] args) throws SQLException, InvalidGenreDataException, InvalidProductDataException {
 		GENRES.putAll(GenreDao.getInstance().getAllGenres());
+		
 		for (User user : UserDao.getInstance().getAllUsers()) {
 			USERS.put(user.getUserId(), user);
+			UserManager.getInstance().chargeCollectionsForTheUser(user);
 		}		
 		for (Movie m : MovieDao.getInstance().getAllMovies()) {
 			System.out.println(m);
@@ -80,6 +83,8 @@ public final class WebSite {
 		for (TVSeries tvs : TVSeriesDao.getInstance().getAllTVSeries()) {
 			System.out.println(tvs);
 		}
+		
+		
 
 //		Movie m = new Movie("Jikus", LocalDate.now(), "asd", 123, 123, 322);
 //		MovieDao.getInstance().saveMovie(m);
